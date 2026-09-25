@@ -2,17 +2,17 @@
 
 **React hooks. Zero runtime dependencies.**
 
-31 named, typed, tree-shakeable hooks for UI, state, forms, lists, overlays, and the browser. You already have React. That is enough.
+32 named, typed, tree-shakeable hooks for UI, state, forms, lists, overlays, and the browser. You already have React. That is enough.
 
 ```bash
 npm i usethishook
 ```
 
-| | |
-| --- | --- |
-| **npm** | [npmjs.com/package/usethishook](https://www.npmjs.com/package/usethishook) |
+|            |                                                                                          |
+| ---------- | ---------------------------------------------------------------------------------------- |
+| **npm**    | [npmjs.com/package/usethishook](https://www.npmjs.com/package/usethishook)               |
 | **GitHub** | [github.com/senthilkumar979/useThisHook](https://github.com/senthilkumar979/useThisHook) |
-| **Docs** | [usethishook.mentorbridge.in](https://usethishook.mentorbridge.in/) |
+| **Docs**   | [usethishook.mentorbridge.in](https://usethishook.mentorbridge.in/)                      |
 
 [![npm](https://img.shields.io/npm/v/usethishook.svg)](https://www.npmjs.com/package/usethishook)
 [![license](https://img.shields.io/npm/l/usethishook.svg)](LICENSE)
@@ -26,14 +26,14 @@ The npm name is **`usethishook`**. The product is **useThisHook**. Peers: **Reac
 
 ## Why it exists
 
-| | |
-| --- | --- |
-| **0 runtime dependencies** | No `dependencies` in the published package. No lodash. No date lib. No extra `node_modules` on your app. |
-| **React is the only peer** | Hooks sit on `useState`, `useEffect`, and browser APIs. |
-| **Tree-shake by import** | Named exports, `sideEffects: false`, ESM + CJS + `.d.ts`. Import one hook; leave the rest. |
-| **TypeScript ships with it** | Generated types. No `@types` package. No default export. |
-| **SSR-aware** | Window, storage, and observers fall back on the server and subscribe after hydration. |
-| **`await` the UI** | Confirm, prompt, overlay, file pick, and wizards resolve in the click handler — not in an effect machine. |
+|                              |                                                                                                           |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------- |
+| **0 runtime dependencies**   | No `dependencies` in the published package. No lodash. No date lib. No extra `node_modules` on your app.  |
+| **React is the only peer**   | Hooks sit on `useState`, `useEffect`, and browser APIs.                                                   |
+| **Tree-shake by import**     | Named exports, `sideEffects: false`, ESM + CJS + `.d.ts`. Import one hook; leave the rest.                |
+| **TypeScript ships with it** | Generated types. No `@types` package. No default export.                                                  |
+| **SSR-aware**                | Window, storage, and observers fall back on the server and subscribe after hydration.                     |
+| **`await` the UI**           | Confirm, prompt, overlay, file pick, and wizards resolve in the click handler — not in an effect machine. |
 
 Works in Vite, Next.js, CRA, and Module Federation. Same import. Same types.
 
@@ -95,8 +95,8 @@ Live preview, API, and examples: [usethishook.mentorbridge.in](https://usethisho
 
 ### State
 
-| Hook                 | Purpose                                      | Docs                                                               |
-| -------------------- | -------------------------------------------- | ------------------------------------------------------------------ |
+| Hook                 | Purpose                                      | Docs                                                             |
+| -------------------- | -------------------------------------------- | ---------------------------------------------------------------- |
 | `useBoolean`         | Boolean with required `true` / `false` start | [docs](https://usethishook.mentorbridge.in/#/useBoolean)         |
 | `useDisclosure`      | Open / close / toggle for menus and dialogs  | [docs](https://usethishook.mentorbridge.in/#/useDisclosure)      |
 | `useDebounce`        | Debounce a rapidly changing value            | [docs](https://usethishook.mentorbridge.in/#/useDebounce)        |
@@ -106,8 +106,8 @@ Live preview, API, and examples: [usethishook.mentorbridge.in](https://usethisho
 
 ### Browser
 
-| Hook                | Purpose                                       | Docs                                                              |
-| ------------------- | --------------------------------------------- | ----------------------------------------------------------------- |
+| Hook                | Purpose                                       | Docs                                                            |
+| ------------------- | --------------------------------------------- | --------------------------------------------------------------- |
 | `useOnlineStatus`   | `navigator.onLine` plus online/offline events | [docs](https://usethishook.mentorbridge.in/#/useOnlineStatus)   |
 | `useMediaQuery`     | Subscribe to a CSS media query                | [docs](https://usethishook.mentorbridge.in/#/useMediaQuery)     |
 | `useWindowSize`     | Viewport width and height                     | [docs](https://usethishook.mentorbridge.in/#/useWindowSize)     |
@@ -121,13 +121,14 @@ Live preview, API, and examples: [usethishook.mentorbridge.in](https://usethisho
 
 ### App
 
-| Hook                   | Purpose                                           | Docs                                                                 |
-| ---------------------- | ------------------------------------------------- | -------------------------------------------------------------------- |
+| Hook                   | Purpose                                           | Docs                                                               |
+| ---------------------- | ------------------------------------------------- | ------------------------------------------------------------------ |
 | `useStableCallback`    | Stable function identity, always-latest body      | [docs](https://usethishook.mentorbridge.in/#/useStableCallback)    |
 | `useResetState`        | Local state that resets when a source key changes | [docs](https://usethishook.mentorbridge.in/#/useResetState)        |
 | `useAsyncAction`       | Pending / error / data around one async action    | [docs](https://usethishook.mentorbridge.in/#/useAsyncAction)       |
 | `useDebouncedCallback` | Debounce calling a function                       | [docs](https://usethishook.mentorbridge.in/#/useDebouncedCallback) |
 | `useFields`            | Small form object, optional Zod-shaped schema     | [docs](https://usethishook.mentorbridge.in/#/useFields)            |
+| `useAmountInput`       | Locale amount field, grouping, cursor restore     | [docs](https://usethishook.mentorbridge.in/#/useAmountInput)       |
 | `useList`              | Insert, update, remove, reorder by `id`           | [docs](https://usethishook.mentorbridge.in/#/useList)              |
 | `useSelection`         | Single or multi select ids                        | [docs](https://usethishook.mentorbridge.in/#/useSelection)         |
 | `useSearchState`       | URL search params as React state                  | [docs](https://usethishook.mentorbridge.in/#/useSearchState)       |
@@ -162,15 +163,15 @@ npm run playground
 
 Playground: [usethishook.mentorbridge.in](https://usethishook.mentorbridge.in/). Local: `npm run playground` (usually `http://localhost:5173`). Mirror: [GitHub Pages](https://senthilkumar979.github.io/useThisHook/).
 
-| Command                    | What it does                        |
-| -------------------------- | ----------------------------------- |
-| `npm test`                 | Vitest                              |
-| `npm run typecheck`        | Library + playground                |
-| `npm run lint`             | ESLint + Prettier                   |
-| `npm run build`            | ESM + CJS + types                   |
-| `npm run playground:build` | Static docs site                    |
-| `npm run verify:commit`    | Secrets, lint, types, tests, build  |
-| `npm run verify:push`      | Playground build + `npm audit`      |
+| Command                    | What it does                       |
+| -------------------------- | ---------------------------------- |
+| `npm test`                 | Vitest                             |
+| `npm run typecheck`        | Library + playground               |
+| `npm run lint`             | ESLint + Prettier                  |
+| `npm run build`            | ESM + CJS + types                  |
+| `npm run playground:build` | Static docs site                   |
+| `npm run verify:commit`    | Secrets, lint, types, tests, build |
+| `npm run verify:push`      | Playground build + `npm audit`     |
 
 Husky runs `verify:commit` before commit and `verify:push` before push. Add a hook: [`CONTRIBUTING.md`](CONTRIBUTING.md). Changelog: [`CHANGELOG.md`](CHANGELOG.md).
 

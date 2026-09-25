@@ -7,6 +7,8 @@ export const appDescriptions: Record<string, string> = {
     'A Save, Send, or “Generate report” button. You need pending, error, and the last result, and you must ignore a response if the user fired the action again. This is not a query cache. It is the mutation UI around one async function.',
   useDebouncedCallback:
     'You want to debounce work, not a displayed value: search fetch, persist on type, resize handler. useDebounce lags a value for rendering. useDebouncedCallback lags calling a function and can cancel the pending call.',
+  useAmountInput:
+    'A price, invoice, or quantity field that must look local while you type: French spaces, Dutch dots, English commas, and a cursor that does not jump when grouping appears. The input shows the formatted string; submit still gets a canonical "12345.67". Pass language, decimalCount, and the returned ref.',
   useFields:
     'A modal or settings card with five fields. You do not want React Hook Form for that, and you do not want useState per input. One object, setField, dirty flag, optional schema (Zod-shaped safeParse), and submit(onValid).',
   useList:

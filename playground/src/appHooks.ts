@@ -1,4 +1,9 @@
-import { useAsyncActionApi, useDebouncedCallbackApi, useFieldsApi } from './api/appFormApi';
+import {
+  useAmountInputApi,
+  useAsyncActionApi,
+  useDebouncedCallbackApi,
+  useFieldsApi,
+} from './api/appFormApi';
 import { useResetStateApi, useStableCallbackApi } from './api/appCoreApi';
 import {
   useConfirmApi,
@@ -13,6 +18,7 @@ import {
   UseDebouncedCallbackDemo,
   useDebouncedCallbackExample,
 } from './demos/UseDebouncedCallbackDemo';
+import { UseAmountInputDemo, useAmountInputExample } from './demos/UseAmountInputDemo';
 import { UseFieldsDemo, useFieldsExample } from './demos/UseFieldsDemo';
 import { UseListDemo, useListExample } from './demos/UseListDemo';
 import { UsePromptDemo, usePromptExample } from './demos/UsePromptDemo';
@@ -72,6 +78,16 @@ export const appHooks: HookEntry[] = [
     api: useFieldsApi,
     Demo: UseFieldsDemo,
     example: useFieldsExample,
+  },
+  {
+    id: 'useAmountInput',
+    name: 'useAmountInput',
+    summary: 'Locale amount input with grouping, decimals, and cursor restore.',
+    whenToUse: 'Use for price and invoice fields, not generic text.',
+    category: 'App',
+    api: useAmountInputApi,
+    Demo: UseAmountInputDemo,
+    example: useAmountInputExample,
   },
   {
     id: 'useList',

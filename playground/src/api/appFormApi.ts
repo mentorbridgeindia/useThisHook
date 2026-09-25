@@ -74,6 +74,74 @@ export const useDebouncedCallbackApi: HookApi = {
   },
 };
 
+export const useAmountInputApi: HookApi = {
+  signature: 'useAmountInput({ language, decimalCount, defaultValue })',
+  explanation:
+    'Formats a money-like input as the user types: thousand separators, locale decimal, and a stable cursor. Bind displayValue, onChange, onBlur, and ref to the input. value is the canonical string for submit (dot decimal, no grouping).',
+  arguments: [
+    {
+      name: 'language',
+      type: "'en' | 'de' | 'nl' | 'fr'",
+      description:
+        'Picks grouping and decimal characters (en: 1,234.56; fr/de: 1 234,56; nl: 1.234,56).',
+    },
+    {
+      name: 'decimalCount',
+      type: 'number',
+      description: 'Maximum digits after the decimal. Extra fractional digits are dropped.',
+    },
+    {
+      name: 'defaultValue',
+      type: 'string | number | null',
+      optional: true,
+      defaultValue: "''",
+      description: 'Starting canonical amount. reset() returns here.',
+    },
+  ],
+  returns: {
+    type: '{ value, displayValue, onChange, onBlur, ref, reset, updateValue }',
+    description: 'Pass displayValue and the handlers to the input. Read value when you persist.',
+    fields: [
+      {
+        name: 'value',
+        type: 'string',
+        description: 'Unformatted canonical amount, e.g. "12345.67". Empty string when blank.',
+      },
+      {
+        name: 'displayValue',
+        type: 'string',
+        description: 'Formatted text for the input, e.g. "12 345,67".',
+      },
+      {
+        name: 'onChange',
+        type: '(event) => void',
+        description: 'Normalizes, formats, and restores the cursor after grouping changes.',
+      },
+      {
+        name: 'onBlur',
+        type: '(event) => void',
+        description: 'Re-normalizes the current display on blur.',
+      },
+      {
+        name: 'ref',
+        type: 'RefCallback<HTMLInputElement>',
+        description: 'Required so the hook can restore selection after format.',
+      },
+      { name: 'reset', type: '() => void', description: 'Restores defaultValue.' },
+      {
+        name: 'updateValue',
+        type: '(value) => void',
+        description: 'Set from outside (number, string, null). Replaces the field.',
+      },
+    ],
+  },
+  caveats: [
+    'Attach the returned ref. Cursor restoration reads the live input node.',
+    'value is not what you put in the input. Bind displayValue.',
+    'Changing language or decimalCount does not rewrite an in-progress value; remount or call updateValue.',
+  ],
+};
+
 export const useFieldsApi: HookApi = {
   signature: 'useFields(initialValues, schema?)',
   explanation:
