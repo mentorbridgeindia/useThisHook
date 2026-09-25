@@ -24,6 +24,12 @@ export { useAsyncAction } from './hooks/useAsyncAction';
 export { useDebouncedCallback } from './hooks/useDebouncedCallback';
 export { useFields } from './hooks/useFields';
 export type { FieldSchema, FieldIssue } from './hooks/useFields';
+export { useAmountInput } from './hooks/useAmountInput';
+export type {
+  AmountInputLanguage,
+  UseAmountInputOptions,
+  UseAmountInputReturn,
+} from './hooks/useAmountInput';
 export { useList } from './hooks/useList';
 export type { Identifiable } from './hooks/useList';
 export { useSelection } from './hooks/useSelection';
