@@ -1,4 +1,5 @@
 import { BrandMark } from '../components/BrandMark';
+import { trustBadges } from '../trustBadges';
 import { HomeBenefits } from './HomeBenefits';
 import { HomeHookIndex } from './HomeHookIndex';
 import { HomeInstall } from './HomeInstall';
@@ -31,6 +32,22 @@ export const HomePage = () => (
         >
           Browse hooks
         </a>
+      </div>
+      <div className="space-y-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {trustBadges.map((badge) => (
+            <a
+              key={badge.label}
+              href={badge.href}
+              rel="noreferrer"
+              target="_blank"
+              className="inline-flex opacity-90 transition hover:opacity-100"
+            >
+              <img src={badge.imageSrc} alt={badge.label} height={20} className="h-5" />
+            </a>
+          ))}
+        </div>
+        <p className="text-xs text-muted">CI + SonarCloud + Snyk on every push.</p>
       </div>
     </header>
     <HomeBenefits />

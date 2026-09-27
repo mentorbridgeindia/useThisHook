@@ -17,6 +17,9 @@ npm i usethishook
 [![npm](https://img.shields.io/npm/v/usethishook.svg)](https://www.npmjs.com/package/usethishook)
 [![license](https://img.shields.io/npm/l/usethishook.svg)](LICENSE)
 [![CI](https://github.com/senthilkumar979/useThisHook/actions/workflows/ci.yml/badge.svg)](https://github.com/senthilkumar979/useThisHook/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=senthilkumar979_useThisHook&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=senthilkumar979_useThisHook)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=senthilkumar979_useThisHook&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=senthilkumar979_useThisHook)
+[![Known Vulnerabilities](https://snyk.io/test/github/senthilkumar979/useThisHook/badge.svg)](https://snyk.io/test/github/senthilkumar979/useThisHook)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/usethishook)](https://bundlephobia.com/package/usethishook)
 [![types](https://img.shields.io/npm/types/usethishook.svg)](https://www.npmjs.com/package/usethishook)
 
@@ -174,6 +177,8 @@ Playground: [usethishook.mentorbridge.in](https://usethishook.mentorbridge.in/).
 | `npm run verify:push`      | Playground build + `npm audit`     |
 
 Husky runs `verify:commit` before commit and `verify:push` before push. Add a hook: [`CONTRIBUTING.md`](CONTRIBUTING.md). Changelog: [`CHANGELOG.md`](CHANGELOG.md).
+
+**Snyk:** [`.github/workflows/snyk.yml`](.github/workflows/snyk.yml) runs `snyk test` on push/PR (high+). Add repo secret **`SNYK_TOKEN`** (Snyk → Account settings → Auth token). Import `senthilkumar979/useThisHook` in the Snyk dashboard so the README / docs badge resolves.
 
 ---
 
