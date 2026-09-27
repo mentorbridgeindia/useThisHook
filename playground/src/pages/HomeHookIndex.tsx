@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { inputClass } from '../components/styles';
+import { hookPageHref } from '../hookHref';
 import { hooksCatalog } from '../hooksCatalog';
 
 export const HomeHookIndex = () => {
@@ -26,7 +27,7 @@ export const HomeHookIndex = () => {
         {hooks.map((hook) => (
           <li key={hook.id}>
             <a
-              href={`#/${hook.id}`}
+              href={hookPageHref(hook.id)}
               className="block h-full rounded-2xl border border-line bg-surface p-5 transition hover:border-violet-400/40 hover:bg-code"
             >
               <p className="text-[0.65rem] uppercase tracking-[0.16em] text-muted">
