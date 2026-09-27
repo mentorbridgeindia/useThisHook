@@ -16,32 +16,32 @@ export const usePagination = ({
   pageSize: initialPageSize = 10,
   initialPage = 1,
 }: PaginationOptions) => {
-  const [pageSize, setPageSizeState] = useState(initialPageSize);
+  const [pageSize, setPageSize] = useState(initialPageSize);
   const pageCount = pageCountOf(total, pageSize);
-  const [page, setPageState] = useState(initialPage);
+  const [page, setPage] = useState(initialPage);
   const safePage = Math.min(page, pageCount);
 
-  if (safePage !== page) setPageState(safePage);
+  if (safePage !== page) setPage(safePage);
 
-  const setPage = useCallback(
+  const goToPage = useCallback(
     (nextPage: number) => {
-      setPageState(Math.min(pageCount, Math.max(1, nextPage)));
+      setPage(Math.min(pageCount, Math.max(1, nextPage)));
     },
     [pageCount],
   );
 
-  const setPageSize = useCallback((nextSize: number) => {
-    setPageSizeState(Math.max(1, nextSize));
-    setPageState(1);
+  const changePageSize = useCallback((nextSize: number) => {
+    setPageSize(Math.max(1, nextSize));
+    setPage(1);
   }, []);
 
   const next = useCallback(() => {
-    setPage(safePage + 1);
-  }, [safePage, setPage]);
+    goToPage(safePage + 1);
+  }, [safePage, goToPage]);
 
   const prev = useCallback(() => {
-    setPage(safePage - 1);
-  }, [safePage, setPage]);
+    goToPage(safePage - 1);
+  }, [safePage, goToPage]);
 
   return {
     page: safePage,
@@ -51,8 +51,8 @@ export const usePagination = ({
     offset: (safePage - 1) * pageSize,
     canNext: safePage < pageCount,
     canPrev: safePage > 1,
-    setPage,
-    setPageSize,
+    setPage: goToPage,
+    setPageSize: changePageSize,
     next,
     prev,
   } as const;

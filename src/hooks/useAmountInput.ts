@@ -8,12 +8,12 @@ import {
   type RefCallback,
 } from 'react';
 
-type SupportedLanguage = 'en' | 'de' | 'nl' | 'fr';
+export type AmountInputLanguage = 'en' | 'de' | 'nl' | 'fr';
 
-export type AmountInputLanguage = SupportedLanguage;
+type AmountInputValue = string | number | null | undefined;
 
 export interface UseAmountInputOptions {
-  language: SupportedLanguage;
+  language: AmountInputLanguage;
   decimalCount: number;
   defaultValue?: string | number | null;
 }
@@ -25,17 +25,17 @@ export interface UseAmountInputReturn {
   onBlur: (event: FocusEvent<HTMLInputElement>) => void;
   ref: RefCallback<HTMLInputElement>;
   reset: () => void;
-  updateValue: (value: string | number | null | undefined) => void;
+  updateValue: (value: AmountInputValue) => void;
 }
 
-const THOUSAND_SEPARATOR: Record<SupportedLanguage, string> = {
+const THOUSAND_SEPARATOR: Record<AmountInputLanguage, string> = {
   fr: ' ',
   nl: '.',
   en: ',',
   de: ' ',
 };
 
-const DECIMAL_SEPARATOR: Record<SupportedLanguage, string> = {
+const DECIMAL_SEPARATOR: Record<AmountInputLanguage, string> = {
   fr: ',',
   nl: ',',
   en: '.',
@@ -102,7 +102,7 @@ export function useAmountInput({
    * -> "12.50"
    */
   const updateValue = useCallback(
-    (value: string | number | null | undefined) => {
+    (value: AmountInputValue) => {
       const normalized = normalizeExternalValue(value, decimalCount);
 
       setRawValue(normalized);
@@ -229,10 +229,7 @@ export function useAmountInput({
 /* Helpers                                                                    */
 /* -------------------------------------------------------------------------- */
 
-function normalizeExternalValue(
-  value: string | number | null | undefined,
-  decimalCount: number,
-): string {
+function normalizeExternalValue(value: AmountInputValue, decimalCount: number): string {
   if (value === null || value === undefined || value === '') {
     return '';
   }
@@ -248,7 +245,11 @@ function normalizeExternalValue(
   return normalizeCanonicalValue(normalized, decimalCount);
 }
 
-function normalizeInput(value: string, language: SupportedLanguage, decimalCount: number): string {
+function normalizeInput(
+  value: string,
+  language: AmountInputLanguage,
+  decimalCount: number,
+): string {
   const decimalSeparator = DECIMAL_SEPARATOR[language];
 
   /**
@@ -283,7 +284,7 @@ function normalizeInput(value: string, language: SupportedLanguage, decimalCount
   const firstDot = input.indexOf('.');
 
   if (firstDot !== -1) {
-    input = input.slice(0, firstDot + 1) + input.slice(firstDot + 1).replace(/\./g, '');
+    input = input.slice(0, firstDot + 1) + input.slice(firstDot + 1).replaceAll('.', '');
   }
 
   /**
@@ -294,9 +295,7 @@ function normalizeInput(value: string, language: SupportedLanguage, decimalCount
   /**
    * Handle input such as ".50".
    */
-  if (integerPart === undefined) {
-    integerPart = '';
-  }
+  integerPart ??= '';
 
   /**
    * Limit decimals.
@@ -331,7 +330,7 @@ function normalizeCanonicalValue(value: string, decimalCount: number): string {
 
   if (firstDot !== -1) {
     normalized =
-      normalized.slice(0, firstDot + 1) + normalized.slice(firstDot + 1).replace(/\./g, '');
+      normalized.slice(0, firstDot + 1) + normalized.slice(firstDot + 1).replaceAll('.', '');
 
     const [integerPart, decimalPart = ''] = normalized.split('.');
 
@@ -345,7 +344,7 @@ function normalizeCanonicalValue(value: string, decimalCount: number): string {
   return normalized;
 }
 
-function formatAmount(value: string, language: SupportedLanguage, decimalCount: number): string {
+function formatAmount(value: string, language: AmountInputLanguage, decimalCount: number): string {
   if (!value) {
     return '';
   }
@@ -357,9 +356,9 @@ function formatAmount(value: string, language: SupportedLanguage, decimalCount: 
   const [integerPart = '', decimalPart] = value.split('.');
 
   /**
-   * Format thousands.
+   * Format thousands without regex backtracking.
    */
-  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, thousandSeparator);
+  const formattedInteger = insertThousandSeparators(integerPart, thousandSeparator);
 
   /**
    * Don't add decimal separator unless
@@ -427,5 +426,20 @@ function getCursorPositionFromMeaningfulIndex(
 }
 
 function escapeRegExp(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return value.replace(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);
+}
+
+function insertThousandSeparators(integerPart: string, separator: string): string {
+  if (!integerPart) return '';
+
+  let result = '';
+  let digitCount = 0;
+
+  for (let index = integerPart.length - 1; index >= 0; index--) {
+    result = `${integerPart[index] ?? ''}${result}`;
+    digitCount += 1;
+    if (digitCount % 3 === 0 && index !== 0) result = `${separator}${result}`;
+  }
+
+  return result;
 }

@@ -66,7 +66,7 @@ export const UseAmountInputDemo = () => {
         ))}
       </div>
       <label className="block text-sm text-muted">
-        Decimals
+        <span className="block">Decimals</span>
         <input
           className={`${inputClass} mt-1 max-w-[8rem]`}
           type="number"
