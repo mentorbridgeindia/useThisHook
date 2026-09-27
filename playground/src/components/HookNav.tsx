@@ -1,4 +1,5 @@
 import { hooksCatalog } from '../hooksCatalog';
+import { hookPageHref } from '../hookHref';
 import { NavGroupHeader } from './NavGroupHeader';
 
 interface HookNavProps {
@@ -34,7 +35,7 @@ export const HookNav = ({ activeId }: HookNavProps) => {
                 return (
                   <a
                     key={hook.id}
-                    href={`#/${hook.id}`}
+                    href={hookPageHref(hook.id)}
                     className={`rounded-lg px-2.5 py-1.5 font-mono text-[0.8rem] ${
                       isActive
                         ? 'bg-violet-500/15 text-fg shadow-[inset_0_0_0_1px_rgba(139,92,246,0.35)]'
