@@ -17,6 +17,7 @@ npm i usethishook
 [![npm](https://img.shields.io/npm/v/usethishook.svg)](https://www.npmjs.com/package/usethishook)
 [![license](https://img.shields.io/npm/l/usethishook.svg)](LICENSE)
 [![CI](https://github.com/senthilkumar979/useThisHook/actions/workflows/ci.yml/badge.svg)](https://github.com/senthilkumar979/useThisHook/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/senthilkumar979/useThisHook/graph/badge.svg)](https://codecov.io/gh/senthilkumar979/useThisHook)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=senthilkumar979_useThisHook&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=senthilkumar979_useThisHook)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=senthilkumar979_useThisHook&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=senthilkumar979_useThisHook)
 [![Known Vulnerabilities](https://snyk.io/test/github/senthilkumar979/useThisHook/badge.svg)](https://snyk.io/test/github/senthilkumar979/useThisHook)
@@ -24,6 +25,20 @@ npm i usethishook
 [![types](https://img.shields.io/npm/types/usethishook.svg)](https://www.npmjs.com/package/usethishook)
 
 The npm name is **`usethishook`**. The product is **useThisHook**. Peers: **React 18+** and **React DOM 18+** (React 19 supported). Confirm, prompt, overlay, and step-flow need `react-dom`.
+
+---
+
+## Adoption
+
+Public usage signals (no private consumer list from npm):
+
+| Signal         | Link                                                                                         |
+| -------------- | -------------------------------------------------------------------------------------------- |
+| **Downloads**  | [npm download stats](https://www.npmjs.com/package/usethishook)                              |
+| **Dependents** | [npm Dependents](https://www.npmjs.com/package/usethishook?activeTab=dependents)             |
+| **Used by**    | [GitHub Dependency graph](https://github.com/senthilkumar979/useThisHook/network/dependents) |
+
+The GitHub repository is linked from the npm package metadata (`repository` in `package.json`) so GitHub can populate **Used by** when public dependents appear.
 
 ---
 

@@ -16,6 +16,11 @@ export const trustBadges: TrustBadge[] = [
     imageSrc: 'https://github.com/senthilkumar979/useThisHook/actions/workflows/ci.yml/badge.svg',
   },
   {
+    label: 'Codecov',
+    href: 'https://codecov.io/gh/senthilkumar979/useThisHook',
+    imageSrc: 'https://codecov.io/gh/senthilkumar979/useThisHook/graph/badge.svg',
+  },
+  {
     label: 'SonarCloud Quality Gate',
     href: SONAR_SUMMARY,
     imageSrc: `${SONAR_MEASURE}&metric=alert_status`,

@@ -9,6 +9,19 @@ Bump `version` in `package.json` in the same change as the notes below, then run
 **Actions → Publish npm** (manual). Create GitHub Release **vX.Y.Z** from the matching section.
 Do not publish from a push or tag.
 
+## [1.0.0] - 2026-09-28
+
+### Added
+
+- First **stable** SemVer release (1.0.0). Runtime API matches 0.4.0; breaking removals already shipped in 0.3.0.
+- Nested `exports` conditions (`import` / `require` each with `types` + `default`) and `typings` for broader TypeScript / ESM detectors
+- Vitest coverage (`@vitest/coverage-v8`), Codecov upload from CI, and Codecov badge
+- Legacy GitHub commit status (`ci/tests`) from CI for analyzers that do not read Check Runs
+
+### Changed
+
+- `verify:commit` runs `test:coverage` so coverage is produced on every local verify and CI run
+
 ## [0.3.0] - 2026-09-13
 
 ### Added
