@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose a new hook or an enhancement to an existing one
+labels: [enhancement]
+body:
+  - type: input
+    id: title_summary
+    attributes:
+      label: Summary
+      description: Short name for the idea (for example a hook name).
+      placeholder: useMediaPrefersReducedMotion
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is hard or awkward today without this?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Suggested API shape, return value, and SSR behavior if relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Existing hooks, app-local code, or other libraries.
+    validations:
+      required: false

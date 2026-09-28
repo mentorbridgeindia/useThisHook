@@ -5,8 +5,8 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-Bump `version` in `package.json` in the same change as the notes below, then run
-**Actions → Publish npm** (manual). Create GitHub Release **vX.Y.Z** from the matching section.
+Bump `version` in `package.json` in the same change as the notes below, then follow
+[`docs/RELEASE.md`](docs/RELEASE.md): **Actions → Publish npm**, then GitHub Release **vX.Y.Z**.
 Do not publish from a push or tag.
 
 ## [1.0.0] - 2026-09-28

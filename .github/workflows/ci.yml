@@ -11,6 +11,11 @@ permissions:
 jobs:
   library:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20, 22, 24]
+        react: ['18', '19']
     permissions:
       contents: read
       statuses: write
@@ -18,18 +23,22 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          node-version: 22
+          node-version: ${{ matrix.node-version }}
           cache: npm
       - run: npm ci --ignore-scripts
+      - name: Install React ${{ matrix.react }} peers
+        if: matrix.react == '18'
+        run: npm install --no-save react@18 react-dom@18 @types/react@18 @types/react-dom@18
       - run: npm run verify:commit
       - name: Upload coverage reports to Codecov
+        if: matrix.node-version == 22 && matrix.react == '19'
         uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5.5.5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage/lcov.info
           fail_ci_if_error: false
       - name: Post commit status
-        if: always()
+        if: always() && matrix.node-version == 22 && matrix.react == '19'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

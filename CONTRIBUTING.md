@@ -34,4 +34,14 @@ Node 20 or later (`engines.node`).
 
 ## Publish
 
-Do not publish from your laptop unless you must. Bump SemVer + CHANGELOG, push `main`, then **Actions → Publish npm**.
+Do not publish from your laptop unless you must. Follow [`docs/RELEASE.md`](docs/RELEASE.md): bump SemVer + CHANGELOG, merge to `main`, then **Actions → Publish npm**, then create GitHub Release **`vX.Y.Z`**.
+
+Rollback / deprecation: [`docs/ROLLBACK.md`](docs/ROLLBACK.md).
+
+## Maintainer checklist (GitHub settings)
+
+These are configured in the GitHub UI (see [`docs/RELEASE.md`](docs/RELEASE.md)):
+
+1. Protect `main` (PR required, required checks, no force-push).
+2. Enable **Private vulnerability reporting**.
+3. Confirm CodeQL and Scorecard results under the Security tab after the workflows run.
