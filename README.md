@@ -2,62 +2,30 @@
 
 **React hooks. Zero runtime dependencies.**
 
-32 named, typed, tree-shakeable hooks for UI, state, forms, lists, overlays, and the browser. You already have React. That is enough.
+32 typed, tree-shakeable hooks for state, browser APIs, forms, lists, and promise-based dialogs. Install once; import only what you need.
 
 ```bash
 npm i usethishook
 ```
 
-|            |                                                                                          |
-| ---------- | ---------------------------------------------------------------------------------------- |
-| **npm**    | [npmjs.com/package/usethishook](https://www.npmjs.com/package/usethishook)               |
-| **GitHub** | [github.com/senthilkumar979/useThisHook](https://github.com/senthilkumar979/useThisHook) |
-| **Docs**   | [usethishook.mentorbridge.in](https://usethishook.mentorbridge.in/)                      |
+Requires **React 18+** and **React DOM 18+** (React 19 supported). Overlay hooks (`useConfirm`, `usePrompt`, `useOverlay`, `useStepFlow`) need `react-dom`.
+
+[Docs & live demos](https://usethishook.mentorbridge.in/) · [npm](https://www.npmjs.com/package/usethishook) · [Changelog](CHANGELOG.md)
 
 [![npm](https://img.shields.io/npm/v/usethishook.svg)](https://www.npmjs.com/package/usethishook)
 [![license](https://img.shields.io/npm/l/usethishook.svg)](LICENSE)
 [![CI](https://github.com/senthilkumar979/useThisHook/actions/workflows/ci.yml/badge.svg)](https://github.com/senthilkumar979/useThisHook/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/senthilkumar979/useThisHook/graph/badge.svg)](https://codecov.io/gh/senthilkumar979/useThisHook)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=senthilkumar979_useThisHook&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=senthilkumar979_useThisHook)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=senthilkumar979_useThisHook&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=senthilkumar979_useThisHook)
-[![Known Vulnerabilities](https://snyk.io/test/github/senthilkumar979/useThisHook/badge.svg)](https://snyk.io/test/github/senthilkumar979/useThisHook)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/usethishook)](https://bundlephobia.com/package/usethishook)
 [![types](https://img.shields.io/npm/types/usethishook.svg)](https://www.npmjs.com/package/usethishook)
 
-The npm name is **`usethishook`**. The product is **useThisHook**. Peers: **React 18+** and **React DOM 18+** (React 19 supported). Confirm, prompt, overlay, and step-flow need `react-dom`.
+## Why useThisHook
 
----
+- **No runtime dependencies** — the published package only peers on React
+- **Tree-shakeable** — named ESM/CJS exports with generated TypeScript types
+- **SSR-safe** — browser hooks fall back on the server and subscribe after hydration
+- **Awaitable UI** — confirm, prompt, overlays, and wizards resolve in your click handler
 
-## Adoption
-
-Public usage signals (no private consumer list from npm):
-
-| Signal         | Link                                                                                         |
-| -------------- | -------------------------------------------------------------------------------------------- |
-| **Downloads**  | [npm download stats](https://www.npmjs.com/package/usethishook)                              |
-| **Dependents** | [npm Dependents](https://www.npmjs.com/package/usethishook?activeTab=dependents)             |
-| **Used by**    | [GitHub Dependency graph](https://github.com/senthilkumar979/useThisHook/network/dependents) |
-
-The GitHub repository is linked from the npm package metadata (`repository` in `package.json`) so GitHub can populate **Used by** when public dependents appear.
-
----
-
-## Why it exists
-
-|                              |                                                                                                           |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------- |
-| **0 runtime dependencies**   | No `dependencies` in the published package. No lodash. No date lib. No extra `node_modules` on your app.  |
-| **React is the only peer**   | Hooks sit on `useState`, `useEffect`, and browser APIs.                                                   |
-| **Tree-shake by import**     | Named exports, `sideEffects: false`, ESM + CJS + `.d.ts`. Import one hook; leave the rest.                |
-| **TypeScript ships with it** | Generated types. No `@types` package. No default export.                                                  |
-| **SSR-aware**                | Window, storage, and observers fall back on the server and subscribe after hydration.                     |
-| **`await` the UI**           | Confirm, prompt, overlay, file pick, and wizards resolve in the click handler — not in an effect machine. |
-
-Works in Vite, Next.js, CRA, and Module Federation. Same import. Same types.
-
----
-
-## Usage
+## Quick start
 
 ```tsx
 import { useBoolean, useDebounce, useLocalStorage } from 'usethishook';
@@ -78,6 +46,8 @@ export const SearchBox = () => {
   );
 };
 ```
+
+Promise-based dialogs — call `confirm()`, then mount `render()` once in the tree:
 
 ```tsx
 import { useConfirm } from 'usethishook';
@@ -103,102 +73,80 @@ export const DeleteButton = () => {
 };
 ```
 
-Put `render()` in the tree once. That is the overlay contract.
-
-Live preview, API, and examples: [usethishook.mentorbridge.in](https://usethishook.mentorbridge.in/).
-
----
-
 ## Hooks
+
+Full API and interactive examples: [usethishook.mentorbridge.in](https://usethishook.mentorbridge.in/).
 
 ### State
 
-| Hook                 | Purpose                                      | Docs                                                             |
-| -------------------- | -------------------------------------------- | ---------------------------------------------------------------- |
-| `useBoolean`         | Boolean with required `true` / `false` start | [docs](https://usethishook.mentorbridge.in/#/useBoolean)         |
-| `useDisclosure`      | Open / close / toggle for menus and dialogs  | [docs](https://usethishook.mentorbridge.in/#/useDisclosure)      |
-| `useDebounce`        | Debounce a rapidly changing value            | [docs](https://usethishook.mentorbridge.in/#/useDebounce)        |
-| `useInterval`        | Declarative `setInterval` (`null` pauses)    | [docs](https://usethishook.mentorbridge.in/#/useInterval)        |
-| `useCopyToClipboard` | Clipboard write + last copied text           | [docs](https://usethishook.mentorbridge.in/#/useCopyToClipboard) |
-| `useLocalStorage`    | JSON state persisted in `localStorage`       | [docs](https://usethishook.mentorbridge.in/#/useLocalStorage)    |
+| Hook                                                                             | Purpose                                             |
+| -------------------------------------------------------------------------------- | --------------------------------------------------- |
+| [`useBoolean`](https://usethishook.mentorbridge.in/#/useBoolean)                 | Boolean with required initial value, toggle helpers |
+| [`useDisclosure`](https://usethishook.mentorbridge.in/#/useDisclosure)           | Open / close / toggle for menus and dialogs         |
+| [`useDebounce`](https://usethishook.mentorbridge.in/#/useDebounce)               | Debounce a rapidly changing value                   |
+| [`useInterval`](https://usethishook.mentorbridge.in/#/useInterval)               | Declarative interval (`null` pauses)                |
+| [`useCopyToClipboard`](https://usethishook.mentorbridge.in/#/useCopyToClipboard) | Clipboard write + last copied text                  |
+| [`useLocalStorage`](https://usethishook.mentorbridge.in/#/useLocalStorage)       | JSON state persisted in `localStorage`              |
 
 ### Browser
 
-| Hook                | Purpose                                       | Docs                                                            |
-| ------------------- | --------------------------------------------- | --------------------------------------------------------------- |
-| `useOnlineStatus`   | `navigator.onLine` plus online/offline events | [docs](https://usethishook.mentorbridge.in/#/useOnlineStatus)   |
-| `useMediaQuery`     | Subscribe to a CSS media query                | [docs](https://usethishook.mentorbridge.in/#/useMediaQuery)     |
-| `useWindowSize`     | Viewport width and height                     | [docs](https://usethishook.mentorbridge.in/#/useWindowSize)     |
-| `useOnClickOutside` | Handler when the user presses outside a ref   | [docs](https://usethishook.mentorbridge.in/#/useOnClickOutside) |
-| `useOverlay`        | Promise-based custom overlay                  | [docs](https://usethishook.mentorbridge.in/#/useOverlay)        |
-| `useStepFlow`       | Multi-step wizard that resolves when finished | [docs](https://usethishook.mentorbridge.in/#/useStepFlow)       |
-| `useAsyncSelect`    | Native file picker as a Promise               | [docs](https://usethishook.mentorbridge.in/#/useAsyncSelect)    |
-| `useEventListener`  | DOM / window listener with a stable handler   | [docs](https://usethishook.mentorbridge.in/#/useEventListener)  |
-| `useTimeout`        | One-shot timer (`null` pauses)                | [docs](https://usethishook.mentorbridge.in/#/useTimeout)        |
-| `useKeyPress`       | Key held down (ignores inputs)                | [docs](https://usethishook.mentorbridge.in/#/useKeyPress)       |
+| Hook                                                                           | Purpose                                   |
+| ------------------------------------------------------------------------------ | ----------------------------------------- |
+| [`useOnlineStatus`](https://usethishook.mentorbridge.in/#/useOnlineStatus)     | Online / offline status                   |
+| [`useMediaQuery`](https://usethishook.mentorbridge.in/#/useMediaQuery)         | CSS media query subscription              |
+| [`useWindowSize`](https://usethishook.mentorbridge.in/#/useWindowSize)         | Viewport width and height                 |
+| [`useOnClickOutside`](https://usethishook.mentorbridge.in/#/useOnClickOutside) | Click outside a ref                       |
+| [`useEventListener`](https://usethishook.mentorbridge.in/#/useEventListener)   | Stable DOM / window listener              |
+| [`useTimeout`](https://usethishook.mentorbridge.in/#/useTimeout)               | One-shot timer (`null` pauses)            |
+| [`useKeyPress`](https://usethishook.mentorbridge.in/#/useKeyPress)             | Key held down (ignores editable fields)   |
+| [`useOverlay`](https://usethishook.mentorbridge.in/#/useOverlay)               | Promise-based custom overlay              |
+| [`useStepFlow`](https://usethishook.mentorbridge.in/#/useStepFlow)             | Multi-step wizard that resolves when done |
+| [`useAsyncSelect`](https://usethishook.mentorbridge.in/#/useAsyncSelect)       | Native file picker as a Promise           |
 
 ### App
 
-| Hook                   | Purpose                                           | Docs                                                               |
-| ---------------------- | ------------------------------------------------- | ------------------------------------------------------------------ |
-| `useStableCallback`    | Stable function identity, always-latest body      | [docs](https://usethishook.mentorbridge.in/#/useStableCallback)    |
-| `useResetState`        | Local state that resets when a source key changes | [docs](https://usethishook.mentorbridge.in/#/useResetState)        |
-| `useAsyncAction`       | Pending / error / data around one async action    | [docs](https://usethishook.mentorbridge.in/#/useAsyncAction)       |
-| `useDebouncedCallback` | Debounce calling a function                       | [docs](https://usethishook.mentorbridge.in/#/useDebouncedCallback) |
-| `useFields`            | Small form object, optional Zod-shaped schema     | [docs](https://usethishook.mentorbridge.in/#/useFields)            |
-| `useAmountInput`       | Locale amount field, grouping, cursor restore     | [docs](https://usethishook.mentorbridge.in/#/useAmountInput)       |
-| `useList`              | Insert, update, remove, reorder by `id`           | [docs](https://usethishook.mentorbridge.in/#/useList)              |
-| `useSelection`         | Single or multi select ids                        | [docs](https://usethishook.mentorbridge.in/#/useSelection)         |
-| `useSearchState`       | URL search params as React state                  | [docs](https://usethishook.mentorbridge.in/#/useSearchState)       |
-| `useConfirm`           | Await a yes/no dialog                             | [docs](https://usethishook.mentorbridge.in/#/useConfirm)           |
-| `usePrompt`            | Await a string from a dialog                      | [docs](https://usethishook.mentorbridge.in/#/usePrompt)            |
-| `useControllableState` | Controlled and uncontrolled in one setter         | [docs](https://usethishook.mentorbridge.in/#/useControllableState) |
-| `useUnsavedChanges`    | Tab-close warning and in-app leave confirm        | [docs](https://usethishook.mentorbridge.in/#/useUnsavedChanges)    |
-| `useElementSize`       | Element size via `ResizeObserver`                 | [docs](https://usethishook.mentorbridge.in/#/useElementSize)       |
-| `useInView`            | Element vs viewport via `IntersectionObserver`    | [docs](https://usethishook.mentorbridge.in/#/useInView)            |
-| `usePagination`        | Page, offset, next/prev with clamping             | [docs](https://usethishook.mentorbridge.in/#/usePagination)        |
+| Hook                                                                                 | Purpose                                    |
+| ------------------------------------------------------------------------------------ | ------------------------------------------ |
+| [`useStableCallback`](https://usethishook.mentorbridge.in/#/useStableCallback)       | Stable function identity, latest body      |
+| [`useResetState`](https://usethishook.mentorbridge.in/#/useResetState)               | State that resets when a key changes       |
+| [`useAsyncAction`](https://usethishook.mentorbridge.in/#/useAsyncAction)             | Pending / error / data for one async call  |
+| [`useDebouncedCallback`](https://usethishook.mentorbridge.in/#/useDebouncedCallback) | Debounce a callback                        |
+| [`useFields`](https://usethishook.mentorbridge.in/#/useFields)                       | Small form object, optional schema         |
+| [`useAmountInput`](https://usethishook.mentorbridge.in/#/useAmountInput)             | Locale-aware amount input                  |
+| [`useList`](https://usethishook.mentorbridge.in/#/useList)                           | Insert / update / remove / reorder by `id` |
+| [`useSelection`](https://usethishook.mentorbridge.in/#/useSelection)                 | Single or multi select by id               |
+| [`useSearchState`](https://usethishook.mentorbridge.in/#/useSearchState)             | URL search params as React state           |
+| [`useConfirm`](https://usethishook.mentorbridge.in/#/useConfirm)                     | Await a yes/no dialog                      |
+| [`usePrompt`](https://usethishook.mentorbridge.in/#/usePrompt)                       | Await a string from a dialog               |
+| [`useControllableState`](https://usethishook.mentorbridge.in/#/useControllableState) | Controlled and uncontrolled in one API     |
+| [`useUnsavedChanges`](https://usethishook.mentorbridge.in/#/useUnsavedChanges)       | Leave / tab-close confirmation             |
+| [`useElementSize`](https://usethishook.mentorbridge.in/#/useElementSize)             | Element size via `ResizeObserver`          |
+| [`useInView`](https://usethishook.mentorbridge.in/#/useInView)                       | Visibility via `IntersectionObserver`      |
+| [`usePagination`](https://usethishook.mentorbridge.in/#/usePagination)               | Page, offset, next / prev with clamping    |
 
----
+## SSR
 
-## Server rendering
+Hooks that touch `window`, `document`, `navigator`, or observers are safe to call during SSR. They return safe defaults and attach listeners after hydration. Overlay hooks still need `render()` in the client tree.
 
-Hooks that read `window`, `document`, `navigator`, or observers are safe to call on the server. They fall back (`false`, `{ width: 0, height: 0 }`, empty query) and subscribe after mount.
-
-`useMediaQuery`, `useWindowSize`, `useOnlineStatus`, `useLocalStorage`, `useSearchState`, `useOnClickOutside`, `useElementSize`, `useInView`, `useUnsavedChanges`, `useEventListener`, `useTimeout`, and `useKeyPress` must not assume a browser until after hydration.
-
-Confirm, prompt, overlay, and step-flow still need `render()` in the client tree.
-
----
-
-## Local docs and contributing
+## Development
 
 ```bash
 npm install
 npm test
 npm run build
-npm run playground
+npm run playground   # local docs, usually http://localhost:5173
 ```
 
-Playground: [usethishook.mentorbridge.in](https://usethishook.mentorbridge.in/). Local: `npm run playground` (usually `http://localhost:5173`). Mirror: [GitHub Pages](https://senthilkumar979.github.io/useThisHook/).
+| Command                 | Purpose                    |
+| ----------------------- | -------------------------- |
+| `npm test`              | Vitest                     |
+| `npm run typecheck`     | Library + playground types |
+| `npm run lint`          | ESLint + Prettier          |
+| `npm run build`         | ESM + CJS + types          |
+| `npm run verify:commit` | Full pre-commit gate       |
 
-| Command                    | What it does                       |
-| -------------------------- | ---------------------------------- |
-| `npm test`                 | Vitest                             |
-| `npm run typecheck`        | Library + playground               |
-| `npm run lint`             | ESLint + Prettier                  |
-| `npm run build`            | ESM + CJS + types                  |
-| `npm run playground:build` | Static docs site                   |
-| `npm run verify:commit`    | Secrets, lint, types, tests, build |
-| `npm run verify:push`      | Playground build + `npm audit`     |
-
-Husky runs `verify:commit` before commit and `verify:push` before push. Add a hook: [`CONTRIBUTING.md`](CONTRIBUTING.md). Changelog: [`CHANGELOG.md`](CHANGELOG.md).
-
-**Snyk:** [`.github/workflows/snyk.yml`](.github/workflows/snyk.yml) runs `snyk test` on push/PR (high+). Add repo secret **`SNYK_TOKEN`** (Snyk → Account settings → Auth token). Import `senthilkumar979/useThisHook` in the Snyk dashboard so the README / docs badge resolves.
-
----
+See [CONTRIBUTING.md](CONTRIBUTING.md) to add a hook, [SECURITY.md](SECURITY.md) to report vulnerabilities, and [CHANGELOG.md](CHANGELOG.md) for release notes.
 
 ## License
 
-[MIT](LICENSE) © 2026 [Senthil Kumar Thangavel](https://senthilkumar.mentorbridge.in). Provided **as is**, without warranty.
-
-[LinkedIn](https://www.linkedin.com/in/senthilk979) · [Issues](https://github.com/senthilkumar979/useThisHook/issues)
+[MIT](LICENSE) © [Senthil Kumar Thangavel](https://senthilkumar.mentorbridge.in)
