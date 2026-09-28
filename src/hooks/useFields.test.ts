@@ -42,9 +42,28 @@ describe('useFields', () => {
     act(() => {
       result.current.setField('email', 'ada@example.com');
     });
+    expect(result.current.errors.email).toBeUndefined();
+
     act(() => {
       result.current.submit(onValid);
     });
     expect(onValid).toHaveBeenCalledTimes(1);
+  });
+
+  it('resets values and validates without a schema', () => {
+    const { result } = renderHook(() => useFields(initial));
+
+    act(() => {
+      result.current.setField('name', 'Grace');
+      result.current.reset();
+    });
+    expect(result.current.values).toEqual(initial);
+    expect(result.current.isDirty).toBe(false);
+
+    let validated: ReturnType<typeof result.current.validate> | undefined;
+    act(() => {
+      validated = result.current.validate();
+    });
+    expect(validated).toEqual({ ok: true, values: initial });
   });
 });

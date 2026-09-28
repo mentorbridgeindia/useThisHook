@@ -31,4 +31,20 @@ describe('usePagination', () => {
     expect(result.current.page).toBe(1);
     expect(result.current.pageSize).toBe(25);
   });
+
+  it('moves with next and prev', () => {
+    const { result } = renderHook(() => usePagination({ total: 30, pageSize: 10 }));
+
+    act(() => {
+      result.current.next();
+    });
+    expect(result.current.page).toBe(2);
+    expect(result.current.canPrev).toBe(true);
+
+    act(() => {
+      result.current.prev();
+    });
+    expect(result.current.page).toBe(1);
+    expect(result.current.canPrev).toBe(false);
+  });
 });
