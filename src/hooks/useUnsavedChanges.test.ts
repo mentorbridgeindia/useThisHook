@@ -26,4 +26,19 @@ describe('useUnsavedChanges', () => {
     });
     expect(confirmer).toHaveBeenCalledWith('Sure?');
   });
+
+  it('falls back to window.confirm and handles beforeunload', async () => {
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(true);
+    const { result } = renderHook(() => useUnsavedChanges(true));
+
+    await act(async () => {
+      await expect(result.current.confirmLeave()).resolves.toBe(true);
+    });
+    expect(confirm).toHaveBeenCalledWith('Leave without saving?');
+
+    const event = new Event('beforeunload') as BeforeUnloadEvent;
+    const preventDefault = vi.spyOn(event, 'preventDefault');
+    window.dispatchEvent(event);
+    expect(preventDefault).toHaveBeenCalled();
+  });
 });

@@ -8,29 +8,51 @@ describe('useElementSize', () => {
   });
 
   it('observes the attached node and reports contentRect size', () => {
-    let observed: Element | null = null;
+    let notify: ResizeObserverCallback | null = null;
     const disconnect = vi.fn();
-    const observe = vi.fn((element: Element) => {
-      observed = element;
+    const observe = vi.fn();
+    const fakeObserver = {} as ResizeObserver;
+
+    class MockResizeObserver {
+      constructor(callback: ResizeObserverCallback) {
+        notify = callback;
+      }
+      observe = observe;
+      disconnect = disconnect;
+      unobserve = vi.fn();
+    }
+
+    vi.stubGlobal('ResizeObserver', MockResizeObserver);
+
+    const { result, unmount } = renderHook(() => useElementSize());
+    const node = document.createElement('div');
+
+    act(() => {
+      result.current.ref(node);
     });
 
-    vi.stubGlobal(
-      'ResizeObserver',
-      class {
-        callback: ResizeObserverCallback;
-        constructor(callback: ResizeObserverCallback) {
-          this.callback = callback;
-        }
-        observe = observe;
-        disconnect = disconnect;
-        trigger(width: number, height: number) {
-          this.callback(
-            [{ contentRect: { width, height } }] as ResizeObserverEntry[],
-            this as unknown as ResizeObserver,
-          );
-        }
-      },
-    );
+    expect(observe).toHaveBeenCalledWith(node);
+
+    act(() => {
+      notify?.(
+        [{ contentRect: { width: 120, height: 80 } }] as ResizeObserverEntry[],
+        fakeObserver,
+      );
+    });
+    expect(result.current.width).toBe(120);
+    expect(result.current.height).toBe(80);
+
+    act(() => {
+      notify?.([], fakeObserver);
+    });
+    expect(result.current.width).toBe(120);
+
+    unmount();
+    expect(disconnect).toHaveBeenCalled();
+  });
+
+  it('skips observing when ResizeObserver is unavailable', () => {
+    vi.stubGlobal('ResizeObserver', undefined);
 
     const { result } = renderHook(() => useElementSize());
     const node = document.createElement('div');
@@ -39,7 +61,7 @@ describe('useElementSize', () => {
       result.current.ref(node);
     });
 
-    expect(observe).toHaveBeenCalledWith(node);
-    expect(observed).toBe(node);
+    expect(result.current.width).toBe(0);
+    expect(result.current.height).toBe(0);
   });
 });
