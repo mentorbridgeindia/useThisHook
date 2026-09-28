@@ -6,15 +6,15 @@
 
 ### Removed hooks and replacements
 
-| Removed                   | Replacement                                                                                                       |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `useToggle`               | [`useBoolean`](https://usethishook.mentorbridge.in/#/useBoolean) — pass a required `true` / `false` initial value |
-| `useCounter`              | Local `useState` / your own counter helper                                                                        |
-| `usePrevious`             | Track previous value in a ref inside the component                                                                |
-| `useDocumentTitle`        | Set `document.title` in an effect, or your app shell                                                              |
-| `useHover`                | Pointer handlers or CSS `:hover`                                                                                  |
-| `usePreferredColorScheme` | [`useMediaQuery`](https://usethishook.mentorbridge.in/#/useMediaQuery) with `(prefers-color-scheme: dark)`        |
-| `useOnChange`             | `useEffect` on the value you care about                                                                           |
+| Removed                   | Replacement                                                                                                     |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `useToggle`               | [`useBoolean`](https://usethishook.mentorbridge.in/useBoolean) — pass a required `true` / `false` initial value |
+| `useCounter`              | Local `useState` / your own counter helper                                                                      |
+| `usePrevious`             | Track previous value in a ref inside the component                                                              |
+| `useDocumentTitle`        | Set `document.title` in an effect, or your app shell                                                            |
+| `useHover`                | Pointer handlers or CSS `:hover`                                                                                |
+| `usePreferredColorScheme` | [`useMediaQuery`](https://usethishook.mentorbridge.in/useMediaQuery) with `(prefers-color-scheme: dark)`        |
+| `useOnChange`             | `useEffect` on the value you care about                                                                         |
 
 ### Example: `useToggle` → `useBoolean`
 

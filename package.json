@@ -1,7 +1,7 @@
 {
   "name": "usethishook",
   "version": "1.0.0",
-  "description": "A collection of reusable React hooks for everyday UI, state, and browser APIs.",
+  "description": "Zero-dependency, tree-shakeable React hooks for state, browser APIs, forms, and promise-based dialogs. TypeScript. React 18+.",
   "license": "MIT",
   "author": {
     "name": "Senthil Kumar Thangavel",
@@ -50,9 +50,10 @@
     "verify:commit": "npm run check:secrets && npm run lint && npm run typecheck && npm run test:coverage && npm run build && npm run pack:check",
     "verify:push": "npm run playground:build && npm audit --audit-level=high",
     "prepublishOnly": "npm run verify:commit",
+    "playground:seo": "node scripts/generate-playground-seo.mjs",
     "playground": "vite --config playground/vite.config.ts",
-    "playground:build": "vite build --config playground/vite.config.ts",
-    "playground:build:pages": "GITHUB_PAGES=true vite build --config playground/vite.config.ts"
+    "playground:build": "npm run playground:seo && vite build --config playground/vite.config.ts",
+    "playground:build:pages": "npm run playground:seo && GITHUB_PAGES=true vite build --config playground/vite.config.ts"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -94,9 +95,19 @@
   "keywords": [
     "react",
     "hooks",
+    "react-hooks",
     "custom-hooks",
     "typescript",
-    "usethishook"
+    "typescript-hooks",
+    "usethishook",
+    "tree-shakeable",
+    "ssr",
+    "useLocalStorage",
+    "useDebounce",
+    "useConfirm",
+    "usePrompt",
+    "useMediaQuery",
+    "react-utilities"
   ],
   "repository": {
     "type": "git",

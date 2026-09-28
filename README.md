@@ -8,7 +8,7 @@
 npm i usethishook
 ```
 
-[Docs & live demos](https://usethishook.mentorbridge.in/) · [npm](https://www.npmjs.com/package/usethishook) · [Changelog](CHANGELOG.md) · [Support](SUPPORT.md) · [Security](SECURITY.md)
+[Docs & live demos](https://usethishook.mentorbridge.in/) · [Wiki](https://github.com/senthilkumar979/useThisHook/wiki) · [npm](https://www.npmjs.com/package/usethishook) · [Changelog](CHANGELOG.md) · [Support](SUPPORT.md) · [Security](SECURITY.md)
 
 [![npm](https://img.shields.io/npm/v/usethishook.svg)](https://www.npmjs.com/package/usethishook)
 [![license](https://img.shields.io/npm/l/usethishook.svg)](LICENSE)
@@ -90,50 +90,50 @@ Full API and interactive examples: [usethishook.mentorbridge.in](https://usethis
 
 ### State
 
-| Hook                                                                             | Purpose                                             |
-| -------------------------------------------------------------------------------- | --------------------------------------------------- |
-| [`useBoolean`](https://usethishook.mentorbridge.in/#/useBoolean)                 | Boolean with required initial value, toggle helpers |
-| [`useDisclosure`](https://usethishook.mentorbridge.in/#/useDisclosure)           | Open / close / toggle for menus and dialogs         |
-| [`useDebounce`](https://usethishook.mentorbridge.in/#/useDebounce)               | Debounce a rapidly changing value                   |
-| [`useInterval`](https://usethishook.mentorbridge.in/#/useInterval)               | Declarative interval (`null` pauses)                |
-| [`useCopyToClipboard`](https://usethishook.mentorbridge.in/#/useCopyToClipboard) | Clipboard write + last copied text                  |
-| [`useLocalStorage`](https://usethishook.mentorbridge.in/#/useLocalStorage)       | JSON state persisted in `localStorage`              |
+| Hook                                                                           | Purpose                                             |
+| ------------------------------------------------------------------------------ | --------------------------------------------------- |
+| [`useBoolean`](https://usethishook.mentorbridge.in/useBoolean)                 | Boolean with required initial value, toggle helpers |
+| [`useDisclosure`](https://usethishook.mentorbridge.in/useDisclosure)           | Open / close / toggle for menus and dialogs         |
+| [`useDebounce`](https://usethishook.mentorbridge.in/useDebounce)               | Debounce a rapidly changing value                   |
+| [`useInterval`](https://usethishook.mentorbridge.in/useInterval)               | Declarative interval (`null` pauses)                |
+| [`useCopyToClipboard`](https://usethishook.mentorbridge.in/useCopyToClipboard) | Clipboard write + last copied text                  |
+| [`useLocalStorage`](https://usethishook.mentorbridge.in/useLocalStorage)       | JSON state persisted in `localStorage`              |
 
 ### Browser
 
-| Hook                                                                           | Purpose                                   |
-| ------------------------------------------------------------------------------ | ----------------------------------------- |
-| [`useOnlineStatus`](https://usethishook.mentorbridge.in/#/useOnlineStatus)     | Online / offline status                   |
-| [`useMediaQuery`](https://usethishook.mentorbridge.in/#/useMediaQuery)         | CSS media query subscription              |
-| [`useWindowSize`](https://usethishook.mentorbridge.in/#/useWindowSize)         | Viewport width and height                 |
-| [`useOnClickOutside`](https://usethishook.mentorbridge.in/#/useOnClickOutside) | Click outside a ref                       |
-| [`useEventListener`](https://usethishook.mentorbridge.in/#/useEventListener)   | Stable DOM / window listener              |
-| [`useTimeout`](https://usethishook.mentorbridge.in/#/useTimeout)               | One-shot timer (`null` pauses)            |
-| [`useKeyPress`](https://usethishook.mentorbridge.in/#/useKeyPress)             | Key held down (ignores editable fields)   |
-| [`useOverlay`](https://usethishook.mentorbridge.in/#/useOverlay)               | Promise-based custom overlay              |
-| [`useStepFlow`](https://usethishook.mentorbridge.in/#/useStepFlow)             | Multi-step wizard that resolves when done |
-| [`useAsyncSelect`](https://usethishook.mentorbridge.in/#/useAsyncSelect)       | Native file picker as a Promise           |
+| Hook                                                                         | Purpose                                   |
+| ---------------------------------------------------------------------------- | ----------------------------------------- |
+| [`useOnlineStatus`](https://usethishook.mentorbridge.in/useOnlineStatus)     | Online / offline status                   |
+| [`useMediaQuery`](https://usethishook.mentorbridge.in/useMediaQuery)         | CSS media query subscription              |
+| [`useWindowSize`](https://usethishook.mentorbridge.in/useWindowSize)         | Viewport width and height                 |
+| [`useOnClickOutside`](https://usethishook.mentorbridge.in/useOnClickOutside) | Click outside a ref                       |
+| [`useEventListener`](https://usethishook.mentorbridge.in/useEventListener)   | Stable DOM / window listener              |
+| [`useTimeout`](https://usethishook.mentorbridge.in/useTimeout)               | One-shot timer (`null` pauses)            |
+| [`useKeyPress`](https://usethishook.mentorbridge.in/useKeyPress)             | Key held down (ignores editable fields)   |
+| [`useOverlay`](https://usethishook.mentorbridge.in/useOverlay)               | Promise-based custom overlay              |
+| [`useStepFlow`](https://usethishook.mentorbridge.in/useStepFlow)             | Multi-step wizard that resolves when done |
+| [`useAsyncSelect`](https://usethishook.mentorbridge.in/useAsyncSelect)       | Native file picker as a Promise           |
 
 ### App
 
-| Hook                                                                                 | Purpose                                    |
-| ------------------------------------------------------------------------------------ | ------------------------------------------ |
-| [`useStableCallback`](https://usethishook.mentorbridge.in/#/useStableCallback)       | Stable function identity, latest body      |
-| [`useResetState`](https://usethishook.mentorbridge.in/#/useResetState)               | State that resets when a key changes       |
-| [`useAsyncAction`](https://usethishook.mentorbridge.in/#/useAsyncAction)             | Pending / error / data for one async call  |
-| [`useDebouncedCallback`](https://usethishook.mentorbridge.in/#/useDebouncedCallback) | Debounce a callback                        |
-| [`useFields`](https://usethishook.mentorbridge.in/#/useFields)                       | Small form object, optional schema         |
-| [`useAmountInput`](https://usethishook.mentorbridge.in/#/useAmountInput)             | Locale-aware amount input                  |
-| [`useList`](https://usethishook.mentorbridge.in/#/useList)                           | Insert / update / remove / reorder by `id` |
-| [`useSelection`](https://usethishook.mentorbridge.in/#/useSelection)                 | Single or multi select by id               |
-| [`useSearchState`](https://usethishook.mentorbridge.in/#/useSearchState)             | URL search params as React state           |
-| [`useConfirm`](https://usethishook.mentorbridge.in/#/useConfirm)                     | Await a yes/no dialog                      |
-| [`usePrompt`](https://usethishook.mentorbridge.in/#/usePrompt)                       | Await a string from a dialog               |
-| [`useControllableState`](https://usethishook.mentorbridge.in/#/useControllableState) | Controlled and uncontrolled in one API     |
-| [`useUnsavedChanges`](https://usethishook.mentorbridge.in/#/useUnsavedChanges)       | Leave / tab-close confirmation             |
-| [`useElementSize`](https://usethishook.mentorbridge.in/#/useElementSize)             | Element size via `ResizeObserver`          |
-| [`useInView`](https://usethishook.mentorbridge.in/#/useInView)                       | Visibility via `IntersectionObserver`      |
-| [`usePagination`](https://usethishook.mentorbridge.in/#/usePagination)               | Page, offset, next / prev with clamping    |
+| Hook                                                                               | Purpose                                    |
+| ---------------------------------------------------------------------------------- | ------------------------------------------ |
+| [`useStableCallback`](https://usethishook.mentorbridge.in/useStableCallback)       | Stable function identity, latest body      |
+| [`useResetState`](https://usethishook.mentorbridge.in/useResetState)               | State that resets when a key changes       |
+| [`useAsyncAction`](https://usethishook.mentorbridge.in/useAsyncAction)             | Pending / error / data for one async call  |
+| [`useDebouncedCallback`](https://usethishook.mentorbridge.in/useDebouncedCallback) | Debounce a callback                        |
+| [`useFields`](https://usethishook.mentorbridge.in/useFields)                       | Small form object, optional schema         |
+| [`useAmountInput`](https://usethishook.mentorbridge.in/useAmountInput)             | Locale-aware amount input                  |
+| [`useList`](https://usethishook.mentorbridge.in/useList)                           | Insert / update / remove / reorder by `id` |
+| [`useSelection`](https://usethishook.mentorbridge.in/useSelection)                 | Single or multi select by id               |
+| [`useSearchState`](https://usethishook.mentorbridge.in/useSearchState)             | URL search params as React state           |
+| [`useConfirm`](https://usethishook.mentorbridge.in/useConfirm)                     | Await a yes/no dialog                      |
+| [`usePrompt`](https://usethishook.mentorbridge.in/usePrompt)                       | Await a string from a dialog               |
+| [`useControllableState`](https://usethishook.mentorbridge.in/useControllableState) | Controlled and uncontrolled in one API     |
+| [`useUnsavedChanges`](https://usethishook.mentorbridge.in/useUnsavedChanges)       | Leave / tab-close confirmation             |
+| [`useElementSize`](https://usethishook.mentorbridge.in/useElementSize)             | Element size via `ResizeObserver`          |
+| [`useInView`](https://usethishook.mentorbridge.in/useInView)                       | Visibility via `IntersectionObserver`      |
+| [`usePagination`](https://usethishook.mentorbridge.in/usePagination)               | Page, offset, next / prev with clamping    |
 
 ## SSR
 

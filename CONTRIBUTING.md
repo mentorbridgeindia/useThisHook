@@ -9,12 +9,14 @@ By participating you agree to the [Code of Conduct](.github/CODE_OF_CONDUCT.md).
 2. Re-export it from `src/index.ts`.
 3. Add `src/hooks/useYourHook.test.ts` (or `.tsx`).
 4. Keep the hook file under 150 lines and TypeScript-strict. Do not add a runtime dependency unless the hook cannot work without it.
-5. Document it in the README hook table.
+5. Document it in the README hook table (docs URL: `https://usethishook.mentorbridge.in/useYourHook`).
 6. Playground (all of these):
    - Catalog entry (`stateHooks.ts`, `browserHooks.ts`, `appHooks.ts`, or `leverageHooks.ts`).
    - Description in `playground/src/descriptions/`.
    - API spec in `playground/src/api/`.
    - Demo component and copy-paste example string in `playground/src/demos/`.
+
+Maintainer docs (architecture, release, testing) live in the [GitHub Wiki](https://github.com/senthilkumar979/useThisHook/wiki); sources are in-repo under `wiki/`.
 
 ## Checks
 

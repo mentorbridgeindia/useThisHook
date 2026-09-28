@@ -1,5 +1,5 @@
 import { hooksCatalog } from '../hooksCatalog';
-import { hookPageHref } from '../hookHref';
+import { homeHref, hookPageHref } from '../hookHref';
 import { NavGroupHeader } from './NavGroupHeader';
 
 interface HookNavProps {
@@ -14,7 +14,7 @@ export const HookNav = ({ activeId }: HookNavProps) => {
   return (
     <nav className="flex flex-col gap-5 pr-1">
       <a
-        href="#/"
+        href={homeHref()}
         aria-current={isHome ? 'page' : undefined}
         className={`rounded-lg px-2.5 py-1.5 text-sm font-medium ${
           isHome

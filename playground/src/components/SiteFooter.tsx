@@ -23,6 +23,15 @@ export const SiteFooter = () => (
         target="_blank"
       >
         GitHub
+      </a>{' '}
+      ·{' '}
+      <a
+        className={linkClass}
+        href="https://github.com/senthilkumar979/useThisHook/wiki"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Wiki
       </a>
     </p>
   </footer>
