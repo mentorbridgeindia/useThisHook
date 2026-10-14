@@ -3,7 +3,7 @@
 **Stop rewriting the same React hooks in every project.**
 
 Install once. Import only what you need — toggles, debounce, storage, forms, browser APIs, and
-dialogs. **33 typed hooks**, zero runtime dependencies, live demos you can paste into production.
+dialogs. **40 typed hooks**, zero runtime dependencies, live demos you can paste into production.
 
 ```bash
 npm i usethishook
@@ -18,6 +18,15 @@ npm i usethishook
 [![CI](https://github.com/senthilkumar979/useThisHook/actions/workflows/ci.yml/badge.svg)](https://github.com/senthilkumar979/useThisHook/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/senthilkumar979/useThisHook/graph/badge.svg)](https://codecov.io/gh/senthilkumar979/useThisHook)
 [![types](https://img.shields.io/npm/types/usethishook.svg)](https://www.npmjs.com/package/usethishook)
+
+### What’s new in 1.2.0
+
+- **`useSessionStorage`**, **`useThrottle`** / **`useThrottledCallback`**
+- **`useScrollLock`**, **`useDocumentVisibility`**, **`useIdle`**
+- **`useUpdateEffect`** — `useEffect` that skips the first mount
+- **`useAmountInput`** — optional `locales` for custom language separators
+
+See [CHANGELOG.md](CHANGELOG.md) and the [playground](https://usethishook.mentorbridge.in/) for demos and API details. Paste-ready GitHub release notes: [RELEASE_NOTES.md](RELEASE_NOTES.md).
 
 ---
 
@@ -117,34 +126,41 @@ Every hook has a **live preview + API** on the [playground](https://usethishook.
 | [`useBoolean`](https://usethishook.mentorbridge.in/useBoolean)                 | On/off state with toggle helpers          |
 | [`useDisclosure`](https://usethishook.mentorbridge.in/useDisclosure)           | Open / close / toggle for menus & dialogs |
 | [`useDebounce`](https://usethishook.mentorbridge.in/useDebounce)               | Wait until a value stops changing         |
+| [`useThrottle`](https://usethishook.mentorbridge.in/useThrottle)               | Limit how often a value updates           |
 | [`useInterval`](https://usethishook.mentorbridge.in/useInterval)               | Run on an interval (`null` pauses)        |
 | [`useCopyToClipboard`](https://usethishook.mentorbridge.in/useCopyToClipboard) | Copy text + remember last copy            |
 | [`useLocalStorage`](https://usethishook.mentorbridge.in/useLocalStorage)       | State that survives refresh               |
+| [`useSessionStorage`](https://usethishook.mentorbridge.in/useSessionStorage)   | State that survives refresh (tab-scoped)  |
 
 ### Browser
 
-| Hook                                                                         | What it does                                |
-| ---------------------------------------------------------------------------- | ------------------------------------------- |
-| [`useOnlineStatus`](https://usethishook.mentorbridge.in/useOnlineStatus)     | Online / offline                            |
-| [`useFingerprint`](https://usethishook.mentorbridge.in/useFingerprint)       | Client-side visitor id from browser signals |
-| [`useMediaQuery`](https://usethishook.mentorbridge.in/useMediaQuery)         | Match a CSS media query                     |
-| [`useWindowSize`](https://usethishook.mentorbridge.in/useWindowSize)         | Viewport width & height                     |
-| [`useOnClickOutside`](https://usethishook.mentorbridge.in/useOnClickOutside) | Detect clicks outside an element            |
-| [`useEventListener`](https://usethishook.mentorbridge.in/useEventListener)   | Stable DOM / window listener                |
-| [`useTimeout`](https://usethishook.mentorbridge.in/useTimeout)               | One-shot timer (`null` pauses)              |
-| [`useKeyPress`](https://usethishook.mentorbridge.in/useKeyPress)             | Key held down (skips text fields)           |
-| [`useOverlay`](https://usethishook.mentorbridge.in/useOverlay)               | Custom overlay as a Promise                 |
-| [`useStepFlow`](https://usethishook.mentorbridge.in/useStepFlow)             | Multi-step wizard that resolves when done   |
-| [`useAsyncSelect`](https://usethishook.mentorbridge.in/useAsyncSelect)       | Native file picker as a Promise             |
+| Hook                                                                                 | What it does                                |
+| ------------------------------------------------------------------------------------ | ------------------------------------------- |
+| [`useOnlineStatus`](https://usethishook.mentorbridge.in/useOnlineStatus)             | Online / offline                            |
+| [`useFingerprint`](https://usethishook.mentorbridge.in/useFingerprint)               | Client-side visitor id from browser signals |
+| [`useMediaQuery`](https://usethishook.mentorbridge.in/useMediaQuery)                 | Match a CSS media query                     |
+| [`useWindowSize`](https://usethishook.mentorbridge.in/useWindowSize)                 | Viewport width & height                     |
+| [`useOnClickOutside`](https://usethishook.mentorbridge.in/useOnClickOutside)         | Detect clicks outside an element            |
+| [`useEventListener`](https://usethishook.mentorbridge.in/useEventListener)           | Stable DOM / window listener                |
+| [`useTimeout`](https://usethishook.mentorbridge.in/useTimeout)                       | One-shot timer (`null` pauses)              |
+| [`useKeyPress`](https://usethishook.mentorbridge.in/useKeyPress)                     | Key held down (skips text fields)           |
+| [`useScrollLock`](https://usethishook.mentorbridge.in/useScrollLock)                 | Lock / unlock document body scroll          |
+| [`useDocumentVisibility`](https://usethishook.mentorbridge.in/useDocumentVisibility) | Tab visible or hidden                       |
+| [`useIdle`](https://usethishook.mentorbridge.in/useIdle)                             | Idle after no user activity                 |
+| [`useOverlay`](https://usethishook.mentorbridge.in/useOverlay)                       | Custom overlay as a Promise                 |
+| [`useStepFlow`](https://usethishook.mentorbridge.in/useStepFlow)                     | Multi-step wizard that resolves when done   |
+| [`useAsyncSelect`](https://usethishook.mentorbridge.in/useAsyncSelect)               | Native file picker as a Promise             |
 
 ### App
 
 | Hook                                                                               | What it does                               |
 | ---------------------------------------------------------------------------------- | ------------------------------------------ |
 | [`useStableCallback`](https://usethishook.mentorbridge.in/useStableCallback)       | Stable function, always latest body        |
+| [`useUpdateEffect`](https://usethishook.mentorbridge.in/useUpdateEffect)           | useEffect that skips the first mount       |
 | [`useResetState`](https://usethishook.mentorbridge.in/useResetState)               | Reset state when a key changes             |
 | [`useAsyncAction`](https://usethishook.mentorbridge.in/useAsyncAction)             | Pending / error / data for one async call  |
 | [`useDebouncedCallback`](https://usethishook.mentorbridge.in/useDebouncedCallback) | Debounce a function                        |
+| [`useThrottledCallback`](https://usethishook.mentorbridge.in/useThrottledCallback) | Throttle a function                        |
 | [`useFields`](https://usethishook.mentorbridge.in/useFields)                       | Small form object, optional schema         |
 | [`useAmountInput`](https://usethishook.mentorbridge.in/useAmountInput)             | Locale-aware money / amount input          |
 | [`useList`](https://usethishook.mentorbridge.in/useList)                           | Insert / update / remove / reorder by `id` |

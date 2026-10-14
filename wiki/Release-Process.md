@@ -7,10 +7,11 @@ This project uses **manual Keep a Changelog** notes and a **gated** npm publish.
 ## Steps
 
 1. On a PR to `main`, bump `version` in `package.json` and add a matching section in [`CHANGELOG.md`](https://github.com/senthilkumar979/useThisHook/blob/main/CHANGELOG.md).
-2. Merge after CI is green (Node/React matrix and security workflows as configured).
-3. Run **Actions → Publish npm → Run workflow** on `main` (OIDC Trusted Publishing, `--provenance`).
-4. Create a GitHub Release with tag **`vX.Y.Z`**. Paste the CHANGELOG section as the body.
-5. Confirm [npm `usethishook`](https://www.npmjs.com/package/usethishook) shows the new `latest` with provenance.
+2. Update [`RELEASE_NOTES.md`](https://github.com/senthilkumar979/useThisHook/blob/main/RELEASE_NOTES.md) with a paste-ready GitHub Release body (and README / hook-count copy if marketing numbers changed).
+3. Merge after CI is green (Node/React matrix and security workflows as configured).
+4. Run **Actions → Publish npm → Run workflow** on `main` (OIDC Trusted Publishing, `--provenance`).
+5. Create a GitHub Release with tag **`vX.Y.Z`**. Prefer the body from `RELEASE_NOTES.md` (or paste the matching CHANGELOG section).
+6. Confirm [npm `usethishook`](https://www.npmjs.com/package/usethishook) shows the new `latest` with provenance.
 
 Do **not** publish from a laptop unless Trusted Publishing is unavailable. Do **not** publish from a git tag push alone.
 

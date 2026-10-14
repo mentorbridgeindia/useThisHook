@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { HookTagBadge } from '../components/HookTagBadge';
 import { inputClass } from '../components/styles';
 import { hookPageHref } from '../hookHref';
 import { hooksCatalog } from '../hooksCatalog';
@@ -8,7 +9,10 @@ export const HomeHookIndex = () => {
   const normalized = query.trim().toLowerCase();
   const hooks = hooksCatalog.filter((hook) => {
     if (!normalized) return true;
-    return `${hook.name} ${hook.summary} ${hook.category}`.toLowerCase().includes(normalized);
+    const tags = hook.tags?.join(' ') ?? '';
+    return `${hook.name} ${hook.summary} ${hook.category} ${tags}`
+      .toLowerCase()
+      .includes(normalized);
   });
 
   return (
@@ -30,9 +34,12 @@ export const HomeHookIndex = () => {
               href={hookPageHref(hook.id)}
               className="block h-full rounded-2xl border border-line bg-surface p-5 transition hover:border-violet-400/40 hover:bg-code"
             >
-              <p className="text-[0.65rem] uppercase tracking-[0.16em] text-muted">
-                {hook.category}
-              </p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-[0.65rem] uppercase tracking-[0.16em] text-muted">
+                  {hook.category}
+                </p>
+                <HookTagBadge tags={hook.tags} />
+              </div>
               <h3 className="mt-2 font-mono text-base text-fg">{hook.name}</h3>
               <p className="mt-2 text-sm leading-6 text-muted">{hook.summary}</p>
             </a>

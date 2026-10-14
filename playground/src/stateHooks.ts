@@ -1,11 +1,23 @@
-import { useCopyToClipboardApi, useIntervalApi, useLocalStorageApi } from './api/persistApi';
-import { useBooleanApi, useDebounceApi, useDisclosureApi } from './api/coreStateApi';
+import {
+  useCopyToClipboardApi,
+  useIntervalApi,
+  useLocalStorageApi,
+  useSessionStorageApi,
+} from './api/persistApi';
+import {
+  useBooleanApi,
+  useDebounceApi,
+  useDisclosureApi,
+  useThrottleApi,
+} from './api/coreStateApi';
 import { UseBooleanDemo, useBooleanExample } from './demos/UseBooleanDemo';
 import { UseCopyToClipboardDemo, useCopyToClipboardExample } from './demos/UseCopyToClipboardDemo';
 import { UseDebounceDemo, useDebounceExample } from './demos/UseDebounceDemo';
 import { UseDisclosureDemo, useDisclosureExample } from './demos/UseDisclosureDemo';
 import { UseIntervalDemo, useIntervalExample } from './demos/UseIntervalDemo';
 import { UseLocalStorageDemo, useLocalStorageExample } from './demos/UseLocalStorageDemo';
+import { UseSessionStorageDemo, useSessionStorageExample } from './demos/UseSessionStorageDemo';
+import { UseThrottleDemo, useThrottleExample } from './demos/UseThrottleDemo';
 import type { HookEntry } from './hookDoc';
 
 export const stateHooks: HookEntry[] = [
@@ -40,6 +52,17 @@ export const stateHooks: HookEntry[] = [
     example: useDebounceExample,
   },
   {
+    id: 'useThrottle',
+    name: 'useThrottle',
+    summary: 'Limit how often a value updates.',
+    whenToUse: 'Use for scroll, resize, and rapid input where you still want periodic updates.',
+    category: 'State',
+    tags: ['New'],
+    api: useThrottleApi,
+    Demo: UseThrottleDemo,
+    example: useThrottleExample,
+  },
+  {
     id: 'useInterval',
     name: 'useInterval',
     summary: 'Declarative setInterval that always calls the latest callback.',
@@ -68,5 +91,16 @@ export const stateHooks: HookEntry[] = [
     api: useLocalStorageApi,
     Demo: UseLocalStorageDemo,
     example: useLocalStorageExample,
+  },
+  {
+    id: 'useSessionStorage',
+    name: 'useSessionStorage',
+    summary: 'Persist JSON-serializable state in sessionStorage.',
+    whenToUse: 'Use for drafts that should survive refresh but clear with the tab.',
+    category: 'State',
+    tags: ['New'],
+    api: useSessionStorageApi,
+    Demo: UseSessionStorageDemo,
+    example: useSessionStorageExample,
   },
 ];

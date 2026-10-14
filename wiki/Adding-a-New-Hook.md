@@ -19,6 +19,8 @@ Add all of:
 - API spec in `playground/src/api/`
 - Demo component and copy-paste example in `playground/src/demos/`
 
+Optional: set `tags: ['New']` on the catalog entry so the playground nav and browse cards show a **New** badge (clear the tag in a later release when the hook is no longer new).
+
 `npm run playground:seo` picks up new `src/hooks/use*.ts(x)` files for the sitemap automatically on the next playground build.
 
 ## Local gates

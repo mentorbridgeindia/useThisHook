@@ -30,6 +30,13 @@ function readQuotedField(block, field) {
   return after.slice(1, end);
 }
 
+function readTags(chunk) {
+  const match = chunk.match(/tags:\s*\[([^\]]*)\]/);
+  if (!match) return undefined;
+  const tags = [...match[1].matchAll(/'([^']+)'/g)].map((item) => item[1]);
+  return tags.length > 0 ? tags : undefined;
+}
+
 function parseHookEntries(source) {
   const entries = [];
   for (const chunk of source.split('{')) {
@@ -39,6 +46,7 @@ function parseHookEntries(source) {
     const summary = readQuotedField(chunk, 'summary');
     const whenToUse = readQuotedField(chunk, 'whenToUse');
     const category = readQuotedField(chunk, 'category');
+    const tags = readTags(chunk);
     const apiIndex = chunk.indexOf('api:');
     const apiToken =
       apiIndex >= 0
@@ -56,6 +64,7 @@ function parseHookEntries(source) {
       summary,
       whenToUse,
       category,
+      tags,
       apiExport: apiToken,
     });
   }
@@ -159,6 +168,7 @@ function main() {
       summary: entry.summary,
       whenToUse: entry.whenToUse,
       category: entry.category,
+      ...(entry.tags ? { tags: entry.tags } : {}),
       description,
       api,
       example,

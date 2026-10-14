@@ -15,6 +15,20 @@ Do not publish from a push or tag.
 
 - `usethishook-mcp` — stdio MCP server (`mcp/`) so AI clients can `list_hooks`, `search_hooks`, `get_hook`, and `recommend_hook` against the playground catalog. See [mcp/README.md](mcp/README.md).
 
+## [1.2.0] - 2026-10-14
+
+### Added
+
+- `useSessionStorage` — JSON state in `sessionStorage` (same shape as `useLocalStorage`)
+- `useThrottle` — throttle a value (leading + trailing)
+- `useThrottledCallback` — throttle a function, with cancel
+- `useScrollLock` — lock / unlock `document.body` scroll for overlays
+- `useDocumentVisibility` — Page Visibility API (`visible` | `hidden`)
+- `useIdle` — true after a period of no user activity
+- `useUpdateEffect` — like `useEffect`, but skips the initial mount and runs only on later dependency changes
+- `useAmountInput` optional `locales` map to register or override language separators beyond built-in `en` / `de` / `nl` / `fr`
+- Exported `AmountLocaleConfig` type
+
 ## [1.1.0] - 2026-10-06
 
 ### Added

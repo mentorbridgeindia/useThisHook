@@ -86,3 +86,39 @@ export const useLocalStorageApi: HookApi = {
     'Write failures (quota, private mode) are ignored; state still updates in memory.',
   ],
 };
+
+export const useSessionStorageApi: HookApi = {
+  signature: 'useSessionStorage<T>(key: string, initialValue: T)',
+  explanation:
+    'Same idea as useLocalStorage, but persists in sessionStorage so the value survives refresh and is cleared when the tab closes.',
+  arguments: [
+    {
+      name: 'key',
+      type: 'string',
+      description: 'sessionStorage key. Changing it re-reads that entry.',
+    },
+    {
+      name: 'initialValue',
+      type: 'T',
+      description: 'Used when the key is missing or stored JSON cannot be parsed.',
+    },
+  ],
+  returns: {
+    type: '[value, setValue]',
+    description:
+      'A state tuple. setValue accepts a value or a function of the previous value, like useState.',
+    fields: [
+      { name: 'value', type: 'T', description: 'Current parsed value.' },
+      {
+        name: 'setValue',
+        type: '(next: T | ((previous: T) => T)) => void',
+        description: 'Writes to React state and sessionStorage.',
+      },
+    ],
+  },
+  caveats: [
+    'Values must be JSON-serializable.',
+    'Corrupt JSON in storage falls back to initialValue.',
+    'Write failures (quota, private mode) are ignored; state still updates in memory.',
+  ],
+};

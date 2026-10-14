@@ -11,4 +11,8 @@ export const coreDescriptions: Record<string, string> = {
     'A “Copy invite link” or “Copy code” button. You need to write to the clipboard and show Copied for a moment. This hook is that interaction, including failure when the browser blocks clipboard access.',
   useLocalStorage:
     'A preference should survive refresh: theme, sidebar width, last used project. You want useState that writes JSON to localStorage. This is that pair of value and setter, with a fallback if storage is empty or corrupt.',
+  useSessionStorage:
+    'A draft or wizard step should survive refresh but not outlive the tab. Same shape as useLocalStorage, backed by sessionStorage instead.',
+  useThrottle:
+    'A value changes often — scroll position, pointer coords, or rapid typing — and you need updates at a steady cadence rather than waiting for silence. Throttle keeps the first update in a window and a trailing latest value.',
 };

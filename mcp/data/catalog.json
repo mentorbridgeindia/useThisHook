@@ -137,6 +137,40 @@
       "import": "import { useDebounce } from 'usethishook';"
     },
     {
+      "id": "useThrottle",
+      "name": "useThrottle",
+      "summary": "Limit how often a value updates.",
+      "whenToUse": "Use for scroll, resize, and rapid input where you still want periodic updates.",
+      "category": "State",
+      "tags": ["New"],
+      "description": "A value changes often — scroll position, pointer coords, or rapid typing — and you need updates at a steady cadence rather than waiting for silence. Throttle keeps the first update in a window and a trailing latest value.",
+      "api": {
+        "signature": "useThrottle<T>(value: T, delayMs?: number): T",
+        "explanation": "Returns a copy of value that updates at most once per delayMs. The first change in a window applies immediately; a trailing update keeps the latest value.",
+        "arguments": [
+          {
+            "name": "value",
+            "type": "T",
+            "description": "The rapidly changing source, such as scroll position or input text."
+          },
+          {
+            "name": "delayMs",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "300",
+            "description": "Minimum milliseconds between updates."
+          }
+        ],
+        "returns": {
+          "type": "T",
+          "description": "The throttled value. Prefer this over debounce when you need periodic updates while typing or scrolling."
+        }
+      },
+      "example": "import { useState } from 'react';\nimport { useThrottle } from 'usethishook';\n\nexport const Search = () => {\n  const [query, setQuery] = useState('');\n  const throttledQuery = useThrottle(query, 300);\n  return <input value={query} onChange={(event) => setQuery(event.target.value)} />;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useThrottle",
+      "import": "import { useThrottle } from 'usethishook';"
+    },
+    {
       "id": "useInterval",
       "name": "useInterval",
       "summary": "Declarative setInterval that always calls the latest callback.",
@@ -255,6 +289,55 @@
       "example": "import { useLocalStorage } from 'usethishook';\n\nexport const NameField = () => {\n  const [name, setName] = useLocalStorage('name', '');\n  return <input value={name} onChange={(event) => setName(event.target.value)} />;\n};",
       "playgroundUrl": "https://usethishook.mentorbridge.in/useLocalStorage",
       "import": "import { useLocalStorage } from 'usethishook';"
+    },
+    {
+      "id": "useSessionStorage",
+      "name": "useSessionStorage",
+      "summary": "Persist JSON-serializable state in sessionStorage.",
+      "whenToUse": "Use for drafts that should survive refresh but clear with the tab.",
+      "category": "State",
+      "tags": ["New"],
+      "description": "A draft or wizard step should survive refresh but not outlive the tab. Same shape as useLocalStorage, backed by sessionStorage instead.",
+      "api": {
+        "signature": "useSessionStorage<T>(key: string, initialValue: T)",
+        "explanation": "Same idea as useLocalStorage, but persists in sessionStorage so the value survives refresh and is cleared when the tab closes.",
+        "arguments": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "sessionStorage key. Changing it re-reads that entry."
+          },
+          {
+            "name": "initialValue",
+            "type": "T",
+            "description": "Used when the key is missing or stored JSON cannot be parsed."
+          }
+        ],
+        "returns": {
+          "type": "[value, setValue]",
+          "description": "A state tuple. setValue accepts a value or a function of the previous value, like useState.",
+          "fields": [
+            {
+              "name": "value",
+              "type": "T",
+              "description": "Current parsed value."
+            },
+            {
+              "name": "setValue",
+              "type": "(next: T | ((previous: T) => T)) => void",
+              "description": "Writes to React state and sessionStorage."
+            }
+          ]
+        },
+        "caveats": [
+          "Values must be JSON-serializable.",
+          "Corrupt JSON in storage falls back to initialValue.",
+          "Write failures (quota, private mode) are ignored; state still updates in memory."
+        ]
+      },
+      "example": "import { useSessionStorage } from 'usethishook';\n\nexport const DraftField = () => {\n  const [draft, setDraft] = useSessionStorage('draft', '');\n  return <input value={draft} onChange={(event) => setDraft(event.target.value)} />;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useSessionStorage",
+      "import": "import { useSessionStorage } from 'usethishook';"
     },
     {
       "id": "useOnlineStatus",
@@ -670,6 +753,110 @@
       "import": "import { useKeyPress } from 'usethishook';"
     },
     {
+      "id": "useScrollLock",
+      "name": "useScrollLock",
+      "summary": "Lock and unlock document body scroll.",
+      "whenToUse": "Use under modals and drawers so the page behind does not scroll.",
+      "category": "Browser",
+      "tags": ["New"],
+      "description": "A modal or drawer is open and the page behind should not scroll. Lock overflow on document.body, optionally pad for the scrollbar gutter, and unlock when the overlay closes.",
+      "api": {
+        "signature": "useScrollLock(options?)",
+        "explanation": "Locks scrolling on document.body (overflow hidden, optional scrollbar gutter padding). Useful under modals and drawers so the page behind does not scroll.",
+        "arguments": [
+          {
+            "name": "options.autoLock",
+            "type": "boolean",
+            "optional": true,
+            "defaultValue": "true",
+            "description": "When true, locks on mount and unlocks on unmount."
+          },
+          {
+            "name": "options.widthReflow",
+            "type": "boolean",
+            "optional": true,
+            "defaultValue": "true",
+            "description": "When true, pads the body to compensate for the missing scrollbar width."
+          }
+        ],
+        "returns": {
+          "type": "{ isLocked, lock, unlock }",
+          "description": "Lock state plus imperative controls.",
+          "fields": [
+            {
+              "name": "isLocked",
+              "type": "boolean",
+              "description": "Whether body scroll is currently locked."
+            },
+            {
+              "name": "lock",
+              "type": "() => void",
+              "description": "Locks body scroll."
+            },
+            {
+              "name": "unlock",
+              "type": "() => void",
+              "description": "Restores previous overflow and padding."
+            }
+          ]
+        },
+        "caveats": ["No-op during SSR. Pair autoLock with a modal open flag when needed."]
+      },
+      "example": "import { useScrollLock } from 'usethishook';\n\nexport const Modal = ({ open }: { open: boolean }) => {\n  useScrollLock({ autoLock: open });\n  if (!open) return null;\n  return <div role=\"dialog\">…</div>;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useScrollLock",
+      "import": "import { useScrollLock } from 'usethishook';"
+    },
+    {
+      "id": "useDocumentVisibility",
+      "name": "useDocumentVisibility",
+      "summary": "Whether the document tab is visible or hidden.",
+      "whenToUse": "Use to pause polling or media when the tab is in the background.",
+      "category": "Browser",
+      "tags": ["New"],
+      "description": "The tab is hidden and you should pause polling, video, or expensive work. This is document.visibilityState as a React value — visible or hidden.",
+      "api": {
+        "signature": "useDocumentVisibility(): DocumentVisibilityState",
+        "explanation": "Subscribes to the Page Visibility API and returns whether the document is visible or hidden. Use it to pause polling or media when the tab is in the background.",
+        "arguments": [],
+        "returns": {
+          "type": "'visible' | 'hidden'",
+          "description": "Current document.visibilityState. SSR defaults to visible."
+        }
+      },
+      "example": "import { useEffect } from 'react';\nimport { useDocumentVisibility } from 'usethishook';\n\nexport const Poller = () => {\n  const visibility = useDocumentVisibility();\n\n  useEffect(() => {\n    if (visibility === 'hidden') return;\n    const id = window.setInterval(() => api.refresh(), 10_000);\n    return () => window.clearInterval(id);\n  }, [visibility]);\n\n  return null;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useDocumentVisibility",
+      "import": "import { useDocumentVisibility } from 'usethishook';"
+    },
+    {
+      "id": "useIdle",
+      "name": "useIdle",
+      "summary": "True after a period of no user activity.",
+      "whenToUse": "Use for soft session timeouts and away indicators.",
+      "category": "Browser",
+      "tags": ["New"],
+      "description": "You need a soft “away” or session-timeout signal. After a quiet period with no mouse, keyboard, touch, or scroll, the hook reports idle until the user moves again.",
+      "api": {
+        "signature": "useIdle(timeoutMs?: number): boolean",
+        "explanation": "Returns true after timeoutMs of no pointer, keyboard, touch, or scroll activity. Useful for soft session timeouts and “away” UI.",
+        "arguments": [
+          {
+            "name": "timeoutMs",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "60000",
+            "description": "Idle threshold in milliseconds."
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true once the user has been inactive for timeoutMs."
+        }
+      },
+      "example": "import { useIdle } from 'usethishook';\n\nexport const SessionGuard = () => {\n  const isIdle = useIdle(5 * 60_000);\n  if (!isIdle) return null;\n  return <p>You have been idle. Session may expire soon.</p>;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useIdle",
+      "import": "import { useIdle } from 'usethishook';"
+    },
+    {
       "id": "useStableCallback",
       "name": "useStableCallback",
       "summary": "Stable function identity, always-latest implementation.",
@@ -694,6 +881,43 @@
       "example": "import { useStableCallback } from 'usethishook';\n\nexport const Poller = ({ query }: { query: string }) => {\n  const poll = useStableCallback(() => fetch(\\`/search?q=\\${query}\\`));\n  useInterval(poll, 5000);\n  return null;\n};",
       "playgroundUrl": "https://usethishook.mentorbridge.in/useStableCallback",
       "import": "import { useStableCallback } from 'usethishook';"
+    },
+    {
+      "id": "useUpdateEffect",
+      "name": "useUpdateEffect",
+      "summary": "useEffect that skips the first mount.",
+      "whenToUse": "Use when a side effect should run only after deps change, not on first paint.",
+      "category": "App",
+      "tags": ["New"],
+      "description": "You need a useEffect that should not fire on first paint — only when state, props, or context values change later. Same cleanup rules as useEffect. Put the values that matter in the dependency array.",
+      "api": {
+        "signature": "useUpdateEffect(effect, deps?)",
+        "explanation": "Same as useEffect, but skips the first mount. The effect runs only when dependencies change afterward — state, props, or context values you list in deps. Cleanup still runs between updates and on unmount.",
+        "arguments": [
+          {
+            "name": "effect",
+            "type": "EffectCallback",
+            "description": "Setup function. May return a cleanup function, like useEffect."
+          },
+          {
+            "name": "deps",
+            "type": "DependencyList",
+            "optional": true,
+            "description": "Dependency list. Put the state, props, or context values that should trigger the effect."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": "Nothing. Drive side effects from the effect body."
+        },
+        "caveats": [
+          "With deps [] the effect never runs: mount is skipped and nothing changes later.",
+          "Omitting deps re-runs after every render (after the first), same caveat as useEffect."
+        ]
+      },
+      "example": "import { useState } from 'react';\nimport { useUpdateEffect } from 'usethishook';\n\nexport const Tracker = ({ userId }: { userId: string }) => {\n  useUpdateEffect(() => {\n    analytics.track('user-changed', { userId });\n  }, [userId]);\n\n  return <p>{userId}</p>;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useUpdateEffect",
+      "import": "import { useUpdateEffect } from 'usethishook';"
     },
     {
       "id": "useResetState",
@@ -835,6 +1059,50 @@
       "import": "import { useDebouncedCallback } from 'usethishook';"
     },
     {
+      "id": "useThrottledCallback",
+      "name": "useThrottledCallback",
+      "summary": "Throttle calling a function, with cancel.",
+      "whenToUse": "Use for scroll, resize, and rapid search fetch.",
+      "category": "App",
+      "tags": ["New"],
+      "description": "You want to throttle work, not a displayed value: scroll handlers, resize listeners, rapid search. Leading call runs immediately; a trailing call keeps the latest args. cancel drops a pending trailing run.",
+      "api": {
+        "signature": "useThrottledCallback(callback, delayMs)",
+        "explanation": "Returns a function that invokes callback at most once per delayMs (leading + trailing). Also returns cancel to drop a pending trailing call.",
+        "arguments": [
+          {
+            "name": "callback",
+            "type": "(...args) => void",
+            "description": "The work to run. Latest callback is used."
+          },
+          {
+            "name": "delayMs",
+            "type": "number",
+            "description": "Minimum milliseconds between invocations."
+          }
+        ],
+        "returns": {
+          "type": "[run, cancel]",
+          "description": "A tuple: the throttled function and a cancel function.",
+          "fields": [
+            {
+              "name": "run",
+              "type": "T",
+              "description": "Call this from events. Leading call runs immediately when the window is open."
+            },
+            {
+              "name": "cancel",
+              "type": "() => void",
+              "description": "Clears a pending trailing call."
+            }
+          ]
+        }
+      },
+      "example": "import { useThrottledCallback } from 'usethishook';\n\nexport const Search = () => {\n  const [search] = useThrottledCallback((q: string) => api.search(q), 300);\n  return <input onChange={(event) => search(event.target.value)} />;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useThrottledCallback",
+      "import": "import { useThrottledCallback } from 'usethishook';"
+    },
+    {
       "id": "useFields",
       "name": "useFields",
       "summary": "Small form state with setField, dirty, and optional schema.",
@@ -914,15 +1182,15 @@
       "summary": "Locale amount input with grouping, decimals, and cursor restore.",
       "whenToUse": "Use for price and invoice fields, not generic text.",
       "category": "App",
-      "description": "A price, invoice, or quantity field that must look local while you type: French spaces, Dutch dots, English commas, and a cursor that does not jump when grouping appears. The input shows the formatted string; submit still gets a canonical \"12345.67\". Pass language, decimalCount, and the returned ref.",
+      "description": "A price, invoice, or quantity field that must look local while you type: French spaces, Dutch dots, English commas, and a cursor that does not jump when grouping appears. The input shows the formatted string; submit still gets a canonical \"12345.67\". Pass language, decimalCount, and the returned ref. Add locales to register or override languages beyond en/de/nl/fr.",
       "api": {
-        "signature": "useAmountInput({ language, decimalCount, defaultValue })",
+        "signature": "useAmountInput({ language, decimalCount, defaultValue, locales })",
         "explanation": "Formats a money-like input as the user types: thousand separators, locale decimal, and a stable cursor. Bind displayValue, onChange, onBlur, and ref to the input. value is the canonical string for submit (dot decimal, no grouping).",
         "arguments": [
           {
             "name": "language",
-            "type": "'en' | 'de' | 'nl' | 'fr'",
-            "description": "Picks grouping and decimal characters (en: 1,234.56; fr/de: 1 234,56; nl: 1.234,56)."
+            "type": "'en' | 'de' | 'nl' | 'fr' | string",
+            "description": "Picks grouping and decimal characters. Built-ins: en 1,234.56; fr/de 1 234,56; nl 1.234,56. Custom codes need an entry in locales."
           },
           {
             "name": "decimalCount",
@@ -935,6 +1203,12 @@
             "optional": true,
             "defaultValue": "''",
             "description": "Starting canonical amount. reset() returns here."
+          },
+          {
+            "name": "locales",
+            "type": "Record<string, { thousandSeparator: string; decimalSeparator: string }>",
+            "optional": true,
+            "description": "Optional map of extra or override locale configs. Unknown languages and invalid configs (same separators) fall back to en."
           }
         ],
         "returns": {
@@ -984,7 +1258,7 @@
           "Changing language or decimalCount does not rewrite an in-progress value; remount or call updateValue."
         ]
       },
-      "example": "import { useAmountInput } from 'usethishook';\n\nexport const PriceField = () => {\n  const amount = useAmountInput({ language: 'fr', decimalCount: 2, defaultValue: 0 });\n  return (\n    <input\n      ref={amount.ref}\n      value={amount.displayValue}\n      onChange={amount.onChange}\n      onBlur={amount.onBlur}\n    />\n  );\n};",
+      "example": "import { useAmountInput } from 'usethishook';\n\nexport const PriceField = () => {\n  const amount = useAmountInput({\n    language: 'es',\n    decimalCount: 2,\n    defaultValue: 0,\n    locales: {\n      es: { thousandSeparator: '.', decimalSeparator: ',' },\n    },\n  });\n  return (\n    <input\n      ref={amount.ref}\n      value={amount.displayValue}\n      onChange={amount.onChange}\n      onBlur={amount.onBlur}\n    />\n  );\n};",
       "playgroundUrl": "https://usethishook.mentorbridge.in/useAmountInput",
       "import": "import { useAmountInput } from 'usethishook';"
     },

@@ -131,7 +131,7 @@ export function createUseThisHookServer(): McpServer {
         '',
         ...hooks.map((hook, index) => {
           return [
-            `${index + 1}. **${hook.name}** (${hook.category})`,
+            `${index + 1}. **${hook.name}** (${hook.category}${hook.tags?.length ? ` · ${hook.tags.join(', ')}` : ''})`,
             `   ${hook.summary}`,
             `   When: ${hook.whenToUse}`,
             `   Docs tool: get_hook name="${hook.id}"`,

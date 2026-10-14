@@ -22,12 +22,16 @@ export interface HookApi {
 
 export type HookCategory = 'State' | 'Browser' | 'App';
 
+/** Optional catalog labels shown in nav and browse UI (e.g. newly shipped hooks). */
+export type HookTag = 'New';
+
 export interface HookDoc {
   id: string;
   name: string;
   summary: string;
   whenToUse: string;
   category: HookCategory;
+  tags?: HookTag[];
   description: string;
   api: HookApi;
   Demo: ComponentType;

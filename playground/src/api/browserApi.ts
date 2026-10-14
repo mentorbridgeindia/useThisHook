@@ -116,3 +116,73 @@ export const useOnClickOutsideApi: HookApi = {
     description: 'Nothing. Typically you close local state from handler.',
   },
 };
+
+export const useScrollLockApi: HookApi = {
+  signature: 'useScrollLock(options?)',
+  explanation:
+    'Locks scrolling on document.body (overflow hidden, optional scrollbar gutter padding). Useful under modals and drawers so the page behind does not scroll.',
+  arguments: [
+    {
+      name: 'options.autoLock',
+      type: 'boolean',
+      optional: true,
+      defaultValue: 'true',
+      description: 'When true, locks on mount and unlocks on unmount.',
+    },
+    {
+      name: 'options.widthReflow',
+      type: 'boolean',
+      optional: true,
+      defaultValue: 'true',
+      description: 'When true, pads the body to compensate for the missing scrollbar width.',
+    },
+  ],
+  returns: {
+    type: '{ isLocked, lock, unlock }',
+    description: 'Lock state plus imperative controls.',
+    fields: [
+      {
+        name: 'isLocked',
+        type: 'boolean',
+        description: 'Whether body scroll is currently locked.',
+      },
+      { name: 'lock', type: '() => void', description: 'Locks body scroll.' },
+      {
+        name: 'unlock',
+        type: '() => void',
+        description: 'Restores previous overflow and padding.',
+      },
+    ],
+  },
+  caveats: ['No-op during SSR. Pair autoLock with a modal open flag when needed.'],
+};
+
+export const useDocumentVisibilityApi: HookApi = {
+  signature: 'useDocumentVisibility(): DocumentVisibilityState',
+  explanation:
+    'Subscribes to the Page Visibility API and returns whether the document is visible or hidden. Use it to pause polling or media when the tab is in the background.',
+  arguments: [],
+  returns: {
+    type: "'visible' | 'hidden'",
+    description: 'Current document.visibilityState. SSR defaults to visible.',
+  },
+};
+
+export const useIdleApi: HookApi = {
+  signature: 'useIdle(timeoutMs?: number): boolean',
+  explanation:
+    'Returns true after timeoutMs of no pointer, keyboard, touch, or scroll activity. Useful for soft session timeouts and “away” UI.',
+  arguments: [
+    {
+      name: 'timeoutMs',
+      type: 'number',
+      optional: true,
+      defaultValue: '60000',
+      description: 'Idle threshold in milliseconds.',
+    },
+  ],
+  returns: {
+    type: 'boolean',
+    description: 'true once the user has been inactive for timeoutMs.',
+  },
+};

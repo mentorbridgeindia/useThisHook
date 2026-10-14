@@ -20,12 +20,15 @@ export interface HookApi {
 
 export type HookCategory = 'State' | 'Browser' | 'App';
 
+export type HookTag = 'New';
+
 export interface HookDoc {
   id: string;
   name: string;
   summary: string;
   whenToUse: string;
   category: HookCategory;
+  tags?: HookTag[];
   description: string;
   api: HookApi;
   example: string;
@@ -42,6 +45,7 @@ export interface HookListItem {
   name: string;
   summary: string;
   category: HookCategory;
+  tags?: HookTag[];
   whenToUse: string;
   playgroundUrl: string;
 }

@@ -11,7 +11,7 @@ export const HomePage = () => (
     <header className="space-y-5">
       <BrandMark />
       <p className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-violet-700 dark:text-violet-300/80">
-        33 typed hooks · Zero runtime deps
+        40 typed hooks · Zero runtime deps
       </p>
       <h1 className="text-4xl font-semibold tracking-tight text-fg md:text-5xl">
         Stop rewriting the same React hooks in every project.

@@ -21,4 +21,10 @@ export const browserDescriptions: Record<string, string> = {
     'Run something once after a delay: a splash screen, a deferred toast. Pass null to cancel. Unlike useInterval, this fires once.',
   useKeyPress:
     'A shortcut such as Escape should flip a boolean while the key is held. Typing in inputs does not count.',
+  useScrollLock:
+    'A modal or drawer is open and the page behind should not scroll. Lock overflow on document.body, optionally pad for the scrollbar gutter, and unlock when the overlay closes.',
+  useDocumentVisibility:
+    'The tab is hidden and you should pause polling, video, or expensive work. This is document.visibilityState as a React value — visible or hidden.',
+  useIdle:
+    'You need a soft “away” or session-timeout signal. After a quiet period with no mouse, keyboard, touch, or scroll, the hook reports idle until the user moves again.',
 };

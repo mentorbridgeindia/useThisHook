@@ -74,16 +74,47 @@ export const useDebouncedCallbackApi: HookApi = {
   },
 };
 
+export const useThrottledCallbackApi: HookApi = {
+  signature: 'useThrottledCallback(callback, delayMs)',
+  explanation:
+    'Returns a function that invokes callback at most once per delayMs (leading + trailing). Also returns cancel to drop a pending trailing call.',
+  arguments: [
+    {
+      name: 'callback',
+      type: '(...args) => void',
+      description: 'The work to run. Latest callback is used.',
+    },
+    { name: 'delayMs', type: 'number', description: 'Minimum milliseconds between invocations.' },
+  ],
+  returns: {
+    type: '[run, cancel]',
+    description: 'A tuple: the throttled function and a cancel function.',
+    fields: [
+      {
+        name: 'run',
+        type: 'T',
+        description:
+          'Call this from events. Leading call runs immediately when the window is open.',
+      },
+      {
+        name: 'cancel',
+        type: '() => void',
+        description: 'Clears a pending trailing call.',
+      },
+    ],
+  },
+};
+
 export const useAmountInputApi: HookApi = {
-  signature: 'useAmountInput({ language, decimalCount, defaultValue })',
+  signature: 'useAmountInput({ language, decimalCount, defaultValue, locales })',
   explanation:
     'Formats a money-like input as the user types: thousand separators, locale decimal, and a stable cursor. Bind displayValue, onChange, onBlur, and ref to the input. value is the canonical string for submit (dot decimal, no grouping).',
   arguments: [
     {
       name: 'language',
-      type: "'en' | 'de' | 'nl' | 'fr'",
+      type: "'en' | 'de' | 'nl' | 'fr' | string",
       description:
-        'Picks grouping and decimal characters (en: 1,234.56; fr/de: 1 234,56; nl: 1.234,56).',
+        'Picks grouping and decimal characters. Built-ins: en 1,234.56; fr/de 1 234,56; nl 1.234,56. Custom codes need an entry in locales.',
     },
     {
       name: 'decimalCount',
@@ -96,6 +127,13 @@ export const useAmountInputApi: HookApi = {
       optional: true,
       defaultValue: "''",
       description: 'Starting canonical amount. reset() returns here.',
+    },
+    {
+      name: 'locales',
+      type: 'Record<string, { thousandSeparator: string; decimalSeparator: string }>',
+      optional: true,
+      description:
+        'Optional map of extra or override locale configs. Unknown languages and invalid configs (same separators) fall back to en.',
     },
   ],
   returns: {

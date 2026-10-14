@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { useAmountInput, type AmountInputLanguage } from 'usethishook';
 import { ghostButtonClass, inputClass } from '../components/styles';
 
-const languages: AmountInputLanguage[] = ['en', 'de', 'nl', 'fr'];
+const languages: AmountInputLanguage[] = ['en', 'de', 'nl', 'fr', 'es'];
+
+const customLocales = {
+  es: { thousandSeparator: '.', decimalSeparator: ',' },
+};
 
 interface AmountFieldProps {
   language: AmountInputLanguage;
@@ -14,6 +18,7 @@ const AmountField = ({ language, decimalCount }: AmountFieldProps) => {
     language,
     decimalCount,
     defaultValue: 1234.5,
+    locales: customLocales,
   });
 
   return (
@@ -65,6 +70,9 @@ export const UseAmountInputDemo = () => {
           </button>
         ))}
       </div>
+      <p className="text-sm text-muted">
+        ES uses the optional locales map (`. ` thousands, `,` decimal). Built-ins work without it.
+      </p>
       <label className="block text-sm text-muted">
         <span className="block">Decimals</span>
         <input
@@ -88,7 +96,14 @@ export const UseAmountInputDemo = () => {
 export const useAmountInputExample = `import { useAmountInput } from 'usethishook';
 
 export const PriceField = () => {
-  const amount = useAmountInput({ language: 'fr', decimalCount: 2, defaultValue: 0 });
+  const amount = useAmountInput({
+    language: 'es',
+    decimalCount: 2,
+    defaultValue: 0,
+    locales: {
+      es: { thousandSeparator: '.', decimalSeparator: ',' },
+    },
+  });
   return (
     <input
       ref={amount.ref}

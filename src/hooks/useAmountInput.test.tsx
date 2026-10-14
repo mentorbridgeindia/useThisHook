@@ -60,4 +60,58 @@ describe('useAmountInput', () => {
     expect(input.value).toBe('12 345,67');
     expect(input.getAttribute('data-canonical')).toBe('12345.67');
   });
+
+  it('formats with a custom locale from locales', () => {
+    const { result } = renderHook(() =>
+      useAmountInput({
+        language: 'es',
+        decimalCount: 2,
+        defaultValue: 1234.5,
+        locales: {
+          es: { thousandSeparator: '.', decimalSeparator: ',' },
+        },
+      }),
+    );
+
+    expect(result.current.value).toBe('1234.5');
+    expect(result.current.displayValue).toBe('1.234,5');
+  });
+
+  it('falls back to en when language is unknown and not in locales', () => {
+    const { result } = renderHook(() =>
+      useAmountInput({ language: 'xx', decimalCount: 2, defaultValue: 1234.5 }),
+    );
+
+    expect(result.current.displayValue).toBe('1,234.5');
+  });
+
+  it('allows overriding a built-in locale via locales', () => {
+    const { result } = renderHook(() =>
+      useAmountInput({
+        language: 'fr',
+        decimalCount: 2,
+        defaultValue: 1234.5,
+        locales: {
+          fr: { thousandSeparator: '.', decimalSeparator: ',' },
+        },
+      }),
+    );
+
+    expect(result.current.displayValue).toBe('1.234,5');
+  });
+
+  it('falls back to en when separators are identical', () => {
+    const { result } = renderHook(() =>
+      useAmountInput({
+        language: 'bad',
+        decimalCount: 2,
+        defaultValue: 1234.5,
+        locales: {
+          bad: { thousandSeparator: '.', decimalSeparator: '.' },
+        },
+      }),
+    );
+
+    expect(result.current.displayValue).toBe('1,234.5');
+  });
 });

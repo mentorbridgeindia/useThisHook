@@ -80,3 +80,28 @@ export const useDebounceApi: HookApi = {
     description: 'The lagged value. Use this for search queries, filters, or expensive work.',
   },
 };
+
+export const useThrottleApi: HookApi = {
+  signature: 'useThrottle<T>(value: T, delayMs?: number): T',
+  explanation:
+    'Returns a copy of value that updates at most once per delayMs. The first change in a window applies immediately; a trailing update keeps the latest value.',
+  arguments: [
+    {
+      name: 'value',
+      type: 'T',
+      description: 'The rapidly changing source, such as scroll position or input text.',
+    },
+    {
+      name: 'delayMs',
+      type: 'number',
+      optional: true,
+      defaultValue: '300',
+      description: 'Minimum milliseconds between updates.',
+    },
+  ],
+  returns: {
+    type: 'T',
+    description:
+      'The throttled value. Prefer this over debounce when you need periodic updates while typing or scrolling.',
+  },
+};

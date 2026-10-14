@@ -30,6 +30,7 @@ export function listHooks(category?: HookCategory): HookListItem[] {
       name: hook.name,
       summary: hook.summary,
       category: hook.category,
+      ...(hook.tags ? { tags: hook.tags } : {}),
       whenToUse: hook.whenToUse,
       playgroundUrl: hook.playgroundUrl,
     }));
@@ -78,6 +79,7 @@ export function formatHookMarkdown(hook: HookDoc): string {
     hook.summary,
     '',
     `**Category:** ${hook.category}`,
+    ...(hook.tags && hook.tags.length > 0 ? [`**Tags:** ${hook.tags.join(', ')}`] : []),
     `**When to use:** ${hook.whenToUse}`,
     `**Playground:** ${hook.playgroundUrl}`,
     '',

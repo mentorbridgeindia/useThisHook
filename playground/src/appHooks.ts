@@ -3,8 +3,9 @@ import {
   useAsyncActionApi,
   useDebouncedCallbackApi,
   useFieldsApi,
+  useThrottledCallbackApi,
 } from './api/appFormApi';
-import { useResetStateApi, useStableCallbackApi } from './api/appCoreApi';
+import { useResetStateApi, useStableCallbackApi, useUpdateEffectApi } from './api/appCoreApi';
 import {
   useConfirmApi,
   useListApi,
@@ -26,6 +27,11 @@ import { UseResetStateDemo, useResetStateExample } from './demos/UseResetStateDe
 import { UseSearchStateDemo, useSearchStateExample } from './demos/UseSearchStateDemo';
 import { UseSelectionDemo, useSelectionExample } from './demos/UseSelectionDemo';
 import { UseStableCallbackDemo, useStableCallbackExample } from './demos/UseStableCallbackDemo';
+import {
+  UseThrottledCallbackDemo,
+  useThrottledCallbackExample,
+} from './demos/UseThrottledCallbackDemo';
+import { UseUpdateEffectDemo, useUpdateEffectExample } from './demos/UseUpdateEffectDemo';
 import type { HookEntry } from './hookDoc';
 
 export const appHooks: HookEntry[] = [
@@ -38,6 +44,17 @@ export const appHooks: HookEntry[] = [
     api: useStableCallbackApi,
     Demo: UseStableCallbackDemo,
     example: useStableCallbackExample,
+  },
+  {
+    id: 'useUpdateEffect',
+    name: 'useUpdateEffect',
+    summary: 'useEffect that skips the first mount.',
+    whenToUse: 'Use when a side effect should run only after deps change, not on first paint.',
+    category: 'App',
+    tags: ['New'],
+    api: useUpdateEffectApi,
+    Demo: UseUpdateEffectDemo,
+    example: useUpdateEffectExample,
   },
   {
     id: 'useResetState',
@@ -68,6 +85,17 @@ export const appHooks: HookEntry[] = [
     api: useDebouncedCallbackApi,
     Demo: UseDebouncedCallbackDemo,
     example: useDebouncedCallbackExample,
+  },
+  {
+    id: 'useThrottledCallback',
+    name: 'useThrottledCallback',
+    summary: 'Throttle calling a function, with cancel.',
+    whenToUse: 'Use for scroll, resize, and rapid search fetch.',
+    category: 'App',
+    tags: ['New'],
+    api: useThrottledCallbackApi,
+    Demo: UseThrottledCallbackDemo,
+    example: useThrottledCallbackExample,
   },
   {
     id: 'useFields',

@@ -2,6 +2,8 @@
 
 Contributor and maintainer documentation for **useThisHook** (npm: [`usethishook`](https://www.npmjs.com/package/usethishook)).
 
+Current line: **1.2.0** — **40** typed hooks (see [CHANGELOG](https://github.com/senthilkumar979/useThisHook/blob/main/CHANGELOG.md) / [RELEASE_NOTES](https://github.com/senthilkumar979/useThisHook/blob/main/RELEASE_NOTES.md)).
+
 - **Live docs & demos:** [usethishook.mentorbridge.in](https://usethishook.mentorbridge.in/)
 - **Source:** [github.com/senthilkumar979/useThisHook](https://github.com/senthilkumar979/useThisHook)
 - **Contributing (repo):** [CONTRIBUTING.md](https://github.com/senthilkumar979/useThisHook/blob/main/CONTRIBUTING.md)

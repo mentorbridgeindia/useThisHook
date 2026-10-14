@@ -1,5 +1,6 @@
 import { ApiReference } from '../components/ApiReference';
 import { CodeBlock } from '../components/CodeBlock';
+import { HookTagBadge } from '../components/HookTagBadge';
 import { PreviewCard } from '../components/PreviewCard';
 import type { HookDoc } from '../hooksCatalog';
 
@@ -13,9 +14,12 @@ export const HookPage = ({ hook }: HookPageProps) => {
   return (
     <article className="mx-auto max-w-4xl space-y-10">
       <header className="space-y-3">
-        <p className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-violet-700 dark:text-violet-300/80">
-          {hook.category} hook
-        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-violet-700 dark:text-violet-300/80">
+            {hook.category} hook
+          </p>
+          <HookTagBadge tags={hook.tags} />
+        </div>
         <h1 className="font-mono text-3xl font-semibold tracking-tight text-fg md:text-4xl">
           {hook.name}
         </h1>

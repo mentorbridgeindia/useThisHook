@@ -46,3 +46,31 @@ export const useResetStateApi: HookApi = {
     ],
   },
 };
+
+export const useUpdateEffectApi: HookApi = {
+  signature: 'useUpdateEffect(effect, deps?)',
+  explanation:
+    'Same as useEffect, but skips the first mount. The effect runs only when dependencies change afterward — state, props, or context values you list in deps. Cleanup still runs between updates and on unmount.',
+  arguments: [
+    {
+      name: 'effect',
+      type: 'EffectCallback',
+      description: 'Setup function. May return a cleanup function, like useEffect.',
+    },
+    {
+      name: 'deps',
+      type: 'DependencyList',
+      optional: true,
+      description:
+        'Dependency list. Put the state, props, or context values that should trigger the effect.',
+    },
+  ],
+  returns: {
+    type: 'void',
+    description: 'Nothing. Drive side effects from the effect body.',
+  },
+  caveats: [
+    'With deps [] the effect never runs: mount is skipped and nothing changes later.',
+    'Omitting deps re-runs after every render (after the first), same caveat as useEffect.',
+  ],
+};

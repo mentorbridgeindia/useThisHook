@@ -1,14 +1,18 @@
 export const appDescriptions: Record<string, string> = {
   useStableCallback:
     'You pass a callback into an interval, a subscription, or a child that memoizes on function identity. If you put the function in the dependency array, the subscription resets; if you omit it, you capture stale state. useStableCallback is one function identity that always calls the latest code.',
+  useUpdateEffect:
+    'You need a useEffect that should not fire on first paint — only when state, props, or context values change later. Same cleanup rules as useEffect. Put the values that matter in the dependency array.',
   useResetState:
     'You edit a draft for user A, then the route changes to user B. Local state still shows A’s name because you synced with useEffect and missed a dependency. useResetState takes a source key (the user id). When the key changes, state is the new initial value. Same idea as key={userId} on a form, as a hook.',
   useAsyncAction:
     'A Save, Send, or “Generate report” button. You need pending, error, and the last result, and you must ignore a response if the user fired the action again. This is not a query cache. It is the mutation UI around one async function.',
   useDebouncedCallback:
     'You want to debounce work, not a displayed value: search fetch, persist on type, resize handler. useDebounce lags a value for rendering. useDebouncedCallback lags calling a function and can cancel the pending call.',
+  useThrottledCallback:
+    'You want to throttle work, not a displayed value: scroll handlers, resize listeners, rapid search. Leading call runs immediately; a trailing call keeps the latest args. cancel drops a pending trailing run.',
   useAmountInput:
-    'A price, invoice, or quantity field that must look local while you type: French spaces, Dutch dots, English commas, and a cursor that does not jump when grouping appears. The input shows the formatted string; submit still gets a canonical "12345.67". Pass language, decimalCount, and the returned ref.',
+    'A price, invoice, or quantity field that must look local while you type: French spaces, Dutch dots, English commas, and a cursor that does not jump when grouping appears. The input shows the formatted string; submit still gets a canonical "12345.67". Pass language, decimalCount, and the returned ref. Add locales to register or override languages beyond en/de/nl/fr.',
   useFields:
     'A modal or settings card with five fields. You do not want React Hook Form for that, and you do not want useState per input. One object, setField, dirty flag, optional schema (Zod-shaped safeParse), and submit(onValid).',
   useList:

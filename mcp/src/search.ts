@@ -27,6 +27,7 @@ function scoreHook(hook: HookDoc, query: string): number {
     { text: hook.api.signature.toLowerCase(), weight: 2 },
     { text: hook.api.explanation.toLowerCase(), weight: 2 },
     { text: hook.category.toLowerCase(), weight: 1 },
+    { text: (hook.tags ?? []).join(' ').toLowerCase(), weight: 2 },
   ];
 
   for (const { text, weight } of haystacks) {

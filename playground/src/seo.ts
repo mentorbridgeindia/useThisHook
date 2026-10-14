@@ -1,6 +1,6 @@
 const SITE_ORIGIN = 'https://usethishook.mentorbridge.in';
 const DEFAULT_DESCRIPTION =
-  'Stop rewriting the same React hooks in every project. 33 typed hooks, zero runtime dependencies, live demos for usethishook.';
+  'Stop rewriting the same React hooks in every project. 40 typed hooks, zero runtime dependencies, live demos for usethishook.';
 
 function setMeta(attr: 'name' | 'property', key: string, content: string) {
   let el = document.head.querySelector(`meta[${attr}="${key}"]`);

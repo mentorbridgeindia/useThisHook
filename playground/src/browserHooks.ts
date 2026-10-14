@@ -1,20 +1,29 @@
 import {
+  useDocumentVisibilityApi,
   useFingerprintApi,
+  useIdleApi,
   useMediaQueryApi,
   useOnClickOutsideApi,
   useOnlineStatusApi,
+  useScrollLockApi,
   useWindowSizeApi,
 } from './api/browserApi';
 import { useEventListenerApi, useKeyPressApi, useTimeoutApi } from './api/browserEventsApi';
 import { useAsyncSelectApi, useOverlayApi, useStepFlowApi } from './api/flowApi';
 import { UseAsyncSelectDemo, useAsyncSelectExample } from './demos/UseAsyncSelectDemo';
+import {
+  UseDocumentVisibilityDemo,
+  useDocumentVisibilityExample,
+} from './demos/UseDocumentVisibilityDemo';
 import { UseEventListenerDemo, useEventListenerExample } from './demos/UseEventListenerDemo';
 import { UseFingerprintDemo, useFingerprintExample } from './demos/UseFingerprintDemo';
+import { UseIdleDemo, useIdleExample } from './demos/UseIdleDemo';
 import { UseKeyPressDemo, useKeyPressExample } from './demos/UseKeyPressDemo';
 import { UseMediaQueryDemo, useMediaQueryExample } from './demos/UseMediaQueryDemo';
 import { UseOnClickOutsideDemo, useOnClickOutsideExample } from './demos/UseOnClickOutsideDemo';
 import { UseOnlineStatusDemo, useOnlineStatusExample } from './demos/UseOnlineStatusDemo';
 import { UseOverlayDemo, useOverlayExample } from './demos/UseOverlayDemo';
+import { UseScrollLockDemo, useScrollLockExample } from './demos/UseScrollLockDemo';
 import { UseStepFlowDemo, useStepFlowExample } from './demos/UseStepFlowDemo';
 import { UseTimeoutDemo, useTimeoutExample } from './demos/UseTimeoutDemo';
 import { UseWindowSizeDemo, useWindowSizeExample } from './demos/UseWindowSizeDemo';
@@ -130,5 +139,38 @@ export const browserHooks: HookEntry[] = [
     api: useKeyPressApi,
     Demo: UseKeyPressDemo,
     example: useKeyPressExample,
+  },
+  {
+    id: 'useScrollLock',
+    name: 'useScrollLock',
+    summary: 'Lock and unlock document body scroll.',
+    whenToUse: 'Use under modals and drawers so the page behind does not scroll.',
+    category: 'Browser',
+    tags: ['New'],
+    api: useScrollLockApi,
+    Demo: UseScrollLockDemo,
+    example: useScrollLockExample,
+  },
+  {
+    id: 'useDocumentVisibility',
+    name: 'useDocumentVisibility',
+    summary: 'Whether the document tab is visible or hidden.',
+    whenToUse: 'Use to pause polling or media when the tab is in the background.',
+    category: 'Browser',
+    tags: ['New'],
+    api: useDocumentVisibilityApi,
+    Demo: UseDocumentVisibilityDemo,
+    example: useDocumentVisibilityExample,
+  },
+  {
+    id: 'useIdle',
+    name: 'useIdle',
+    summary: 'True after a period of no user activity.',
+    whenToUse: 'Use for soft session timeouts and away indicators.',
+    category: 'Browser',
+    tags: ['New'],
+    api: useIdleApi,
+    Demo: UseIdleDemo,
+    example: useIdleExample,
   },
 ];
