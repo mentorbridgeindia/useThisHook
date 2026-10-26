@@ -26,6 +26,9 @@ jobs:
           cache: npm
           cache-dependency-path: growth/package-lock.json
 
+      - name: Use npm 11.21.1
+        run: npm install -g npm@11.21.1
+
       - name: Install growth package
         run: npm ci --ignore-scripts --prefix growth
 
