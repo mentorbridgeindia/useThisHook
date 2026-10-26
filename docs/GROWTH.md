@@ -2,6 +2,8 @@
 
 Owner actions to grow npm downloads after Phase 1 in-repo discovery work. Not a commitment calendar.
 
+Automated weekly signal (metrics, draft tutorial, docs audit) lives in [`growth/`](../growth/README.md) and runs via [`.github/workflows/growth.yml`](../.github/workflows/growth.yml). Drafts are for human review only.
+
 ## GitHub surface (once)
 
 - [ ] Set repository Topics: `react`, `react-hooks`, `typescript`, `hooks`, `ssr`, `zero-dependency`, `vite`

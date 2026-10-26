@@ -1,0 +1,103 @@
+{
+  "collectedAt": "2026-10-26T15:18:54.107Z",
+  "packageName": "usethishook",
+  "sources": {
+    "npm": "ok",
+    "github": "ok",
+    "gsc": "not_configured"
+  },
+  "observations": [
+    {
+      "key": "npm.version",
+      "value": "1.2.0",
+      "kind": "observed"
+    },
+    {
+      "key": "npm.downloads.7d",
+      "value": 2,
+      "kind": "observed"
+    },
+    {
+      "key": "npm.downloads.28d",
+      "value": 449,
+      "kind": "observed"
+    },
+    {
+      "key": "npm.downloads.previous7d",
+      "value": 203,
+      "kind": "observed"
+    },
+    {
+      "key": "npm.downloads.previous28d",
+      "value": 669,
+      "kind": "observed"
+    },
+    {
+      "key": "github.stars",
+      "value": 3,
+      "kind": "observed"
+    },
+    {
+      "key": "github.forks",
+      "value": 1,
+      "kind": "observed"
+    },
+    {
+      "key": "github.openIssues",
+      "value": 11,
+      "kind": "observed"
+    },
+    {
+      "key": "github.latestRelease",
+      "value": "1.2.0",
+      "kind": "observed"
+    }
+  ],
+  "missing": [
+    "github.traffic: Traffic stats require an authenticated token with repository administration permission; treating as unavailable.",
+    "gsc: not configured"
+  ],
+  "npm": {
+    "name": "usethishook",
+    "version": "1.2.0",
+    "description": "Zero-dependency, tree-shakeable React hooks for state, browser APIs, forms, and promise-based dialogs. TypeScript. React 18+.",
+    "homepage": "https://usethishook.mentorbridge.in",
+    "repositoryUrl": "https://github.com/senthilkumar979/useThisHook",
+    "license": "MIT",
+    "downloads7d": {
+      "start": "2026-10-19",
+      "end": "2026-10-25",
+      "downloads": 2
+    },
+    "previousDownloads7d": {
+      "start": "2026-10-12",
+      "end": "2026-10-18",
+      "downloads": 203
+    },
+    "downloads28d": {
+      "start": "2026-09-28",
+      "end": "2026-10-25",
+      "downloads": 449
+    },
+    "previousDownloads28d": {
+      "start": "2026-08-31",
+      "end": "2026-09-27",
+      "downloads": 669
+    }
+  },
+  "github": {
+    "fullName": "senthilkumar979/useThisHook",
+    "description": "A typed library of custom React hooks you can drop into any app.",
+    "stars": 3,
+    "forks": 1,
+    "openIssues": 11,
+    "watchers": 3,
+    "defaultBranch": "main",
+    "homepage": "https://usethishook.mentorbridge.in",
+    "pushedAt": "2026-10-21T03:12:12Z",
+    "latestReleaseTag": "1.2.0",
+    "latestReleasePublishedAt": "2026-10-16T15:58:55Z",
+    "trafficUnavailableReason": "Traffic stats require an authenticated token with repository administration permission; treating as unavailable."
+  },
+  "tutorialHookId": "useCopyToClipboard"
+}

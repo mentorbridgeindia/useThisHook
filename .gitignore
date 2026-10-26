@@ -14,3 +14,5 @@ mcp/node_modules
 docs/social/*.webm
 docs/social/frames/
 scripts/.tmp-mcp-catalog-*
+growth/dist
+growth/node_modules

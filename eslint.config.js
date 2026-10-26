@@ -10,6 +10,8 @@ export default tseslint.config(
       'playground/dist/**',
       'mcp/dist/**',
       'mcp/node_modules/**',
+      'growth/dist/**',
+      'growth/node_modules/**',
       'node_modules/**',
     ],
   },

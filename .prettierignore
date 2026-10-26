@@ -5,3 +5,5 @@ package-lock.json
 *.svg
 .husky/_
 
+growth/dist
+growth/node_modules

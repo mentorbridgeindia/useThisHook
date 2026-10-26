@@ -61,7 +61,13 @@
     "mcp:build": "npm run mcp:catalog && npm --prefix mcp run build",
     "mcp:test": "npm --prefix mcp test",
     "mcp:typecheck": "npm --prefix mcp run typecheck",
-    "mcp:verify": "npm run mcp:catalog:check && npm run mcp:typecheck && npm run mcp:test && npm run mcp:build"
+    "mcp:verify": "npm run mcp:catalog:check && npm run mcp:typecheck && npm run mcp:test && npm run mcp:build",
+    "growth:install": "npm --prefix growth install",
+    "growth:test": "npm --prefix growth test",
+    "growth:typecheck": "npm --prefix growth run typecheck",
+    "growth:build": "npm --prefix growth run build",
+    "growth:run": "npm --prefix growth start",
+    "growth:verify": "npm run growth:typecheck && npm run growth:test && npm run growth:build"
   },
   "peerDependencies": {
     "react": ">=18",
