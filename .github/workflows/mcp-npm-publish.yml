@@ -10,18 +10,23 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 24
           package-manager-cache: false
-          registry-url: https://registry.npmjs.org
       - run: npm install -g --ignore-scripts npm@11.21.1
       - run: npm --version
       - run: npm ci --ignore-scripts
       - run: npm ci --ignore-scripts --prefix mcp
       - run: npm run mcp:verify
+      # Publish the mcp/ folder from the repo root so npm uses OIDC.
+      # Do not set registry-url / NODE_AUTH_TOKEN: an empty token makes npm
+      # skip trusted publishing and the registry answers 404.
+      # --provenance is implied for trusted publishers.
       - name: Publish usethishook-mcp
-        working-directory: mcp
-        run: npm publish --access public --provenance
+        run: npm publish ./mcp --access public

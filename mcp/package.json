@@ -9,7 +9,10 @@
   },
   "type": "module",
   "bin": {
-    "usethishook-mcp": "./dist/index.js"
+    "usethishook-mcp": "dist/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

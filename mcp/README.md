@@ -104,4 +104,4 @@ Trusted publisher on [npmjs.com/package/usethishook-mcp](https://www.npmjs.com/p
 | Workflow filename    | `mcp-npm-publish.yml` (filename only)                                      |
 | Allowed actions      | enable **Allow `npm publish`** (npm defaults new publishers to stage-only) |
 
-A 404 on `PUT …/usethishook-mcp` with a signed provenance log almost always means this config is wrong, not that the package is missing.
+A 404 on `PUT …/usethishook-mcp` with a signed provenance log means npm did not accept the OIDC identity (wrong filename, missing **Allow `npm publish`**, or an empty `NODE_AUTH_TOKEN`). It does not mean the package is missing.
