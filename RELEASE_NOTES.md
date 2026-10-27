@@ -58,7 +58,7 @@ Separate package under `mcp/`. Cursor / Claude Desktop:
 After this PR is on `main` and CI is green:
 
 1. **Actions → Publish npm → Run workflow** on `main` for `usethishook`
-2. Publish `usethishook-mcp` if that workflow is separate (or from `mcp/` with the same OIDC rules)
+2. **Actions → Publish MCP npm → Run workflow** on `main` for `usethishook-mcp` (add a Trusted Publisher on npm for that package first)
 3. Create the GitHub Release:
    ```bash
    gh release create v1.3.0 --title "v1.3.0" --notes-file RELEASE_NOTES.md

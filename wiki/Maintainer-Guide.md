@@ -20,6 +20,7 @@ Husky wires those scripts. Skip only when necessary: `HUSKY=0 git commit` / `HUS
 | Library + playground CI  | `.github/workflows/ci.yml`                    |
 | Pages deploy             | `.github/workflows/pages.yml`                 |
 | npm publish              | `.github/workflows/npm-publish.yml`           |
+| MCP npm publish          | `.github/workflows/mcp-npm-publish.yml`       |
 | Wiki sync                | `.github/workflows/wiki.yml`                  |
 | Dependabot               | `.github/dependabot.yml`                      |
 | Scorecard / Snyk / Sonar | matching workflows under `.github/workflows/` |
@@ -42,7 +43,7 @@ Manual sync: **Actions → Sync GitHub Wiki → Run workflow**.
 | ------------------------------- | ------------------------------------------------ |
 | Branch protection on `main`     | PR required; status checks for CI; no force-push |
 | Private vulnerability reporting | Enabled                                          |
-| npm Trusted Publishing          | Linked to the Publish npm workflow               |
+| npm Trusted Publishing          | Linked to Publish npm and Publish MCP npm        |
 
 ## SEO / playground
 
