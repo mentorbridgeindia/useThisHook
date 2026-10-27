@@ -57,4 +57,36 @@ describe('usePolling', () => {
     });
     expect(fn).toHaveBeenCalledTimes(1);
   });
+
+  it('records a tick error without stopping later polls', async () => {
+    const fn = vi.fn().mockRejectedValueOnce(new Error('down')).mockResolvedValue(undefined);
+    const { result } = renderHook(() => usePolling(fn, 400, { pauseWhenHidden: false }));
+
+    await act(async () => {
+      await Promise.resolve();
+    });
+    expect(result.current.error).toEqual(new Error('down'));
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(400);
+    });
+    expect(fn).toHaveBeenCalledTimes(2);
+    expect(result.current.error).toBeNull();
+  });
+
+  it('does not record errors after unmount', async () => {
+    let rejectTick: (reason: unknown) => void = () => undefined;
+    const pending = new Promise<void>((_resolve, reject) => {
+      rejectTick = reject;
+    });
+    const { unmount } = renderHook(() =>
+      usePolling(async () => pending, 800, { pauseWhenHidden: false }),
+    );
+
+    unmount();
+    await act(async () => {
+      rejectTick(new Error('gone'));
+      await Promise.resolve();
+    });
+  });
 });

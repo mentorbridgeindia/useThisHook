@@ -19,31 +19,37 @@ function isModPlatform() {
   return /Mac|iPhone|iPad|iPod/.test(navigator.platform);
 }
 
-function matchesShortcut(event: KeyboardEvent, shortcut: string) {
+function parseShortcut(shortcut: string) {
   const parts = shortcut
     .toLowerCase()
     .split('+')
     .map((part) => part.trim())
     .filter(Boolean);
-  if (parts.length === 0) return false;
+  return { key: parts.at(-1), modifiers: new Set(parts.slice(0, -1)) };
+}
 
-  const key = parts[parts.length - 1];
-  const modifiers = new Set(parts.slice(0, -1));
+function wantsMeta(modifiers: Set<string>) {
+  return modifiers.has('meta') || modifiers.has('cmd') || (modifiers.has('mod') && isModPlatform());
+}
+
+function wantsCtrl(modifiers: Set<string>) {
+  return (
+    modifiers.has('ctrl') || modifiers.has('control') || (modifiers.has('mod') && !isModPlatform())
+  );
+}
+
+function matchesShortcut(event: KeyboardEvent, shortcut: string) {
+  const { key, modifiers } = parseShortcut(shortcut);
+  if (!key) return false;
+
   const eventKey = event.key.toLowerCase();
   if (eventKey !== key && event.code.toLowerCase() !== key) return false;
 
-  const wantsMod = modifiers.has('mod');
-  const wantsMeta = modifiers.has('meta') || modifiers.has('cmd') || (wantsMod && isModPlatform());
-  const wantsCtrl =
-    modifiers.has('ctrl') || modifiers.has('control') || (wantsMod && !isModPlatform());
-  const wantsAlt = modifiers.has('alt') || modifiers.has('option');
-  const wantsShift = modifiers.has('shift');
-
   return (
-    event.metaKey === wantsMeta &&
-    event.ctrlKey === wantsCtrl &&
-    event.altKey === wantsAlt &&
-    event.shiftKey === wantsShift
+    event.metaKey === wantsMeta(modifiers) &&
+    event.ctrlKey === wantsCtrl(modifiers) &&
+    event.altKey === (modifiers.has('alt') || modifiers.has('option')) &&
+    event.shiftKey === modifiers.has('shift')
   );
 }
 

@@ -73,4 +73,74 @@ describe('useAsyncState', () => {
     expect(result.current.data).toBe('ready');
     expect(result.current.isSuccess).toBe(true);
   });
+
+  it('resets to idle and ignores an aborted execute', async () => {
+    let resolveValue: (value: string) => void = () => undefined;
+    const pending = new Promise<string>((resolve) => {
+      resolveValue = resolve;
+    });
+
+    const { result } = renderHook(() => useAsyncState(async () => pending));
+
+    let first: Promise<string | undefined> | undefined;
+    act(() => {
+      first = result.current.execute();
+    });
+    expect(result.current.isLoading).toBe(true);
+
+    act(() => {
+      result.current.abort();
+    });
+
+    await act(async () => {
+      resolveValue('late');
+      await first;
+    });
+    expect(result.current.data).toBeUndefined();
+
+    await act(async () => {
+      await result.current.execute();
+    });
+    expect(result.current.data).toBe('late');
+
+    act(() => {
+      result.current.reset();
+    });
+    expect(result.current.status).toBe('idle');
+    expect(result.current.data).toBeUndefined();
+  });
+
+  it('ignores a rejected execute after abort and swallows immediate failures', async () => {
+    let rejectValue: (reason: unknown) => void = () => undefined;
+    const pending = new Promise<string>((_resolve, reject) => {
+      rejectValue = reject;
+    });
+    const { result } = renderHook(() => useAsyncState(async () => pending));
+
+    let first: Promise<string | undefined> | undefined;
+    act(() => {
+      first = result.current.execute();
+    });
+    act(() => {
+      result.current.abort();
+    });
+    await act(async () => {
+      rejectValue(new Error('late fail'));
+      await first;
+    });
+    expect(result.current.isError).toBe(false);
+
+    const { result: immediate } = renderHook(() =>
+      useAsyncState(
+        async () => {
+          throw new Error('boot');
+        },
+        { immediate: true },
+      ),
+    );
+    await act(async () => {
+      await Promise.resolve();
+    });
+    expect(immediate.current.isError).toBe(true);
+  });
 });

@@ -63,4 +63,79 @@ describe('useRetry', () => {
 
     await expect(done).rejects.toMatchObject({ name: 'AbortError' });
   });
+
+  it('stops when retryIf returns false', async () => {
+    let calls = 0;
+    const { result } = renderHook(() =>
+      useRetry(
+        async () => {
+          calls += 1;
+          throw new Error('nope');
+        },
+        { retries: 5, delayMs: 10, retryIf: () => false },
+      ),
+    );
+
+    let done: Promise<string> | undefined;
+    act(() => {
+      done = result.current.run();
+    });
+
+    await expect(done).rejects.toThrow('nope');
+    expect(calls).toBe(1);
+  });
+
+  it('uses a constant delay between attempts', async () => {
+    let calls = 0;
+    const { result } = renderHook(() =>
+      useRetry(
+        async () => {
+          calls += 1;
+          if (calls < 2) throw new Error('retry');
+          return 'ok';
+        },
+        { retries: 2, delayMs: 50, backoff: 'constant' },
+      ),
+    );
+
+    let done: Promise<string> | undefined;
+    act(() => {
+      done = result.current.run();
+    });
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(50);
+    });
+
+    await expect(done).resolves.toBe('ok');
+  });
+
+  it('maps AbortError from the task and cancel-after-success to AbortError', async () => {
+    const { result } = renderHook(() =>
+      useRetry(async () => {
+        const error = new Error('stop');
+        error.name = 'AbortError';
+        throw error;
+      }),
+    );
+
+    let aborted: Promise<string> | undefined;
+    act(() => {
+      aborted = result.current.run();
+    });
+    await expect(aborted).rejects.toMatchObject({ name: 'AbortError' });
+
+    const { result: succeeding } = renderHook(() =>
+      useRetry(async () => {
+        queueMicrotask(() => succeeding.current.cancel());
+        return 'ok';
+      }),
+    );
+
+    let cancelled: Promise<string> | undefined;
+    act(() => {
+      cancelled = succeeding.current.run();
+    });
+    await expect(cancelled).rejects.toMatchObject({ name: 'AbortError' });
+  });
 });

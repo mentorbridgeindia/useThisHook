@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
+import { abortError } from './abortError';
 import { useStableCallback } from './useStableCallback';
 
 export interface UseAsyncQueueOptions {
@@ -9,12 +10,6 @@ interface QueueItem<T> {
   task: () => Promise<T>;
   resolve: (value: T) => void;
   reject: (reason: unknown) => void;
-}
-
-function abortError() {
-  const error = new Error('Aborted');
-  error.name = 'AbortError';
-  return error;
 }
 
 export const useAsyncQueue = (options: UseAsyncQueueOptions = {}) => {

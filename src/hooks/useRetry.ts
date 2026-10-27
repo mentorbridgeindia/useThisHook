@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
+import { abortError } from './abortError';
 import { useStableCallback } from './useStableCallback';
 
 export type RetryBackoff = 'constant' | 'exponential';
@@ -10,12 +11,6 @@ export interface RetryOptions {
   factor?: number;
   maxDelayMs?: number;
   retryIf?: (error: unknown, attempt: number) => boolean;
-}
-
-function abortError() {
-  const error = new Error('Aborted');
-  error.name = 'AbortError';
-  return error;
 }
 
 function delayForAttempt(
@@ -62,10 +57,6 @@ export const useRetry = <TArgs extends unknown[], TResult>(
 
   const sleep = useCallback((ms: number) => {
     return new Promise<void>((resolve, reject) => {
-      if (cancelledRef.current) {
-        reject(abortError());
-        return;
-      }
       sleepRejectRef.current = reject;
       timeoutRef.current = window.setTimeout(() => {
         timeoutRef.current = null;
@@ -81,11 +72,9 @@ export const useRetry = <TArgs extends unknown[], TResult>(
       cancelledRef.current = false;
       setIsPending(true);
       setError(null);
-      let lastError: unknown;
 
       try {
         for (let current = 1; current <= retries + 1; current += 1) {
-          if (cancelledRef.current) throw abortError();
           setAttempt(current);
           try {
             const result = await stableFn(...args);
@@ -93,7 +82,6 @@ export const useRetry = <TArgs extends unknown[], TResult>(
             setIsPending(false);
             return result;
           } catch (error_) {
-            lastError = error_;
             if (cancelledRef.current || (error_ instanceof Error && error_.name === 'AbortError'))
               throw abortError();
             const canRetry = current <= retries && stableRetryIf(error_, current);
@@ -101,7 +89,7 @@ export const useRetry = <TArgs extends unknown[], TResult>(
             await sleep(delayForAttempt(current, delayMs, backoff, factor, maxDelayMs));
           }
         }
-        throw lastError;
+        throw abortError();
       } catch (error_) {
         setError(error_);
         setIsPending(false);

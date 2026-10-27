@@ -63,4 +63,67 @@ describe('useOptimisticAction', () => {
     });
     expect(result.current.value).toBe(5);
   });
+
+  it('resets pending work and ignores a stale confirmation', async () => {
+    let resolveAction: (value: number) => void = () => undefined;
+    const pending = new Promise<number>((resolve) => {
+      resolveAction = resolve;
+    });
+
+    const { result } = renderHook(() =>
+      useOptimisticAction(
+        0,
+        async () => pending,
+        (value) => value + 1,
+      ),
+    );
+
+    act(() => {
+      void result.current.run();
+    });
+    expect(result.current.value).toBe(1);
+    expect(result.current.isPending).toBe(true);
+
+    act(() => {
+      result.current.reset();
+    });
+    expect(result.current.value).toBe(0);
+    expect(result.current.isPending).toBe(false);
+
+    await act(async () => {
+      resolveAction(9);
+      await Promise.resolve();
+    });
+    expect(result.current.value).toBe(0);
+  });
+
+  it('does not roll back after reset when a stale action fails', async () => {
+    let rejectAction: (reason: unknown) => void = () => undefined;
+    const pending = new Promise<number>((_resolve, reject) => {
+      rejectAction = reject;
+    });
+
+    const { result } = renderHook(() =>
+      useOptimisticAction(
+        0,
+        async () => pending,
+        (value) => value + 1,
+      ),
+    );
+
+    let runPromise: Promise<number> | undefined;
+    act(() => {
+      runPromise = result.current.run();
+    });
+    act(() => {
+      result.current.reset();
+    });
+
+    await act(async () => {
+      rejectAction(new Error('stale'));
+      await expect(runPromise).rejects.toThrow('stale');
+    });
+    expect(result.current.value).toBe(0);
+    expect(result.current.error).toBeNull();
+  });
 });

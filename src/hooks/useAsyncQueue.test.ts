@@ -3,6 +3,16 @@ import { describe, expect, it } from 'vitest';
 import { useAsyncQueue } from './useAsyncQueue';
 
 describe('useAsyncQueue', () => {
+  it('defaults concurrency to one', async () => {
+    const { result } = renderHook(() => useAsyncQueue());
+    let done: Promise<string> | undefined;
+    await act(async () => {
+      done = result.current.enqueue(async () => 'solo');
+      await done;
+    });
+    expect(result.current.pending).toBe(0);
+  });
+
   it('runs tasks with a concurrency cap', async () => {
     const { result } = renderHook(() => useAsyncQueue({ concurrency: 1 }));
     let releaseFirst: () => void = () => undefined;
@@ -64,5 +74,24 @@ describe('useAsyncQueue', () => {
     await act(async () => {
       release();
     });
+  });
+
+  it('rejects a running task without blocking the rest of the queue', async () => {
+    const { result } = renderHook(() => useAsyncQueue({ concurrency: 1 }));
+
+    let failed: Promise<string> | undefined;
+    let next: Promise<string> | undefined;
+    act(() => {
+      failed = result.current.enqueue(async () => {
+        throw new Error('boom');
+      });
+      next = result.current.enqueue(async () => 'ok');
+    });
+
+    await act(async () => {
+      await expect(failed).rejects.toThrow('boom');
+      await expect(next).resolves.toBe('ok');
+    });
+    expect(result.current.pending).toBe(0);
   });
 });
