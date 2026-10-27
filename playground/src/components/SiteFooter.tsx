@@ -1,3 +1,4 @@
+import { pageHref } from '../hookHref';
 import { version } from '../../../package.json';
 
 const linkClass =
@@ -32,6 +33,14 @@ export const SiteFooter = () => (
         target="_blank"
       >
         Wiki
+      </a>{' '}
+      ·{' '}
+      <a className={linkClass} href={pageHref('compare')}>
+        Compare
+      </a>{' '}
+      ·{' '}
+      <a className={linkClass} href={pageHref('mcp')}>
+        MCP
       </a>{' '}
       ·{' '}
       <a

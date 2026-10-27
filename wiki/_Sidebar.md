@@ -10,3 +10,4 @@
 - [Versioning Policy](Versioning-Policy)
 - [Security](Security)
 - [Maintainer Guide](Maintainer-Guide)
+- [Compare](Compare)

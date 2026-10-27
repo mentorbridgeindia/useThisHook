@@ -1,55 +1,67 @@
-# Release notes — usethishook v1.2.0
+# Release notes — usethishook v1.3.0
 
-Paste this body into the GitHub Release for tag **`v1.2.0`**. Full history: [`CHANGELOG.md`](CHANGELOG.md). Publish via **Actions → Publish npm** (see [`docs/RELEASE.md`](docs/RELEASE.md)).
+Paste this body into the GitHub Release for tag **`v1.3.0`**. Full history: [`CHANGELOG.md`](CHANGELOG.md). Publish via **Actions → Publish npm** (see [`docs/RELEASE.md`](docs/RELEASE.md)).
 
 ---
 
-## usethishook 1.2.0
+## usethishook 1.3.0
 
-Minor release: **seven new hooks**, optional custom locales for `useAmountInput`, and playground **New** badges. **No breaking changes.** The library now ships **40** typed hooks.
+Minor release: **13 new hooks**, MCP catalog for all **53** hooks, playground compare page, and try-online sandboxes. **No breaking changes.**
 
 ```bash
-npm i usethishook@^1.2.0
+npm i usethishook@^1.3.0
 ```
 
-**Playground:** [usethishook.mentorbridge.in](https://usethishook.mentorbridge.in/)
+**Playground:** [usethishook.mentorbridge.in](https://usethishook.mentorbridge.in/) · **Compare:** [vs usehooks-ts / react-use](https://usethishook.mentorbridge.in/compare) · **MCP:** [usethishook.mentorbridge.in/mcp](https://usethishook.mentorbridge.in/mcp)
 
-### State
+### Async
 
-- **`useSessionStorage`** — JSON state in `sessionStorage` (same shape as `useLocalStorage`)
-- **`useThrottle`** — throttle a value (leading + trailing)
+- **`useAsyncState`** — idle / loading / success / error with abort
+- **`useOptimisticAction`** — optimistic update with rollback
+- **`useRetry`** — retries, backoff, and cancel
+- **`useAsyncQueue`** — FIFO tasks with a concurrency cap
+- **`usePolling`** — interval polling that pauses when the tab is hidden
 
-### Browser
+### Browser / PWA
 
-- **`useScrollLock`** — lock / unlock `document.body` scroll for overlays
-- **`useDocumentVisibility`** — Page Visibility API (`visible` | `hidden`)
-- **`useIdle`** — true after a period of no user activity
+- **`useOnlineQueue`** — in-memory outbox while offline
+- **`useStorageQuota`** — `navigator.storage.estimate()`
+- **`useInstallPrompt`** — PWA `beforeinstallprompt`
+- **`useCrossTabState`** — JSON state synced across tabs
+- **`useKeyboardShortcut`** — window key combos
+- **`useLongPress`** — mouse and touch press-and-hold
 
-### App
+### Debug
 
-- **`useThrottledCallback`** — throttle a function, with cancel
-- **`useUpdateEffect`** — like `useEffect`, but skips the initial mount
+- **`useRenderTracker`** — render counts (dev logging)
+- **`useWhyDidYouUpdate`** — which values changed (dev logging)
 
-### Forms
+### MCP (`usethishook-mcp@1.3.0`)
 
-- **`useAmountInput`** — optional `locales` map to register or override separators beyond built-in `en` / `de` / `nl` / `fr`
-- Exported **`AmountLocaleConfig`** type
+Separate package under `mcp/`. Cursor / Claude Desktop:
 
-### Not in this npm package
-
-- **`usethishook-mcp`** remains under Unreleased (separate package under `mcp/`). See [mcp/README.md](mcp/README.md).
+```json
+{
+  "mcpServers": {
+    "usethishook": {
+      "command": "npx",
+      "args": ["-y", "usethishook-mcp"]
+    }
+  }
+}
+```
 
 ---
 
 ## Maintainer publish checklist
 
-After this docs PR is on `main` and CI is green:
+After this PR is on `main` and CI is green:
 
-1. **Actions → Publish npm → Run workflow** on `main` (OIDC Trusted Publishing + provenance)
-2. Create the GitHub Release:
+1. **Actions → Publish npm → Run workflow** on `main` for `usethishook`
+2. Publish `usethishook-mcp` if that workflow is separate (or from `mcp/` with the same OIDC rules)
+3. Create the GitHub Release:
    ```bash
-   gh release create v1.2.0 --title "v1.2.0" --notes-file RELEASE_NOTES.md
+   gh release create v1.3.0 --title "v1.3.0" --notes-file RELEASE_NOTES.md
    ```
-   Or paste the section above into the GitHub UI (omit this checklist footer from the public body if you prefer).
-3. Confirm [npmjs.com/package/usethishook](https://www.npmjs.com/package/usethishook) shows `latest` = `1.2.0` with provenance
-4. Spot-check the playground deploy for new hooks and **New** badges
+4. Confirm npm `latest` = `1.3.0` with provenance
+5. Spot-check playground `/compare`, `/mcp`, and a few new hook pages

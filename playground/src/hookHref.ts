@@ -1,4 +1,5 @@
 const HOOK_ID = /^use[A-Za-z0-9]+$/;
+const STATIC_PAGES = new Set(['compare', 'mcp']);
 
 /** Vite base path, always ending with `/` (e.g. `/` or `/useThisHook/`). */
 export function playgroundBase(): string {
@@ -15,6 +16,10 @@ export function hookPageHref(id: string) {
   return `${playgroundBase()}${id}`;
 }
 
+export function pageHref(id: 'compare' | 'mcp') {
+  return `${playgroundBase()}${id}`;
+}
+
 /** Strip Vite base from pathname; returns hook id or `''` for home. */
 export function routeFromPathname(pathname: string): string {
   const base = playgroundBase();
@@ -25,7 +30,8 @@ export function routeFromPathname(pathname: string): string {
   const trimmed = path.replace(/^\//, '').replace(/\/$/, '');
   if (!trimmed) return '';
   const segment = trimmed.split('/')[0] ?? '';
-  return HOOK_ID.test(segment) ? segment : '';
+  if (HOOK_ID.test(segment) || STATIC_PAGES.has(segment)) return segment;
+  return '';
 }
 
 /** Redirect legacy `#/useX` hash URLs to path-based routes once. */

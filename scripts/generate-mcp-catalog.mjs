@@ -100,6 +100,10 @@ import * as coreStateApi from ${JSON.stringify(path.join(playgroundSrc, 'api/cor
 import * as flowApi from ${JSON.stringify(path.join(playgroundSrc, 'api/flowApi.ts'))};
 import * as leverageApi from ${JSON.stringify(path.join(playgroundSrc, 'api/leverageApi.ts'))};
 import * as persistApi from ${JSON.stringify(path.join(playgroundSrc, 'api/persistApi.ts'))};
+import * as asyncApi from ${JSON.stringify(path.join(playgroundSrc, 'api/asyncApi.ts'))};
+import * as pwaApi from ${JSON.stringify(path.join(playgroundSrc, 'api/pwaApi.ts'))};
+import * as debugApi from ${JSON.stringify(path.join(playgroundSrc, 'api/debugApi.ts'))};
+import * as interactionApi from ${JSON.stringify(path.join(playgroundSrc, 'api/interactionApi.ts'))};
 
 const apis = {
   ...appCoreApi,
@@ -111,6 +115,10 @@ const apis = {
   ...flowApi,
   ...leverageApi,
   ...persistApi,
+  ...asyncApi,
+  ...pwaApi,
+  ...debugApi,
+  ...interactionApi,
 };
 
 writeFileSync(process.argv[2], JSON.stringify({ descriptions: hookDescriptions, apis }));

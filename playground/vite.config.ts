@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vite';
+import { prerenderSeoPages } from './prerenderSeo';
 
 const playgroundRoot = path.dirname(fileURLToPath(import.meta.url));
 const isGitHubPages = process.env.GITHUB_PAGES === 'true';
@@ -29,7 +30,7 @@ export default defineConfig({
   // Absolute base required for History API path routing.
   // Custom domain / local / Vercel: `/`. GitHub project Pages: `/useThisHook/`.
   base: isGitHubPages ? '/useThisHook/' : '/',
-  plugins: [react(), tailwindcss(), spaFallback404()],
+  plugins: [react(), tailwindcss(), spaFallback404(), prerenderSeoPages()],
   resolve: {
     alias: {
       usethishook: path.resolve(playgroundRoot, '../src/index.ts'),

@@ -18,13 +18,13 @@ tsup.config.ts    # ESM + CJS + .d.ts / .d.cts from src/index.ts
 
 The interactive site under `playground/` is the public docs surface at [usethishook.mentorbridge.in](https://usethishook.mentorbridge.in/).
 
-| Concern              | Location                                       |
-| -------------------- | ---------------------------------------------- |
-| Catalog / categories | `playground/src/*Hooks.ts`, `hooksCatalog.ts`  |
-| Descriptions         | `playground/src/descriptions/`                 |
-| API tables           | `playground/src/api/`                          |
-| Live demos           | `playground/src/demos/`                        |
-| Routing              | Path-based History API (`/`, `/useBoolean`, …) |
+| Concern              | Location                                                        |
+| -------------------- | --------------------------------------------------------------- |
+| Catalog / categories | `playground/src/*Hooks.ts`, `hooksCatalog.ts`                   |
+| Descriptions         | `playground/src/descriptions/`                                  |
+| API tables           | `playground/src/api/`                                           |
+| Live demos           | `playground/src/demos/`                                         |
+| Routing              | Path-based History API (`/`, `/useBoolean`, `/compare`, `/mcp`) |
 
 The playground resolves the library via a Vite alias to `../src/index.ts` so demos track local source without publishing.
 
@@ -35,6 +35,7 @@ The playground resolves the library via a Vite alias to `../src/index.ts` so dem
 | Custom domain / Vercel | `npm run playground:build` (`base: /`)                                            |
 | GitHub Pages           | `npm run playground:build:pages` (`base: /useThisHook/`, `404.html` SPA fallback) |
 | npm                    | Manual **Publish npm** workflow (OIDC)                                            |
+| MCP                    | `usethishook-mcp` catalog generated from playground (`npm run mcp:catalog`)       |
 
 ## Related docs in the repo
 

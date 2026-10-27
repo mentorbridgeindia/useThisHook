@@ -9,6 +9,13 @@ import {
   useWindowSizeApi,
 } from './api/browserApi';
 import { useEventListenerApi, useKeyPressApi, useTimeoutApi } from './api/browserEventsApi';
+import { useKeyboardShortcutApi, useLongPressApi } from './api/interactionApi';
+import {
+  useCrossTabStateApi,
+  useInstallPromptApi,
+  useOnlineQueueApi,
+  useStorageQuotaApi,
+} from './api/pwaApi';
 import { useAsyncSelectApi, useOverlayApi, useStepFlowApi } from './api/flowApi';
 import { UseAsyncSelectDemo, useAsyncSelectExample } from './demos/UseAsyncSelectDemo';
 import {
@@ -18,6 +25,15 @@ import {
 import { UseEventListenerDemo, useEventListenerExample } from './demos/UseEventListenerDemo';
 import { UseFingerprintDemo, useFingerprintExample } from './demos/UseFingerprintDemo';
 import { UseIdleDemo, useIdleExample } from './demos/UseIdleDemo';
+import { UseInstallPromptDemo, useInstallPromptExample } from './demos/UseInstallPromptDemo';
+import {
+  UseKeyboardShortcutDemo,
+  useKeyboardShortcutExample,
+} from './demos/UseKeyboardShortcutDemo';
+import { UseLongPressDemo, useLongPressExample } from './demos/UseLongPressDemo';
+import { UseOnlineQueueDemo, useOnlineQueueExample } from './demos/UseOnlineQueueDemo';
+import { UseCrossTabStateDemo, useCrossTabStateExample } from './demos/UseCrossTabStateDemo';
+import { UseStorageQuotaDemo, useStorageQuotaExample } from './demos/UseStorageQuotaDemo';
 import { UseKeyPressDemo, useKeyPressExample } from './demos/UseKeyPressDemo';
 import { UseMediaQueryDemo, useMediaQueryExample } from './demos/UseMediaQueryDemo';
 import { UseOnClickOutsideDemo, useOnClickOutsideExample } from './demos/UseOnClickOutsideDemo';
@@ -39,6 +55,50 @@ export const browserHooks: HookEntry[] = [
     api: useOnlineStatusApi,
     Demo: UseOnlineStatusDemo,
     example: useOnlineStatusExample,
+  },
+  {
+    id: 'useOnlineQueue',
+    name: 'useOnlineQueue',
+    summary: 'Queue work while offline and flush when online.',
+    whenToUse: 'Use for an in-memory outbox, not durable sync.',
+    category: 'Browser',
+    tags: ['New'],
+    api: useOnlineQueueApi,
+    Demo: UseOnlineQueueDemo,
+    example: useOnlineQueueExample,
+  },
+  {
+    id: 'useStorageQuota',
+    name: 'useStorageQuota',
+    summary: 'Origin storage usage and quota from estimate().',
+    whenToUse: 'Use to warn before the origin is out of space.',
+    category: 'Browser',
+    tags: ['New'],
+    api: useStorageQuotaApi,
+    Demo: UseStorageQuotaDemo,
+    example: useStorageQuotaExample,
+  },
+  {
+    id: 'useInstallPrompt',
+    name: 'useInstallPrompt',
+    summary: 'Capture and replay the PWA beforeinstallprompt event.',
+    whenToUse: 'Use for a custom Install button on Chromium.',
+    category: 'Browser',
+    tags: ['New'],
+    api: useInstallPromptApi,
+    Demo: UseInstallPromptDemo,
+    example: useInstallPromptExample,
+  },
+  {
+    id: 'useCrossTabState',
+    name: 'useCrossTabState',
+    summary: 'JSON state synced across browser tabs.',
+    whenToUse: 'Use for theme and flags that must match in every tab.',
+    category: 'Browser',
+    tags: ['New'],
+    api: useCrossTabStateApi,
+    Demo: UseCrossTabStateDemo,
+    example: useCrossTabStateExample,
   },
   {
     id: 'useFingerprint',
@@ -172,5 +232,27 @@ export const browserHooks: HookEntry[] = [
     api: useIdleApi,
     Demo: UseIdleDemo,
     example: useIdleExample,
+  },
+  {
+    id: 'useKeyboardShortcut',
+    name: 'useKeyboardShortcut',
+    summary: 'Register a key combo on window and clean it up.',
+    whenToUse: 'Use for command palette and Escape, not key-held state.',
+    category: 'Browser',
+    tags: ['New'],
+    api: useKeyboardShortcutApi,
+    Demo: UseKeyboardShortcutDemo,
+    example: useKeyboardShortcutExample,
+  },
+  {
+    id: 'useLongPress',
+    name: 'useLongPress',
+    summary: 'Mouse and touch press-and-hold handlers.',
+    whenToUse: 'Use for context menus on cards and list rows.',
+    category: 'Browser',
+    tags: ['New'],
+    api: useLongPressApi,
+    Demo: UseLongPressDemo,
+    example: useLongPressExample,
   },
 ];

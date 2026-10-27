@@ -363,6 +363,154 @@
       "import": "import { useOnlineStatus } from 'usethishook';"
     },
     {
+      "id": "useOnlineQueue",
+      "name": "useOnlineQueue",
+      "summary": "Queue work while offline and flush when online.",
+      "whenToUse": "Use for an in-memory outbox, not durable sync.",
+      "category": "Browser",
+      "tags": ["New"],
+      "description": "The user queued a comment on the train. Hold items in memory while navigator.onLine is false, then drain FIFO when the browser fires online. If processItem throws, that item stays at the front.",
+      "api": {
+        "signature": "useOnlineQueue(processItem)",
+        "explanation": "Queue values while the browser is offline. When online, items drain FIFO through processItem. If processItem throws, the failed item stays at the front.",
+        "arguments": [
+          {
+            "name": "processItem",
+            "type": "(item: T) => Promise<void>",
+            "description": "Called for each queued item when the browser reports online."
+          }
+        ],
+        "returns": {
+          "type": "{ enqueue, items, isOnline, isFlushing, error, flush }",
+          "description": "In-memory queue plus flush controls. Not persisted across refresh."
+        }
+      },
+      "example": "import { useOnlineQueue } from 'usethishook';\n\nexport const Outbox = () => {\n  const { enqueue, items } = useOnlineQueue(api.send);\n  return (\n    <button type=\"button\" onClick={() => enqueue({ text: 'hello' })}>\n      Queue ({items.length})\n    </button>\n  );\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useOnlineQueue",
+      "import": "import { useOnlineQueue } from 'usethishook';"
+    },
+    {
+      "id": "useStorageQuota",
+      "name": "useStorageQuota",
+      "summary": "Origin storage usage and quota from estimate().",
+      "whenToUse": "Use to warn before the origin is out of space.",
+      "category": "Browser",
+      "tags": ["New"],
+      "description": "A PWA or editor writes large files and you need to warn before the origin quota is full. navigator.storage.estimate() after mount, with nulls when the API is missing.",
+      "api": {
+        "signature": "useStorageQuota()",
+        "explanation": "Reads navigator.storage.estimate() after mount. Safe when the API is missing (SSR, older browsers).",
+        "arguments": [],
+        "returns": {
+          "type": "{ usage, quota, usageRatio, isSupported, refresh }",
+          "description": "Bytes used and allowed, or nulls when unsupported.",
+          "fields": [
+            {
+              "name": "usage",
+              "type": "number | null",
+              "description": "Bytes used."
+            },
+            {
+              "name": "quota",
+              "type": "number | null",
+              "description": "Bytes allowed."
+            },
+            {
+              "name": "usageRatio",
+              "type": "number | null",
+              "description": "usage / quota, or null."
+            },
+            {
+              "name": "isSupported",
+              "type": "boolean",
+              "description": "Whether estimate() exists."
+            },
+            {
+              "name": "refresh",
+              "type": "() => Promise<void>",
+              "description": "Read estimate again."
+            }
+          ]
+        }
+      },
+      "example": "import { useStorageQuota } from 'usethishook';\n\nexport const QuotaMeter = () => {\n  const { usageRatio, isSupported } = useStorageQuota();\n  if (!isSupported || usageRatio == null) return null;\n  return <progress value={usageRatio} max={1} />;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useStorageQuota",
+      "import": "import { useStorageQuota } from 'usethishook';"
+    },
+    {
+      "id": "useInstallPrompt",
+      "name": "useInstallPrompt",
+      "summary": "Capture and replay the PWA beforeinstallprompt event.",
+      "whenToUse": "Use for a custom Install button on Chromium.",
+      "category": "Browser",
+      "tags": ["New"],
+      "description": "Chromium fires beforeinstallprompt once. You must preventDefault to show your own Install button later. The hook holds that event, calls prompt(), and tracks standalone / appinstalled.",
+      "api": {
+        "signature": "useInstallPrompt()",
+        "explanation": "Captures beforeinstallprompt (Chromium), lets you call prompt() later, and tracks appinstalled / display-mode standalone.",
+        "arguments": [],
+        "returns": {
+          "type": "{ isReady, isInstalled, isSupported, prompt }",
+          "description": "PWA install prompt state.",
+          "fields": [
+            {
+              "name": "isReady",
+              "type": "boolean",
+              "description": "A deferred prompt is available."
+            },
+            {
+              "name": "isInstalled",
+              "type": "boolean",
+              "description": "Standalone display or appinstalled fired."
+            },
+            {
+              "name": "prompt",
+              "type": "() => Promise<'accepted' | 'dismissed' | 'unavailable'>",
+              "description": "Shows the native install UI when ready."
+            }
+          ]
+        },
+        "caveats": [
+          "Safari and Firefox do not fire beforeinstallprompt. isReady stays false there."
+        ]
+      },
+      "example": "import { useInstallPrompt } from 'usethishook';\n\nexport const InstallButton = () => {\n  const { isReady, prompt } = useInstallPrompt();\n  if (!isReady) return null;\n  return (\n    <button type=\"button\" onClick={() => void prompt()}>\n      Install\n    </button>\n  );\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useInstallPrompt",
+      "import": "import { useInstallPrompt } from 'usethishook';"
+    },
+    {
+      "id": "useCrossTabState",
+      "name": "useCrossTabState",
+      "summary": "JSON state synced across browser tabs.",
+      "whenToUse": "Use for theme and flags that must match in every tab.",
+      "category": "Browser",
+      "tags": ["New"],
+      "description": "Theme, a draft flag, or a dismissed banner should match in every tab. Write JSON to localStorage and notify others through BroadcastChannel and the storage event. SSR returns the initial value.",
+      "api": {
+        "signature": "useCrossTabState(key, initialValue)",
+        "explanation": "useState that writes JSON to localStorage and syncs other tabs via BroadcastChannel and the storage event. Same tab already has the new value from the setter.",
+        "arguments": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "localStorage key."
+          },
+          {
+            "name": "initialValue",
+            "type": "T",
+            "description": "Used when the key is empty or JSON is invalid."
+          }
+        ],
+        "returns": {
+          "type": "[value, setValue]",
+          "description": "Tuple like useState, including functional updates."
+        }
+      },
+      "example": "import { useCrossTabState } from 'usethishook';\n\nexport const ThemeSync = () => {\n  const [theme, setTheme] = useCrossTabState<'light' | 'dark'>('theme', 'light');\n  return (\n    <button type=\"button\" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>\n      {theme}\n    </button>\n  );\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useCrossTabState",
+      "import": "import { useCrossTabState } from 'usethishook';"
+    },
+    {
       "id": "useFingerprint",
       "name": "useFingerprint",
       "summary": "Client-side visitor id from browser fingerprint signals.",
@@ -857,6 +1005,89 @@
       "import": "import { useIdle } from 'usethishook';"
     },
     {
+      "id": "useKeyboardShortcut",
+      "name": "useKeyboardShortcut",
+      "summary": "Register a key combo on window and clean it up.",
+      "whenToUse": "Use for command palette and Escape, not key-held state.",
+      "category": "Browser",
+      "tags": ["New"],
+      "description": "Command/Ctrl+K, Escape, or Shift+? should run a handler and unregister on unmount. Combos are plus-separated. Typing in inputs is ignored unless you turn that off.",
+      "api": {
+        "signature": "useKeyboardShortcut(shortcut, handler, options?)",
+        "explanation": "Listens on window keydown for a combo such as ctrl+k, meta+s, or Escape. Cleans up on unmount. By default ignores typing in inputs and calls preventDefault.",
+        "arguments": [
+          {
+            "name": "shortcut",
+            "type": "string",
+            "description": "Plus-separated combo. Use mod for Command on Apple and Control elsewhere."
+          },
+          {
+            "name": "handler",
+            "type": "(event: KeyboardEvent) => void",
+            "description": "Called when the combo matches."
+          },
+          {
+            "name": "options.ignoreInputs",
+            "type": "boolean",
+            "optional": true,
+            "description": "Skip INPUT, TEXTAREA, SELECT, and contenteditable. Default true."
+          },
+          {
+            "name": "options.enabled",
+            "type": "boolean",
+            "optional": true,
+            "description": "Detach the listener when false. Default true."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": "No return value. The listener is registered for the lifetime of the component."
+        }
+      },
+      "example": "import { useKeyboardShortcut } from 'usethishook';\n\nexport const CommandPalette = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) => {\n  useKeyboardShortcut('mod+k', () => setOpen(!open));\n  return open ? <div>Palette</div> : null;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useKeyboardShortcut",
+      "import": "import { useKeyboardShortcut } from 'usethishook';"
+    },
+    {
+      "id": "useLongPress",
+      "name": "useLongPress",
+      "summary": "Mouse and touch press-and-hold handlers.",
+      "whenToUse": "Use for context menus on cards and list rows.",
+      "category": "Browser",
+      "tags": ["New"],
+      "description": "A card or list row should open a menu on press-and-hold, on mouse and touch. Moving past a pixel threshold or releasing early cancels. Spread the returned handlers onto the element.",
+      "api": {
+        "signature": "useLongPress(onLongPress, options?)",
+        "explanation": "Returns mouse and touch handlers. After delayMs without moving past moveThresholdPx, onLongPress fires. Spread the handlers onto the target element.",
+        "arguments": [
+          {
+            "name": "onLongPress",
+            "type": "(event: React.MouseEvent | React.TouchEvent) => void",
+            "description": "Called once the press is held long enough."
+          },
+          {
+            "name": "options.delayMs",
+            "type": "number",
+            "optional": true,
+            "description": "Hold time. Default 500."
+          },
+          {
+            "name": "options.moveThresholdPx",
+            "type": "number",
+            "optional": true,
+            "description": "Cancel if the pointer moves this far. Default 10."
+          }
+        ],
+        "returns": {
+          "type": "{ onMouseDown, onMouseUp, onMouseLeave, onMouseMove, onTouchStart, onTouchEnd, onTouchMove, onContextMenu }",
+          "description": "Spread onto a button or surface."
+        }
+      },
+      "example": "import { useLongPress } from 'usethishook';\n\nexport const Card = ({ onOpenMenu }: { onOpenMenu: () => void }) => {\n  const bind = useLongPress(onOpenMenu);\n  return <div {...bind}>Hold for menu</div>;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useLongPress",
+      "import": "import { useLongPress } from 'usethishook';"
+    },
+    {
       "id": "useStableCallback",
       "name": "useStableCallback",
       "summary": "Stable function identity, always-latest implementation.",
@@ -1014,6 +1245,314 @@
       "example": "import { useAsyncAction } from 'usethishook';\n\nexport const SaveButton = () => {\n  const { run, isPending } = useAsyncAction(api.save);\n  return <button type=\"button\" disabled={isPending} onClick={() => void run()}>Save</button>;\n};",
       "playgroundUrl": "https://usethishook.mentorbridge.in/useAsyncAction",
       "import": "import { useAsyncAction } from 'usethishook';"
+    },
+    {
+      "id": "useAsyncState",
+      "name": "useAsyncState",
+      "summary": "Typed idle, loading, success, and error for async work.",
+      "whenToUse": "Use for fetches with abort, not for a shared query cache.",
+      "category": "App",
+      "tags": ["New"],
+      "description": "A load that has idle, loading, success, and error — and a second request must not overwrite the first after it finishes late. execute() aborts the previous run. immediate plus source refetch when an id changes. Honor AbortSignal in fetch.",
+      "api": {
+        "signature": "useAsyncState(fn, options?)",
+        "explanation": "Typed idle / loading / success / error around an async function. A newer execute aborts the previous run. Pass immediate to fetch on mount, and source to refetch when a key changes.",
+        "arguments": [
+          {
+            "name": "fn",
+            "type": "(signal: AbortSignal) => Promise<T>",
+            "description": "The work to run. Honor signal.aborted when you can."
+          },
+          {
+            "name": "options.immediate",
+            "type": "boolean",
+            "optional": true,
+            "description": "Run once on mount (and when source changes). Default false."
+          },
+          {
+            "name": "options.source",
+            "type": "unknown",
+            "optional": true,
+            "description": "When this value changes and immediate is true, execute again."
+          }
+        ],
+        "returns": {
+          "type": "{ status, data, error, isIdle, isLoading, isSuccess, isError, execute, abort, reset }",
+          "description": "Discriminated-style status flags plus controls.",
+          "fields": [
+            {
+              "name": "status",
+              "type": "'idle' | 'loading' | 'success' | 'error'",
+              "description": "Current phase."
+            },
+            {
+              "name": "execute",
+              "type": "() => Promise<T | undefined>",
+              "description": "Starts a new run and aborts the previous one."
+            },
+            {
+              "name": "abort",
+              "type": "() => void",
+              "description": "Aborts the in-flight run without resetting data."
+            },
+            {
+              "name": "reset",
+              "type": "() => void",
+              "description": "Aborts and returns to idle."
+            }
+          ]
+        }
+      },
+      "example": "import { useAsyncState } from 'usethishook';\n\nexport const UserCard = ({ userId }: { userId: string }) => {\n  const { data, isLoading, execute } = useAsyncState(\n    (signal) => fetch(\\`/api/users/\\${userId}\\`, { signal }).then((res) => res.json()),\n    { immediate: true, source: userId },\n  );\n  if (isLoading) return <p>Loading…</p>;\n  return <p>{data?.name}</p>;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useAsyncState",
+      "import": "import { useAsyncState } from 'usethishook';"
+    },
+    {
+      "id": "useOptimisticAction",
+      "name": "useOptimisticAction",
+      "summary": "Apply a local update, confirm or roll back.",
+      "whenToUse": "Use for likes and steppers that must feel instant.",
+      "category": "App",
+      "tags": ["New"],
+      "description": "A like, follow, or stepper should move immediately, then wait for the server. If the request fails, the old value must come back. Duplicate clicks while pending are ignored.",
+      "api": {
+        "signature": "useOptimisticAction(initialValue, action, optimistic)",
+        "explanation": "Applies optimistic() immediately, then awaits action(). On success the confirmed value replaces it. On failure the previous value is restored. A second run while pending is ignored.",
+        "arguments": [
+          {
+            "name": "initialValue",
+            "type": "TState",
+            "description": "Starting value."
+          },
+          {
+            "name": "action",
+            "type": "(value: TState, ...args) => Promise<TState>",
+            "description": "Server or async confirmation. Receives the optimistic value."
+          },
+          {
+            "name": "optimistic",
+            "type": "(value: TState, ...args) => TState",
+            "description": "Synchronous next value shown before action resolves."
+          }
+        ],
+        "returns": {
+          "type": "{ value, run, isPending, error, reset }",
+          "description": "Optimistic state and a run() that rolls back on failure."
+        }
+      },
+      "example": "import { useOptimisticAction } from 'usethishook';\n\nexport const LikeButton = ({ initial }: { initial: number }) => {\n  const { value, run, isPending } = useOptimisticAction(\n    initial,\n    (next) => api.setLikes(next),\n    (current) => current + 1,\n  );\n  return (\n    <button type=\"button\" disabled={isPending} onClick={() => void run()}>\n      {value}\n    </button>\n  );\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useOptimisticAction",
+      "import": "import { useOptimisticAction } from 'usethishook';"
+    },
+    {
+      "id": "useRetry",
+      "name": "useRetry",
+      "summary": "Retry an async function with backoff and cancel.",
+      "whenToUse": "Use when a single call may fail transiently.",
+      "category": "App",
+      "tags": ["New"],
+      "description": "The network blipped. You want N extra attempts, exponential backoff, and a way to cancel waiting between tries. This is the loop around one async function, not a query cache.",
+      "api": {
+        "signature": "useRetry(fn, options?)",
+        "explanation": "Calls fn and retries on failure with constant or exponential backoff. cancel() aborts waiting between attempts.",
+        "arguments": [
+          {
+            "name": "fn",
+            "type": "(...args) => Promise<T>",
+            "description": "The work to retry."
+          },
+          {
+            "name": "options.retries",
+            "type": "number",
+            "optional": true,
+            "description": "Extra attempts after the first. Default 3."
+          },
+          {
+            "name": "options.delayMs",
+            "type": "number",
+            "optional": true,
+            "description": "Base delay between attempts. Default 250."
+          },
+          {
+            "name": "options.backoff",
+            "type": "'constant' | 'exponential'",
+            "optional": true,
+            "description": "Default exponential."
+          }
+        ],
+        "returns": {
+          "type": "{ run, cancel, isPending, attempt, error }",
+          "description": "run() starts the loop. cancel() stops further retries."
+        }
+      },
+      "example": "import { useRetry } from 'usethishook';\n\nexport const SaveDraft = () => {\n  const { run, isPending } = useRetry(api.save, { retries: 3, backoff: 'exponential' });\n  return (\n    <button type=\"button\" disabled={isPending} onClick={() => void run()}>\n      Save\n    </button>\n  );\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useRetry",
+      "import": "import { useRetry } from 'usethishook';"
+    },
+    {
+      "id": "useAsyncQueue",
+      "name": "useAsyncQueue",
+      "summary": "FIFO async tasks with a concurrency cap.",
+      "whenToUse": "Use for uploads and sequential outbound work.",
+      "category": "App",
+      "tags": ["New"],
+      "description": "Uploads, outbound messages, or “process these one or two at a time.” enqueue() returns a promise; concurrency caps how many run; clear() drops work still waiting.",
+      "api": {
+        "signature": "useAsyncQueue(options?)",
+        "explanation": "FIFO queue of async tasks with a concurrency cap. enqueue() returns the task promise. clear() rejects work still waiting, not work already running.",
+        "arguments": [
+          {
+            "name": "options.concurrency",
+            "type": "number",
+            "optional": true,
+            "description": "How many tasks may run at once. Default 1."
+          }
+        ],
+        "returns": {
+          "type": "{ enqueue, size, pending, clear }",
+          "description": "Queue controls.",
+          "fields": [
+            {
+              "name": "enqueue",
+              "type": "<T>(task) => Promise<T>",
+              "description": "Adds work and starts it when a slot is free."
+            },
+            {
+              "name": "size",
+              "type": "number",
+              "description": "Tasks waiting."
+            },
+            {
+              "name": "pending",
+              "type": "number",
+              "description": "Tasks running."
+            },
+            {
+              "name": "clear",
+              "type": "() => void",
+              "description": "Reject waiting tasks with AbortError."
+            }
+          ]
+        }
+      },
+      "example": "import { useAsyncQueue } from 'usethishook';\n\nexport const Uploader = () => {\n  const { enqueue, pending } = useAsyncQueue({ concurrency: 2 });\n  return (\n    <button type=\"button\" onClick={() => void enqueue(() => api.upload(file))}>\n      Upload ({pending} running)\n    </button>\n  );\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useAsyncQueue",
+      "import": "import { useAsyncQueue } from 'usethishook';"
+    },
+    {
+      "id": "usePolling",
+      "name": "usePolling",
+      "summary": "Interval polling that pauses when the tab is hidden.",
+      "whenToUse": "Use for unread badges and live boards.",
+      "category": "App",
+      "tags": ["New"],
+      "description": "Refresh unread counts or a live board on an interval. Pause when the tab is hidden, abort the in-flight tick on unmount, and pass null to stop without tearing the component down.",
+      "api": {
+        "signature": "usePolling(fn, intervalMs, options?)",
+        "explanation": "Calls fn on an interval. Pass null to pause. By default polling stops while the tab is hidden and the previous tick is aborted when a new one starts or the effect cleans up.",
+        "arguments": [
+          {
+            "name": "fn",
+            "type": "(signal: AbortSignal) => void | Promise<void>",
+            "description": "Work for each tick."
+          },
+          {
+            "name": "intervalMs",
+            "type": "number | null",
+            "description": "Delay between ticks, or null to pause."
+          },
+          {
+            "name": "options.pauseWhenHidden",
+            "type": "boolean",
+            "optional": true,
+            "description": "Pause when document.visibilityState is hidden. Default true."
+          },
+          {
+            "name": "options.immediate",
+            "type": "boolean",
+            "optional": true,
+            "description": "Run once immediately. Default true."
+          }
+        ],
+        "returns": {
+          "type": "{ isPolling, error }",
+          "description": "Whether the interval is active, and the last tick error."
+        }
+      },
+      "example": "import { useState } from 'react';\nimport { usePolling } from 'usethishook';\n\nexport const InboxBadge = () => {\n  const [count, setCount] = useState(0);\n  usePolling(async (signal) => {\n    const data = await api.unread({ signal });\n    setCount(data);\n  }, 10_000);\n  return <span>{count}</span>;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/usePolling",
+      "import": "import { usePolling } from 'usethishook';"
+    },
+    {
+      "id": "useRenderTracker",
+      "name": "useRenderTracker",
+      "summary": "Count renders and log commits in development.",
+      "whenToUse": "Use to spot unexpected rerenders. Disable in production.",
+      "category": "App",
+      "tags": ["New"],
+      "description": "A child re-renders more than you expect. The hook counts function invocations and, in development, logs after commit. Disable in production with the default NODE_ENV check or enabled: false.",
+      "api": {
+        "signature": "useRenderTracker(label, options?)",
+        "explanation": "Increments a render counter each time the component function runs. In development it logs after commit. Pass enabled: false (or rely on production NODE_ENV) to skip logging.",
+        "arguments": [
+          {
+            "name": "label",
+            "type": "string",
+            "description": "Name printed in the console."
+          },
+          {
+            "name": "options.enabled",
+            "type": "boolean",
+            "optional": true,
+            "description": "Default: process.env.NODE_ENV !== \"production\"."
+          }
+        ],
+        "returns": {
+          "type": "number",
+          "description": "How many times this hook instance has rendered."
+        }
+      },
+      "example": "import { useRenderTracker } from 'usethishook';\n\nexport const Panel = (props: { open: boolean }) => {\n  useRenderTracker('Panel');\n  return props.open ? <div>Open</div> : null;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useRenderTracker",
+      "import": "import { useRenderTracker } from 'usethishook';"
+    },
+    {
+      "id": "useWhyDidYouUpdate",
+      "name": "useWhyDidYouUpdate",
+      "summary": "Log which values changed between renders.",
+      "whenToUse": "Use in development when a memoized child still updates.",
+      "category": "App",
+      "tags": ["New"],
+      "description": "You know it re-rendered; you need which prop or value changed. Pass a snapshot object. Development logs keys that failed Object.is. No-op logging when disabled.",
+      "api": {
+        "signature": "useWhyDidYouUpdate(label, props, options?)",
+        "explanation": "Compares the props object to the previous render and logs keys whose values changed by Object.is. Disabled in production unless you pass enabled: true.",
+        "arguments": [
+          {
+            "name": "label",
+            "type": "string",
+            "description": "Name printed in the console."
+          },
+          {
+            "name": "props",
+            "type": "Record<string, unknown>",
+            "description": "Values to diff, usually props or a state snapshot."
+          },
+          {
+            "name": "options.enabled",
+            "type": "boolean",
+            "optional": true,
+            "description": "Default: process.env.NODE_ENV !== \"production\"."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": "No return value. Output goes to console.debug."
+        }
+      },
+      "example": "import { useWhyDidYouUpdate } from 'usethishook';\n\nexport const Row = (props: { id: string; selected: boolean }) => {\n  useWhyDidYouUpdate('Row', props);\n  return <div>{props.id}</div>;\n};",
+      "playgroundUrl": "https://usethishook.mentorbridge.in/useWhyDidYouUpdate",
+      "import": "import { useWhyDidYouUpdate } from 'usethishook';"
     },
     {
       "id": "useDebouncedCallback",

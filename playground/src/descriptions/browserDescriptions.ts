@@ -1,6 +1,18 @@
 export const browserDescriptions: Record<string, string> = {
   useOnlineStatus:
     'You want to warn “you are offline” or disable Save when the laptop loses the network. This hook is the browser’s online flag, updated when the browser fires online and offline. It is not a ping of your API.',
+  useOnlineQueue:
+    'The user queued a comment on the train. Hold items in memory while navigator.onLine is false, then drain FIFO when the browser fires online. If processItem throws, that item stays at the front.',
+  useStorageQuota:
+    'A PWA or editor writes large files and you need to warn before the origin quota is full. navigator.storage.estimate() after mount, with nulls when the API is missing.',
+  useInstallPrompt:
+    'Chromium fires beforeinstallprompt once. You must preventDefault to show your own Install button later. The hook holds that event, calls prompt(), and tracks standalone / appinstalled.',
+  useCrossTabState:
+    'Theme, a draft flag, or a dismissed banner should match in every tab. Write JSON to localStorage and notify others through BroadcastChannel and the storage event. SSR returns the initial value.',
+  useKeyboardShortcut:
+    'Command/Ctrl+K, Escape, or Shift+? should run a handler and unregister on unmount. Combos are plus-separated. Typing in inputs is ignored unless you turn that off.',
+  useLongPress:
+    'A card or list row should open a menu on press-and-hold, on mouse and touch. Moving past a pixel threshold or releasing early cancels. Spread the returned handlers onto the element.',
   useFingerprint:
     'You need a stable-enough visitor id in the browser without cookies or a backend — for abuse hints, anonymous personalization, or correlating sessions. The hook samples canvas, WebGL, screen, locale, and related signals, hashes them client-side, and exposes refresh(). No API key and no network call (unlike Fingerprint’s commercial Identification product).',
   useMediaQuery:

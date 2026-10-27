@@ -2,6 +2,7 @@ import { ApiReference } from '../components/ApiReference';
 import { CodeBlock } from '../components/CodeBlock';
 import { HookTagBadge } from '../components/HookTagBadge';
 import { PreviewCard } from '../components/PreviewCard';
+import { TryOnline } from '../components/TryOnline';
 import type { HookDoc } from '../hooksCatalog';
 
 interface HookPageProps {
@@ -54,6 +55,7 @@ export const HookPage = ({ hook }: HookPageProps) => {
         </h2>
         <CodeBlock code={hook.example} />
       </section>
+      <TryOnline hookId={hook.id} />
     </article>
   );
 };

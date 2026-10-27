@@ -1,5 +1,5 @@
 import { hooksCatalog } from '../hooksCatalog';
-import { homeHref, hookPageHref } from '../hookHref';
+import { homeHref, hookPageHref, pageHref } from '../hookHref';
 import { HookTagBadge } from './HookTagBadge';
 import { NavGroupHeader } from './NavGroupHeader';
 
@@ -25,6 +25,25 @@ export const HookNav = ({ activeId }: HookNavProps) => {
       >
         Home
       </a>
+      {(
+        [
+          { id: 'compare', label: 'Compare' },
+          { id: 'mcp', label: 'MCP' },
+        ] as const
+      ).map((item) => (
+        <a
+          key={item.id}
+          href={pageHref(item.id)}
+          aria-current={activeId === item.id ? 'page' : undefined}
+          className={`rounded-lg px-2.5 py-1.5 text-sm font-medium ${
+            activeId === item.id
+              ? 'bg-violet-500/15 text-fg shadow-[inset_0_0_0_1px_rgba(139,92,246,0.35)]'
+              : 'text-muted hover:bg-code hover:text-fg'
+          }`}
+        >
+          {item.label}
+        </a>
+      ))}
       {groups.map((group) => {
         const hooks = hooksCatalog.filter((hook) => hook.category === group);
         return (

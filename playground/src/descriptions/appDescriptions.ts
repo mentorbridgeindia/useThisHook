@@ -7,6 +7,20 @@ export const appDescriptions: Record<string, string> = {
     'You edit a draft for user A, then the route changes to user B. Local state still shows A’s name because you synced with useEffect and missed a dependency. useResetState takes a source key (the user id). When the key changes, state is the new initial value. Same idea as key={userId} on a form, as a hook.',
   useAsyncAction:
     'A Save, Send, or “Generate report” button. You need pending, error, and the last result, and you must ignore a response if the user fired the action again. This is not a query cache. It is the mutation UI around one async function.',
+  useAsyncState:
+    'A load that has idle, loading, success, and error — and a second request must not overwrite the first after it finishes late. execute() aborts the previous run. immediate plus source refetch when an id changes. Honor AbortSignal in fetch.',
+  useOptimisticAction:
+    'A like, follow, or stepper should move immediately, then wait for the server. If the request fails, the old value must come back. Duplicate clicks while pending are ignored.',
+  useRetry:
+    'The network blipped. You want N extra attempts, exponential backoff, and a way to cancel waiting between tries. This is the loop around one async function, not a query cache.',
+  useAsyncQueue:
+    'Uploads, outbound messages, or “process these one or two at a time.” enqueue() returns a promise; concurrency caps how many run; clear() drops work still waiting.',
+  usePolling:
+    'Refresh unread counts or a live board on an interval. Pause when the tab is hidden, abort the in-flight tick on unmount, and pass null to stop without tearing the component down.',
+  useRenderTracker:
+    'A child re-renders more than you expect. The hook counts function invocations and, in development, logs after commit. Disable in production with the default NODE_ENV check or enabled: false.',
+  useWhyDidYouUpdate:
+    'You know it re-rendered; you need which prop or value changed. Pass a snapshot object. Development logs keys that failed Object.is. No-op logging when disabled.',
   useDebouncedCallback:
     'You want to debounce work, not a displayed value: search fetch, persist on type, resize handler. useDebounce lags a value for rendering. useDebouncedCallback lags calling a function and can cancel the pending call.',
   useThrottledCallback:

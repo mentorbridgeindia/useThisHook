@@ -18,6 +18,7 @@ Ship short posts on Dev.to / Hashnode / personal blog. Each post: problem → in
 1. [ ] “Await `confirm()` in React without a UI kit” → [`useConfirm`](https://usethishook.mentorbridge.in/useConfirm)
 2. [ ] “Promise-based wizards with `useStepFlow`” → [`useStepFlow`](https://usethishook.mentorbridge.in/useStepFlow)
 3. [ ] “Zero-dependency React hooks that stay SSR-safe” → [docs home](https://usethishook.mentorbridge.in/)
+4. [ ] “Hook docs in Cursor via MCP” → [mcp page](https://usethishook.mentorbridge.in/mcp)
 
 Optional later: Next.js App Router recipe (see [ROADMAP.md](../ROADMAP.md)).
 

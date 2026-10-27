@@ -15,6 +15,10 @@ const benefits = [
     title: 'Docs that match the code',
     body: 'Every page has a live preview, an argument/return reference, and an example you can paste into your app.',
   },
+  {
+    title: 'Built for AI tools',
+    body: 'usethishook-mcp lets Cursor and Claude search the real catalog instead of inventing hook APIs.',
+  },
 ];
 
 export const HomeBenefits = () => (

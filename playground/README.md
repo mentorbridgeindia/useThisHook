@@ -11,8 +11,10 @@ npm run playground
 
 Then open the URL Vite prints (usually `http://localhost:5173`).
 
-- Home (`/`): what it is, benefits, install, hook index
-- Hook pages (`/useBoolean`, `/useOverlay`, …): preview + API + example
+- Home (`/`): what it is, unique hooks, benefits, install, hook index
+- Compare (`/compare`): vs usehooks-ts and react-use
+- MCP (`/mcp`): Cursor / Claude Desktop setup
+- Hook pages (`/useBoolean`, `/useOverlay`, …): preview + API + example + StackBlitz / CodeSandbox
 
 Legacy hash URLs (`#/useBoolean`) redirect to path routes in the browser.
 
