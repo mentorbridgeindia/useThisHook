@@ -26,14 +26,17 @@ export const useOnlineQueue = <T>(processItem: (item: T) => Promise<void>) => {
     setIsFlushing(true);
     setError(null);
 
+    const drain = async (): Promise<void> => {
+      const [next, ...rest] = itemsRef.current;
+      if (next === undefined) return;
+      await stableProcess(next);
+      itemsRef.current = rest;
+      setItems(rest);
+      await drain();
+    };
+
     try {
-      while (itemsRef.current.length > 0) {
-        const [next, ...rest] = itemsRef.current;
-        if (next === undefined) break;
-        await stableProcess(next);
-        itemsRef.current = rest;
-        setItems(rest);
-      }
+      await drain();
     } catch (error_) {
       setError(error_);
     } finally {

@@ -18,7 +18,7 @@ interface SeoPage {
 }
 
 function escapeAttr(value: string) {
-  return value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  return value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
 }
 
 function patchHtml(html: string, page: SeoPage) {

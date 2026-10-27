@@ -13,6 +13,13 @@ function readRoute() {
   return routeFromPathname(window.location.pathname);
 }
 
+function pageForRoute(route: string, hook: ReturnType<typeof getHookById>) {
+  if (route === 'compare') return <ComparePage />;
+  if (route === 'mcp') return <McpPage />;
+  if (hook) return <HookPage hook={hook} />;
+  return <HomePage />;
+}
+
 export const App = () => {
   const [route, setRoute] = useState(() => {
     redirectLegacyHash();
@@ -83,16 +90,7 @@ export const App = () => {
     });
   }, [route, hook]);
 
-  const page =
-    route === 'compare' ? (
-      <ComparePage />
-    ) : route === 'mcp' ? (
-      <McpPage />
-    ) : hook ? (
-      <HookPage hook={hook} />
-    ) : (
-      <HomePage />
-    );
+  const page = pageForRoute(route, hook);
 
   return (
     <>

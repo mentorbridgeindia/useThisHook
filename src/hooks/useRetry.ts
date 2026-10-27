@@ -13,6 +13,10 @@ export interface RetryOptions {
   retryIf?: (error: unknown, attempt: number) => boolean;
 }
 
+function isAbortError(error: unknown, cancelled: boolean) {
+  return cancelled || (error instanceof Error && error.name === 'AbortError');
+}
+
 function delayForAttempt(
   attempt: number,
   delayMs: number,
@@ -73,23 +77,24 @@ export const useRetry = <TArgs extends unknown[], TResult>(
       setIsPending(true);
       setError(null);
 
-      try {
-        for (let current = 1; current <= retries + 1; current += 1) {
-          setAttempt(current);
-          try {
-            const result = await stableFn(...args);
-            if (cancelledRef.current) throw abortError();
-            setIsPending(false);
-            return result;
-          } catch (error_) {
-            if (cancelledRef.current || (error_ instanceof Error && error_.name === 'AbortError'))
-              throw abortError();
-            const canRetry = current <= retries && stableRetryIf(error_, current);
-            if (!canRetry) throw error_;
-            await sleep(delayForAttempt(current, delayMs, backoff, factor, maxDelayMs));
-          }
+      const attemptOnce = async (current: number): Promise<TResult> => {
+        setAttempt(current);
+        try {
+          const result = await stableFn(...args);
+          if (cancelledRef.current) throw abortError();
+          setIsPending(false);
+          return result;
+        } catch (error_) {
+          if (isAbortError(error_, cancelledRef.current)) throw abortError();
+          const canRetry = current <= retries && stableRetryIf(error_, current);
+          if (!canRetry) throw error_;
+          await sleep(delayForAttempt(current, delayMs, backoff, factor, maxDelayMs));
+          return attemptOnce(current + 1);
         }
-        throw abortError();
+      };
+
+      try {
+        return await attemptOnce(1);
       } catch (error_) {
         setError(error_);
         setIsPending(false);

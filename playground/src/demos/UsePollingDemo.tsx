@@ -5,7 +5,7 @@ import { buttonClass } from '../components/styles';
 export const UsePollingDemo = () => {
   const [ticks, setTicks] = useState(0);
   const [delay, setDelay] = useState<number | null>(1000);
-  const { isPolling } = usePolling(async () => {
+  const { isPolling } = usePolling(() => {
     setTicks((value) => value + 1);
   }, delay);
 

@@ -8,7 +8,8 @@ export const UseKeyboardShortcutDemo = () => {
   return (
     <div className="space-y-3">
       <p>
-        Press <kbd className="rounded border border-line px-1.5 py-0.5 text-sm">Ctrl</kbd>+
+        Press <kbd className="rounded border border-line px-1.5 py-0.5 text-sm">Ctrl</kbd>
+        <span> + </span>
         <kbd className="rounded border border-line px-1.5 py-0.5 text-sm">K</kbd> (ignored while
         typing in fields). Hits: <strong>{hits}</strong>
       </p>

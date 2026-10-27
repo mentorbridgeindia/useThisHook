@@ -24,7 +24,7 @@ export const UseRetryDemo = () => {
           checked={flaky}
           onChange={(event) => setFlaky(event.target.checked)}
         />
-        Fail on purpose
+        <span>Fail on purpose</span>
       </label>
       <div className="flex flex-wrap gap-2">
         <button

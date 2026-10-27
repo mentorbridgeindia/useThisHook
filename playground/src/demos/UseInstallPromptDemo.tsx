@@ -1,18 +1,18 @@
 import { useInstallPrompt } from 'usethishook';
 import { buttonClass } from '../components/styles';
 
+function installStatusMessage(isInstalled: boolean, isReady: boolean) {
+  if (isInstalled) return 'Running as an installed app (standalone).';
+  if (isReady) return 'Install prompt is ready.';
+  return 'No install prompt yet (Chromium only, after engagement).';
+}
+
 export const UseInstallPromptDemo = () => {
   const { isReady, isInstalled, prompt } = useInstallPrompt();
 
   return (
     <div className="space-y-3">
-      <p>
-        {isInstalled
-          ? 'Running as an installed app (standalone).'
-          : isReady
-            ? 'Install prompt is ready.'
-            : 'No install prompt yet (Chromium only, after engagement).'}
-      </p>
+      <p>{installStatusMessage(isInstalled, isReady)}</p>
       <button
         type="button"
         className={buttonClass}

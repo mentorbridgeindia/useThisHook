@@ -79,7 +79,7 @@ describe('usePolling', () => {
     const pending = new Promise<void>((_resolve, reject) => {
       rejectTick = reject;
     });
-    const { unmount } = renderHook(() =>
+    const { result, unmount } = renderHook(() =>
       usePolling(async () => pending, 800, { pauseWhenHidden: false }),
     );
 
@@ -88,5 +88,6 @@ describe('usePolling', () => {
       rejectTick(new Error('gone'));
       await Promise.resolve();
     });
+    expect(result.current.error).toBeNull();
   });
 });
