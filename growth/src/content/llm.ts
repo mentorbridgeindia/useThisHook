@@ -68,10 +68,10 @@ export async function generateContentDraft(
 
     const draft: ContentDraft = {
       ...fallback,
-      title: String(parsed.title ?? fallback.title),
+      title: asText(parsed.title, fallback.title),
       outline: Array.isArray(parsed.outline) ? parsed.outline.map(String) : fallback.outline,
-      linkedInDraft: String(parsed.linkedInDraft ?? fallback.linkedInDraft),
-      communityDraft: String(parsed.communityDraft ?? fallback.communityDraft),
+      linkedInDraft: asText(parsed.linkedInDraft, fallback.linkedInDraft),
+      communityDraft: asText(parsed.communityDraft, fallback.communityDraft),
       source: 'llm',
       caveats: [...fallback.caveats, 'LLM output accepted only after catalog validation.'],
     };
@@ -91,9 +91,19 @@ export async function generateContentDraft(
   }
 }
 
+function asText(value: unknown, fallback: string): string {
+  return typeof value === 'string' ? value : fallback;
+}
+
+function jsonPayload(content: string): string {
+  const start = content.indexOf('{');
+  const end = content.lastIndexOf('}');
+  if (start === -1 || end <= start) return content.trim();
+  return content.slice(start, end + 1);
+}
+
 function parseJsonObject(content: string): Record<string, unknown> | null {
-  const fenced = content.match(/```(?:json)?\s*([\s\S]*?)```/);
-  const raw = fenced?.[1]?.trim() ?? content.trim();
+  const raw = jsonPayload(content);
   try {
     const value = JSON.parse(raw) as unknown;
     if (value && typeof value === 'object' && !Array.isArray(value))

@@ -8,69 +8,69 @@ export function auditDocumentation(config: GrowthConfig): AuditFinding[] {
   const packageRoot = getPackageRoot();
   const repoRoot = resolve(packageRoot, config.repoRootRelative);
   const catalog = loadCatalog(resolve(packageRoot, config.catalogPath));
+  return [
+    ...catalog.flatMap((hook) => auditCatalogHook(hook, config)),
+    ...auditSitemap(repoRoot, catalog, config),
+    ...auditMarkdownLinks(repoRoot, 'README.md'),
+    ...auditDocsDirectory(repoRoot),
+    ...auditSeoDefaults(repoRoot, catalog),
+  ];
+}
+
+function auditCatalogHook(hook: HookCatalogEntry, config: GrowthConfig): AuditFinding[] {
+  const path = `catalog:${hook.id}`;
   const findings: AuditFinding[] = [];
-
-  for (const hook of catalog) {
-    if (!hook.summary.trim())
-      findings.push(
-        finding(
-          'missing-summary',
-          'high',
-          `catalog:${hook.id}`,
-          'Missing summary',
-          'Add a one-line summary in the playground docs source.',
-        ),
-      );
-    if (!hook.whenToUse.trim())
-      findings.push(
-        finding(
-          'missing-use-case',
-          'high',
-          `catalog:${hook.id}`,
-          'Missing whenToUse',
-          'Document when developers should reach for this hook.',
-        ),
-      );
-    if (!hook.example.trim())
-      findings.push(
-        finding(
-          'missing-example',
-          'high',
-          `catalog:${hook.id}`,
-          'Missing example',
-          'Add a runnable example to the hook docs.',
-        ),
-      );
-    if (!hook.playgroundUrl.startsWith(config.siteUrl))
-      findings.push(
-        finding(
-          'bad-playground-url',
-          'medium',
-          `catalog:${hook.id}`,
-          'Playground URL does not match siteUrl',
-          `Use ${config.siteUrl}/${hook.id}`,
-        ),
-      );
-  }
-
-  const sitemapPath = join(repoRoot, 'playground/public/sitemap.xml');
-  if (existsSync(sitemapPath)) {
-    const sitemap = readFileSync(sitemapPath, 'utf8');
-    for (const hook of catalog) {
-      const loc = `${config.siteUrl}/${hook.id}`;
-      if (!sitemap.includes(`<loc>${loc}</loc>`))
-        findings.push(
-          finding(
-            'sitemap-missing-hook',
-            'medium',
-            'playground/public/sitemap.xml',
-            `Sitemap missing ${hook.id}`,
-            'Regenerate sitemap with npm run playground:seo',
-          ),
-        );
-    }
-  } else {
+  if (!hook.summary.trim())
     findings.push(
+      finding(
+        'missing-summary',
+        'high',
+        path,
+        'Missing summary',
+        'Add a one-line summary in the playground docs source.',
+      ),
+    );
+  if (!hook.whenToUse.trim())
+    findings.push(
+      finding(
+        'missing-use-case',
+        'high',
+        path,
+        'Missing whenToUse',
+        'Document when developers should reach for this hook.',
+      ),
+    );
+  if (!hook.example.trim())
+    findings.push(
+      finding(
+        'missing-example',
+        'high',
+        path,
+        'Missing example',
+        'Add a runnable example to the hook docs.',
+      ),
+    );
+  if (!hook.playgroundUrl.startsWith(config.siteUrl))
+    findings.push(
+      finding(
+        'bad-playground-url',
+        'medium',
+        path,
+        'Playground URL does not match siteUrl',
+        `Use ${config.siteUrl}/${hook.id}`,
+      ),
+    );
+  return findings;
+}
+
+function auditSitemap(
+  repoRoot: string,
+  catalog: HookCatalogEntry[],
+  config: GrowthConfig,
+): AuditFinding[] {
+  const sitemapPath = join(repoRoot, 'playground/public/sitemap.xml');
+  if (!existsSync(sitemapPath))
+    return [
       finding(
         'sitemap-missing',
         'high',
@@ -78,20 +78,30 @@ export function auditDocumentation(config: GrowthConfig): AuditFinding[] {
         'Sitemap file is missing',
         'Run npm run playground:seo',
       ),
-    );
-  }
+    ];
 
-  findings.push(...auditMarkdownLinks(repoRoot, 'README.md'));
+  const sitemap = readFileSync(sitemapPath, 'utf8');
+  return catalog.flatMap((hook) => {
+    const loc = `${config.siteUrl}/${hook.id}`;
+    if (sitemap.includes(`<loc>${loc}</loc>`)) return [];
+    return [
+      finding(
+        'sitemap-missing-hook',
+        'medium',
+        'playground/public/sitemap.xml',
+        `Sitemap missing ${hook.id}`,
+        'Regenerate sitemap with npm run playground:seo',
+      ),
+    ];
+  });
+}
+
+function auditDocsDirectory(repoRoot: string): AuditFinding[] {
   const docsDir = join(repoRoot, 'docs');
-  if (existsSync(docsDir)) {
-    for (const name of readdirSync(docsDir)) {
-      if (!name.endsWith('.md')) continue;
-      findings.push(...auditMarkdownLinks(repoRoot, join('docs', name)));
-    }
-  }
-
-  findings.push(...auditSeoDefaults(repoRoot, catalog));
-  return findings;
+  if (!existsSync(docsDir)) return [];
+  return readdirSync(docsDir)
+    .filter((name) => name.endsWith('.md'))
+    .flatMap((name) => auditMarkdownLinks(repoRoot, join('docs', name)));
 }
 
 function auditSeoDefaults(repoRoot: string, catalog: HookCatalogEntry[]): AuditFinding[] {
@@ -160,9 +170,9 @@ function auditMarkdownLinks(repoRoot: string, relativePath: string): AuditFindin
 
   const content = readFileSync(absolute, 'utf8');
   const findings: AuditFinding[] = [];
-  const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const linkPattern = /\[[^\]]{1,200}\]\(([^)\s]{1,500})\)/g;
   for (const match of content.matchAll(linkPattern)) {
-    const href = match[2];
+    const href = match[1];
     if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto:'))
       continue;
     const cleaned = href.split('#')[0]?.split('?')[0];

@@ -27,7 +27,7 @@ jobs:
           cache: npm
       # npm 10 (Node 20/22) crashes on vitest's peer graph: edgesOut.
       # npm 11.6+ includes the arborist fix. npm 12 needs Node >= 22.22.
-      - run: npm install -g npm@11.21.1
+      - run: npm install -g --ignore-scripts npm@11.21.1
       - run: npm ci --ignore-scripts
       - name: Install React ${{ matrix.react }} peers
         if: matrix.react == '18'
@@ -72,7 +72,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm install -g npm@11.21.1
+      - run: npm install -g --ignore-scripts npm@11.21.1
       - run: npm ci --ignore-scripts
       - run: npm run playground:build
 
@@ -84,7 +84,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm install -g npm@11.21.1
+      - run: npm install -g --ignore-scripts npm@11.21.1
       - run: npm ci --ignore-scripts
       - run: npm ci --ignore-scripts --prefix mcp
       - name: Ensure MCP catalog matches playground docs
@@ -102,7 +102,7 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: growth/package-lock.json
-      - run: npm install -g npm@11.21.1
+      - run: npm install -g --ignore-scripts npm@11.21.1
       - run: npm ci --ignore-scripts --prefix growth
       - run: npm run growth:typecheck
       - run: npm run growth:test

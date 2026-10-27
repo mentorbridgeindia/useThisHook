@@ -60,45 +60,47 @@ export class HttpClient {
         );
     }
 
-    let attempt = 0;
-    let lastError: unknown;
+    return this.requestWithRetry(url, init, 0);
+  }
 
-    while (attempt <= this.options.maxRetries) {
-      this.requestCount += 1;
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), this.options.timeoutMs);
-      try {
-        const response = await fetch(url, { ...init, signal: controller.signal });
-        const text = await response.text();
-        this.captureGithubRateLimit(url, response.headers);
+  private async requestWithRetry(
+    url: string,
+    init: RequestInit,
+    attempt: number,
+  ): Promise<HttpResponse> {
+    this.requestCount += 1;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), this.options.timeoutMs);
+    try {
+      const response = await fetch(url, { ...init, signal: controller.signal });
+      const text = await response.text();
+      this.captureGithubRateLimit(url, response.headers);
 
-        if (this.shouldRetry(response.status) && attempt < this.options.maxRetries) {
-          attempt += 1;
-          await sleep(250 * attempt);
-          continue;
-        }
-
-        return {
-          ok: response.ok,
-          status: response.status,
-          headers: response.headers,
-          text,
-          json: <T>() => JSON.parse(text) as T,
-        };
-      } catch (error) {
-        lastError = error;
-        if (attempt >= this.options.maxRetries) break;
-        attempt += 1;
-        await sleep(250 * attempt);
-      } finally {
-        clearTimeout(timer);
+      if (this.shouldRetry(response.status) && attempt < this.options.maxRetries) {
+        await sleep(250 * (attempt + 1));
+        return this.requestWithRetry(url, init, attempt + 1);
       }
-    }
 
-    const message = lastError instanceof Error ? lastError.message : String(lastError);
-    throw new Error(
-      redactSecrets(`Request failed for ${url}: ${message}`, this.options.secretsToRedact),
-    );
+      return {
+        ok: response.ok,
+        status: response.status,
+        headers: response.headers,
+        text,
+        json: <T>() => JSON.parse(text) as T,
+      };
+    } catch (error) {
+      if (attempt >= this.options.maxRetries) {
+        const message = error instanceof Error ? error.message : String(error);
+        throw new Error(
+          redactSecrets(`Request failed for ${url}: ${message}`, this.options.secretsToRedact),
+          { cause: error },
+        );
+      }
+      await sleep(250 * (attempt + 1));
+      return this.requestWithRetry(url, init, attempt + 1);
+    } finally {
+      clearTimeout(timer);
+    }
   }
 
   private shouldRetry(status: number): boolean {

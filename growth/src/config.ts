@@ -34,7 +34,8 @@ export function loadEnvConfig(env: NodeJS.ProcessEnv = process.env): EnvConfig {
 
 function emptyToUndefined(value: string | undefined): string | undefined {
   const trimmed = value?.trim();
-  return trimmed ? trimmed : undefined;
+  if (!trimmed) return undefined;
+  return trimmed;
 }
 
 export function resolveRepoPath(config: GrowthConfig, ...parts: string[]): string {

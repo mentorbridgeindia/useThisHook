@@ -17,6 +17,6 @@ jobs:
           node-version: 24
           cache: npm
           registry-url: https://registry.npmjs.org
-      - run: npm install -g npm@11.21.1
+      - run: npm install -g --ignore-scripts npm@11.21.1
       - run: npm ci --ignore-scripts
       - run: npm publish --access public --provenance
