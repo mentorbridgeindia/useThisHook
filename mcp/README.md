@@ -90,3 +90,7 @@ npm run mcp:catalog
 ```
 
 CI runs `mcp:catalog` and fails if the committed JSON is stale.
+
+## Publish
+
+From GitHub: **Actions → Publish MCP npm → Run workflow** on `main` (OIDC Trusted Publishing, `--provenance`). Do not publish from a laptop unless that publisher is unavailable.

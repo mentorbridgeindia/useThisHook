@@ -10,8 +10,9 @@ This project uses **manual Keep a Changelog** notes and a **gated** npm publish.
 2. Update [`RELEASE_NOTES.md`](https://github.com/senthilkumar979/useThisHook/blob/main/RELEASE_NOTES.md) with a paste-ready GitHub Release body (and README / hook-count copy if marketing numbers changed).
 3. Merge after CI is green (Node/React matrix and security workflows as configured).
 4. Run **Actions → Publish npm → Run workflow** on `main` (OIDC Trusted Publishing, `--provenance`).
-5. Create a GitHub Release with tag **`vX.Y.Z`**. Prefer the body from `RELEASE_NOTES.md` (or paste the matching CHANGELOG section).
-6. Confirm [npm `usethishook`](https://www.npmjs.com/package/usethishook) shows the new `latest` with provenance.
+5. Run **Actions → Publish MCP npm → Run workflow** on `main` when `mcp/package.json` version changed (same OIDC + `--provenance`).
+6. Create a GitHub Release with tag **`vX.Y.Z`**. Prefer the body from `RELEASE_NOTES.md` (or paste the matching CHANGELOG section).
+7. Confirm [npm `usethishook`](https://www.npmjs.com/package/usethishook) and [npm `usethishook-mcp`](https://www.npmjs.com/package/usethishook-mcp) show the new `latest` with provenance.
 
 Do **not** publish from a laptop unless Trusted Publishing is unavailable. Do **not** publish from a git tag push alone.
 
@@ -20,7 +21,8 @@ Do **not** publish from a laptop unless Trusted Publishing is unavailable. Do **
 | Workflow              | Trigger                    | Purpose                           |
 | --------------------- | -------------------------- | --------------------------------- |
 | `pages.yml`           | Push to `main`             | Deploy playground to GitHub Pages |
-| `npm-publish.yml`     | Manual                     | Publish to npm                    |
+| `npm-publish.yml`     | Manual                     | Publish `usethishook` to npm      |
+| `mcp-npm-publish.yml` | Manual                     | Publish `usethishook-mcp` to npm  |
 | `github-packages.yml` | Release / manual           | GitHub Packages mirror            |
 | `wiki.yml`            | Push to `main` (`wiki/**`) | Sync in-repo wiki to GitHub Wiki  |
 
