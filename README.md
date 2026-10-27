@@ -1,15 +1,15 @@
 # useThisHook
 
-**Stop rewriting the same React hooks in every project.**
+**Promise dialogs, 53 typed hooks, zero runtime deps, live playground.**
 
-Install once. Import only what you need — toggles, debounce, storage, forms, browser APIs, and
-dialogs. **40 typed hooks**, zero runtime dependencies, live demos you can paste into production.
+Await `confirm()` / `prompt()` in a click handler. Import only the hooks you need — debounce,
+storage, forms, browser APIs. TypeScript. SSR-safe. React 18+.
 
 ```bash
 npm i usethishook
 ```
 
-**[Try the live playground →](https://usethishook.mentorbridge.in/)** · [npm](https://www.npmjs.com/package/usethishook) · [MCP](mcp/README.md) · [Wiki](https://github.com/senthilkumar979/useThisHook/wiki) · [Changelog](CHANGELOG.md)
+**[Playground](https://usethishook.mentorbridge.in/)** · [Compare vs usehooks-ts](https://usethishook.mentorbridge.in/compare) · [MCP for Cursor](https://usethishook.mentorbridge.in/mcp) · [npm](https://www.npmjs.com/package/usethishook) · [Wiki](https://github.com/senthilkumar979/useThisHook/wiki) · [Changelog](CHANGELOG.md)
 
 [![npm](https://img.shields.io/npm/v/usethishook.svg)](https://www.npmjs.com/package/usethishook)
 [![downloads](https://img.shields.io/npm/dw/usethishook.svg)](https://www.npmjs.com/package/usethishook)
@@ -19,14 +19,15 @@ npm i usethishook
 [![codecov](https://codecov.io/gh/senthilkumar979/useThisHook/graph/badge.svg)](https://codecov.io/gh/senthilkumar979/useThisHook)
 [![types](https://img.shields.io/npm/types/usethishook.svg)](https://www.npmjs.com/package/usethishook)
 
-### What’s new in 1.2.0
+### What’s new in 1.3.0
 
-- **`useSessionStorage`**, **`useThrottle`** / **`useThrottledCallback`**
-- **`useScrollLock`**, **`useDocumentVisibility`**, **`useIdle`**
-- **`useUpdateEffect`** — `useEffect` that skips the first mount
-- **`useAmountInput`** — optional `locales` for custom language separators
+- **Async:** `useAsyncState`, `useOptimisticAction`, `useRetry`, `useAsyncQueue`, `usePolling`
+- **Browser / PWA:** `useOnlineQueue`, `useStorageQuota`, `useInstallPrompt`, `useCrossTabState`
+- **Debug:** `useRenderTracker`, `useWhyDidYouUpdate` (logging off in production by default)
+- **Interaction:** `useKeyboardShortcut`, `useLongPress`
+- **AI tools:** [`usethishook-mcp`](mcp/README.md) catalogs all 53 hooks for Cursor and Claude Desktop
 
-See [CHANGELOG.md](CHANGELOG.md) and the [playground](https://usethishook.mentorbridge.in/) for demos and API details. Paste-ready GitHub release notes: [RELEASE_NOTES.md](RELEASE_NOTES.md).
+See [CHANGELOG.md](CHANGELOG.md), [RELEASE_NOTES.md](RELEASE_NOTES.md), and the [playground](https://usethishook.mentorbridge.in/).
 
 ---
 
@@ -73,7 +74,7 @@ export const DeleteButton = () => {
 };
 ```
 
-[`useConfirm` live demo](https://usethishook.mentorbridge.in/useConfirm) · also try [`usePrompt`](https://usethishook.mentorbridge.in/usePrompt) · [`useOverlay`](https://usethishook.mentorbridge.in/useOverlay) · [`useStepFlow`](https://usethishook.mentorbridge.in/useStepFlow)
+[`useConfirm` live demo](https://usethishook.mentorbridge.in/useConfirm) · [StackBlitz](https://stackblitz.com/github/senthilkumar979/useThisHook?file=playground/src/demos/UseConfirmDemo.tsx) · also try [`usePrompt`](https://usethishook.mentorbridge.in/usePrompt) · [`useOverlay`](https://usethishook.mentorbridge.in/useOverlay) · [`useStepFlow`](https://usethishook.mentorbridge.in/useStepFlow) · [`useFingerprint`](https://usethishook.mentorbridge.in/useFingerprint) · [`useAmountInput`](https://usethishook.mentorbridge.in/useAmountInput)
 
 ---
 
@@ -113,6 +114,10 @@ export const SearchBox = () => {
 
 Works with **React 18+**, **Node 20+**, Vite, Next.js, CRA, and Module Federation.
 
+How this differs from **usehooks-ts** and **react-use**: [comparison](https://usethishook.mentorbridge.in/compare) (zero runtime deps, promise dialogs, playground).
+
+Using Cursor or Claude? Point MCP at [`usethishook-mcp`](mcp/README.md) so the agent can search hook docs instead of guessing APIs.
+
 ---
 
 ## All hooks
@@ -131,12 +136,16 @@ Every hook has a **live preview + API** on the [playground](https://usethishook.
 | [`useCopyToClipboard`](https://usethishook.mentorbridge.in/useCopyToClipboard) | Copy text + remember last copy            |
 | [`useLocalStorage`](https://usethishook.mentorbridge.in/useLocalStorage)       | State that survives refresh               |
 | [`useSessionStorage`](https://usethishook.mentorbridge.in/useSessionStorage)   | State that survives refresh (tab-scoped)  |
+| [`useCrossTabState`](https://usethishook.mentorbridge.in/useCrossTabState)     | JSON state synced across tabs             |
 
 ### Browser
 
 | Hook                                                                                 | What it does                                |
 | ------------------------------------------------------------------------------------ | ------------------------------------------- |
 | [`useOnlineStatus`](https://usethishook.mentorbridge.in/useOnlineStatus)             | Online / offline                            |
+| [`useOnlineQueue`](https://usethishook.mentorbridge.in/useOnlineQueue)               | Queue while offline, flush when online      |
+| [`useStorageQuota`](https://usethishook.mentorbridge.in/useStorageQuota)             | Storage usage and quota                     |
+| [`useInstallPrompt`](https://usethishook.mentorbridge.in/useInstallPrompt)           | PWA install prompt                          |
 | [`useFingerprint`](https://usethishook.mentorbridge.in/useFingerprint)               | Client-side visitor id from browser signals |
 | [`useMediaQuery`](https://usethishook.mentorbridge.in/useMediaQuery)                 | Match a CSS media query                     |
 | [`useWindowSize`](https://usethishook.mentorbridge.in/useWindowSize)                 | Viewport width & height                     |
@@ -144,6 +153,8 @@ Every hook has a **live preview + API** on the [playground](https://usethishook.
 | [`useEventListener`](https://usethishook.mentorbridge.in/useEventListener)           | Stable DOM / window listener                |
 | [`useTimeout`](https://usethishook.mentorbridge.in/useTimeout)                       | One-shot timer (`null` pauses)              |
 | [`useKeyPress`](https://usethishook.mentorbridge.in/useKeyPress)                     | Key held down (skips text fields)           |
+| [`useKeyboardShortcut`](https://usethishook.mentorbridge.in/useKeyboardShortcut)     | Key combo on window, cleaned up on unmount  |
+| [`useLongPress`](https://usethishook.mentorbridge.in/useLongPress)                   | Mouse and touch press-and-hold              |
 | [`useScrollLock`](https://usethishook.mentorbridge.in/useScrollLock)                 | Lock / unlock document body scroll          |
 | [`useDocumentVisibility`](https://usethishook.mentorbridge.in/useDocumentVisibility) | Tab visible or hidden                       |
 | [`useIdle`](https://usethishook.mentorbridge.in/useIdle)                             | Idle after no user activity                 |
@@ -159,6 +170,11 @@ Every hook has a **live preview + API** on the [playground](https://usethishook.
 | [`useUpdateEffect`](https://usethishook.mentorbridge.in/useUpdateEffect)           | useEffect that skips the first mount       |
 | [`useResetState`](https://usethishook.mentorbridge.in/useResetState)               | Reset state when a key changes             |
 | [`useAsyncAction`](https://usethishook.mentorbridge.in/useAsyncAction)             | Pending / error / data for one async call  |
+| [`useAsyncState`](https://usethishook.mentorbridge.in/useAsyncState)               | Idle / loading / success / error + abort   |
+| [`useOptimisticAction`](https://usethishook.mentorbridge.in/useOptimisticAction)   | Optimistic update with rollback            |
+| [`useRetry`](https://usethishook.mentorbridge.in/useRetry)                         | Retry with backoff and cancel              |
+| [`useAsyncQueue`](https://usethishook.mentorbridge.in/useAsyncQueue)               | Concurrent async task queue                |
+| [`usePolling`](https://usethishook.mentorbridge.in/usePolling)                     | Polling that pauses when the tab is hidden |
 | [`useDebouncedCallback`](https://usethishook.mentorbridge.in/useDebouncedCallback) | Debounce a function                        |
 | [`useThrottledCallback`](https://usethishook.mentorbridge.in/useThrottledCallback) | Throttle a function                        |
 | [`useFields`](https://usethishook.mentorbridge.in/useFields)                       | Small form object, optional schema         |
@@ -173,6 +189,8 @@ Every hook has a **live preview + API** on the [playground](https://usethishook.
 | [`useElementSize`](https://usethishook.mentorbridge.in/useElementSize)             | Element size via `ResizeObserver`          |
 | [`useInView`](https://usethishook.mentorbridge.in/useInView)                       | Visibility via `IntersectionObserver`      |
 | [`usePagination`](https://usethishook.mentorbridge.in/usePagination)               | Page, offset, next / prev                  |
+| [`useRenderTracker`](https://usethishook.mentorbridge.in/useRenderTracker)         | Render counts (dev logging)                |
+| [`useWhyDidYouUpdate`](https://usethishook.mentorbridge.in/useWhyDidYouUpdate)     | Which values changed (dev logging)         |
 
 ---
 
@@ -206,12 +224,28 @@ Stars, shares, and “used it in production” notes also go a long way — than
 
 ---
 
+## MCP (AI coding tools)
+
+```json
+{
+  "mcpServers": {
+    "usethishook": {
+      "command": "npx",
+      "args": ["-y", "usethishook-mcp"]
+    }
+  }
+}
+```
+
+Tools: `list_hooks`, `search_hooks`, `get_hook`, `recommend_hook`. Full setup: [mcp/README.md](mcp/README.md) · [playground MCP page](https://usethishook.mentorbridge.in/mcp).
+
 ## More
 
 - [Support](SUPPORT.md) — where to ask questions
 - [Security](SECURITY.md) — report vulnerabilities privately
 - [Roadmap](ROADMAP.md) — what’s next
 - [Migration](docs/MIGRATION.md) · [Release](docs/RELEASE.md)
+- [Compare](https://usethishook.mentorbridge.in/compare) — vs usehooks-ts and react-use
 
 ## License
 

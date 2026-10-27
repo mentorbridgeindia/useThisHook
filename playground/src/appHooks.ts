@@ -1,10 +1,18 @@
 import {
+  useAsyncQueueApi,
+  useAsyncStateApi,
+  useOptimisticActionApi,
+  usePollingApi,
+  useRetryApi,
+} from './api/asyncApi';
+import {
   useAmountInputApi,
   useAsyncActionApi,
   useDebouncedCallbackApi,
   useFieldsApi,
   useThrottledCallbackApi,
 } from './api/appFormApi';
+import { useRenderTrackerApi, useWhyDidYouUpdateApi } from './api/debugApi';
 import { useResetStateApi, useStableCallbackApi, useUpdateEffectApi } from './api/appCoreApi';
 import {
   useConfirmApi,
@@ -14,6 +22,16 @@ import {
   useSelectionApi,
 } from './api/appListApi';
 import { UseAsyncActionDemo, useAsyncActionExample } from './demos/UseAsyncActionDemo';
+import { UseAsyncQueueDemo, useAsyncQueueExample } from './demos/UseAsyncQueueDemo';
+import { UseAsyncStateDemo, useAsyncStateExample } from './demos/UseAsyncStateDemo';
+import {
+  UseOptimisticActionDemo,
+  useOptimisticActionExample,
+} from './demos/UseOptimisticActionDemo';
+import { UsePollingDemo, usePollingExample } from './demos/UsePollingDemo';
+import { UseRenderTrackerDemo, useRenderTrackerExample } from './demos/UseRenderTrackerDemo';
+import { UseRetryDemo, useRetryExample } from './demos/UseRetryDemo';
+import { UseWhyDidYouUpdateDemo, useWhyDidYouUpdateExample } from './demos/UseWhyDidYouUpdateDemo';
 import { UseConfirmDemo, useConfirmExample } from './demos/UseConfirmDemo';
 import {
   UseDebouncedCallbackDemo,
@@ -75,6 +93,83 @@ export const appHooks: HookEntry[] = [
     api: useAsyncActionApi,
     Demo: UseAsyncActionDemo,
     example: useAsyncActionExample,
+  },
+  {
+    id: 'useAsyncState',
+    name: 'useAsyncState',
+    summary: 'Typed idle, loading, success, and error for async work.',
+    whenToUse: 'Use for fetches with abort, not for a shared query cache.',
+    category: 'App',
+    tags: ['New'],
+    api: useAsyncStateApi,
+    Demo: UseAsyncStateDemo,
+    example: useAsyncStateExample,
+  },
+  {
+    id: 'useOptimisticAction',
+    name: 'useOptimisticAction',
+    summary: 'Apply a local update, confirm or roll back.',
+    whenToUse: 'Use for likes and steppers that must feel instant.',
+    category: 'App',
+    tags: ['New'],
+    api: useOptimisticActionApi,
+    Demo: UseOptimisticActionDemo,
+    example: useOptimisticActionExample,
+  },
+  {
+    id: 'useRetry',
+    name: 'useRetry',
+    summary: 'Retry an async function with backoff and cancel.',
+    whenToUse: 'Use when a single call may fail transiently.',
+    category: 'App',
+    tags: ['New'],
+    api: useRetryApi,
+    Demo: UseRetryDemo,
+    example: useRetryExample,
+  },
+  {
+    id: 'useAsyncQueue',
+    name: 'useAsyncQueue',
+    summary: 'FIFO async tasks with a concurrency cap.',
+    whenToUse: 'Use for uploads and sequential outbound work.',
+    category: 'App',
+    tags: ['New'],
+    api: useAsyncQueueApi,
+    Demo: UseAsyncQueueDemo,
+    example: useAsyncQueueExample,
+  },
+  {
+    id: 'usePolling',
+    name: 'usePolling',
+    summary: 'Interval polling that pauses when the tab is hidden.',
+    whenToUse: 'Use for unread badges and live boards.',
+    category: 'App',
+    tags: ['New'],
+    api: usePollingApi,
+    Demo: UsePollingDemo,
+    example: usePollingExample,
+  },
+  {
+    id: 'useRenderTracker',
+    name: 'useRenderTracker',
+    summary: 'Count renders and log commits in development.',
+    whenToUse: 'Use to spot unexpected rerenders. Disable in production.',
+    category: 'App',
+    tags: ['New'],
+    api: useRenderTrackerApi,
+    Demo: UseRenderTrackerDemo,
+    example: useRenderTrackerExample,
+  },
+  {
+    id: 'useWhyDidYouUpdate',
+    name: 'useWhyDidYouUpdate',
+    summary: 'Log which values changed between renders.',
+    whenToUse: 'Use in development when a memoized child still updates.',
+    category: 'App',
+    tags: ['New'],
+    api: useWhyDidYouUpdateApi,
+    Demo: UseWhyDidYouUpdateDemo,
+    example: useWhyDidYouUpdateExample,
   },
   {
     id: 'useDebouncedCallback',

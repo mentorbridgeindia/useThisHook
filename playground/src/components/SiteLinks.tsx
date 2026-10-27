@@ -28,5 +28,13 @@ export const SiteLinks = ({ className = '' }: SiteLinksProps) => (
     >
       Wiki
     </a>
+    <a
+      className="text-violet-700 underline decoration-violet-400/50 underline-offset-2 hover:decoration-violet-500 dark:text-violet-300"
+      href="https://www.npmjs.com/package/usethishook-mcp"
+      rel="noreferrer"
+      target="_blank"
+    >
+      MCP
+    </a>
   </p>
 );

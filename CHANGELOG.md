@@ -11,9 +11,29 @@ Do not publish from a push or tag.
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-27
+
 ### Added
 
-- `usethishook-mcp` — stdio MCP server (`mcp/`) so AI clients can `list_hooks`, `search_hooks`, `get_hook`, and `recommend_hook` against the playground catalog. See [mcp/README.md](mcp/README.md).
+- `useAsyncState` — idle / loading / success / error with abort and optional immediate fetch
+- `useOptimisticAction` — optimistic update with rollback and duplicate-submit guard
+- `useRetry` — retries, constant or exponential backoff, and cancel
+- `useAsyncQueue` — FIFO async tasks with a concurrency cap
+- `usePolling` — interval polling that pauses when the tab is hidden
+- `useOnlineQueue` — in-memory outbox that flushes when the browser is online
+- `useStorageQuota` — `navigator.storage.estimate()` usage and quota
+- `useInstallPrompt` — PWA `beforeinstallprompt` capture and `prompt()`
+- `useCrossTabState` — JSON state synced across tabs (BroadcastChannel + storage)
+- `useRenderTracker` — render counts; `console.debug` in development
+- `useWhyDidYouUpdate` — log which snapshot keys changed between renders
+- `useKeyboardShortcut` — window key combos with cleanup
+- `useLongPress` — mouse and touch press-and-hold handlers
+- `usethishook-mcp@1.3.0` — catalog covers all 53 hooks (`list_hooks`, `search_hooks`, `get_hook`, `recommend_hook`). See [mcp/README.md](mcp/README.md).
+
+### Docs
+
+- Playground comparison page vs usehooks-ts / react-use, MCP setup page, unique-hook spotlight
+- Per-route HTML titles/descriptions for crawlers; StackBlitz and CodeSandbox try-online links on every hook page
 
 ## [1.2.0] - 2026-10-14
 

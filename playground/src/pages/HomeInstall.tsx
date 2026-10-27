@@ -1,5 +1,5 @@
 import { CodeBlock } from '../components/CodeBlock';
-import { hookPageHref } from '../hookHref';
+import { hookPageHref, pageHref } from '../hookHref';
 
 const installCommand = `npm i usethishook`;
 
@@ -39,7 +39,14 @@ export const HomeInstall = () => (
         usethishook
       </a>
       . Product name: <span className="text-fg">useThisHook</span>. Needs React 18+ as a peer —
-      nothing else.
+      nothing else. Using Cursor? Add{' '}
+      <a
+        className="font-medium text-violet-700 underline decoration-violet-400/50 underline-offset-2 hover:decoration-violet-500 dark:text-violet-300"
+        href={pageHref('mcp')}
+      >
+        usethishook-mcp
+      </a>
+      .
     </p>
     <CodeBlock
       label="Terminal"

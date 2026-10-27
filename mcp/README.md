@@ -1,6 +1,8 @@
 # usethishook-mcp
 
-MCP (Model Context Protocol) server for **[useThisHook](https://usethishook.mentorbridge.in/)**.
+MCP (Model Context Protocol) server for **[useThisHook](https://usethishook.mentorbridge.in/)** **1.3.0** (53 hooks).
+
+Playground setup page: [usethishook.mentorbridge.in/mcp](https://usethishook.mentorbridge.in/mcp).
 
 AI clients (Cursor, Claude Desktop, and other MCP hosts) can list, search, and fetch typed docs/examples for every hook in the library.
 

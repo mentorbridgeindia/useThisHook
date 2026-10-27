@@ -21,6 +21,8 @@ const hookIds = fs
 
 const urls = [
   { loc: `${SITE}/`, priority: '1.0' },
+  { loc: `${SITE}/compare`, priority: '0.9' },
+  { loc: `${SITE}/mcp`, priority: '0.9' },
   ...hookIds.map((id) => ({ loc: `${SITE}/${id}`, priority: '0.8' })),
 ];
 
