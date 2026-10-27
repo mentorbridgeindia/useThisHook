@@ -7,7 +7,7 @@ This project uses **manual Keep a Changelog** notes and a **gated** npm publish.
 1. On a PR to `main`, bump `version` in `package.json` and add a matching section in [`CHANGELOG.md`](../CHANGELOG.md).
 2. Merge the PR after CI is green (Node/React matrix, CodeQL, Sonar, Snyk as configured).
 3. Run **Actions → Publish npm → Run workflow** on `main`. Publish uses OIDC Trusted Publishing and `--provenance`.
-4. Run **Actions → Publish MCP npm → Run workflow** on `main` when shipping `usethishook-mcp`. First time: add a Trusted Publisher on npm for `usethishook-mcp` pointing at `.github/workflows/mcp-npm-publish.yml`.
+4. Run **Actions → Publish MCP npm → Run workflow** on `main` when shipping `usethishook-mcp`. On npmjs.com → `usethishook-mcp` → Settings → Trusted publishing, GitHub Actions: user `senthilkumar979`, repo `useThisHook`, workflow filename **`mcp-npm-publish.yml`** (filename only, not a path). Enable **Allow `npm publish`**. New publishers expire if the first publish is not within 2 days.
 5. Create a GitHub Release with tag **`vX.Y.Z`** (same version). Paste the CHANGELOG section as the body.
 6. Confirm [usethishook](https://www.npmjs.com/package/usethishook) and [usethishook-mcp](https://www.npmjs.com/package/usethishook-mcp) show `latest` as `X.Y.Z` with provenance.
 

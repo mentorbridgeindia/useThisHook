@@ -93,4 +93,15 @@ CI runs `mcp:catalog` and fails if the committed JSON is stale.
 
 ## Publish
 
-From GitHub: **Actions → Publish MCP npm → Run workflow** on `main` (OIDC Trusted Publishing, `--provenance`). Do not publish from a laptop unless that publisher is unavailable.
+From GitHub: **Actions → Publish MCP npm → Run workflow** on `main` (OIDC Trusted Publishing). Do not publish from a laptop unless that publisher is unavailable.
+
+Trusted publisher on [npmjs.com/package/usethishook-mcp](https://www.npmjs.com/package/usethishook-mcp) → Settings:
+
+| Field                | Value                                                                      |
+| -------------------- | -------------------------------------------------------------------------- |
+| Organization or user | `senthilkumar979`                                                          |
+| Repository           | `useThisHook`                                                              |
+| Workflow filename    | `mcp-npm-publish.yml` (filename only)                                      |
+| Allowed actions      | enable **Allow `npm publish`** (npm defaults new publishers to stage-only) |
+
+A 404 on `PUT …/usethishook-mcp` with a signed provenance log almost always means this config is wrong, not that the package is missing.
