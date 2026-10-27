@@ -130,8 +130,9 @@ export function createUseThisHookServer(): McpServer {
         `Recommendations for: ${task}`,
         '',
         ...hooks.map((hook, index) => {
+          const tags = hook.tags?.length ? ` · ${hook.tags.join(', ')}` : '';
           return [
-            `${index + 1}. **${hook.name}** (${hook.category}${hook.tags?.length ? ` · ${hook.tags.join(', ')}` : ''})`,
+            `${index + 1}. **${hook.name}** (${hook.category}${tags})`,
             `   ${hook.summary}`,
             `   When: ${hook.whenToUse}`,
             `   Docs tool: get_hook name="${hook.id}"`,

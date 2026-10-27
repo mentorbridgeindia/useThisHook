@@ -39,7 +39,7 @@ export function redirectLegacyHash(): void {
   const hash = window.location.hash;
   if (!hash.startsWith('#/')) return;
   const id = hash.slice(2).replace(/\/$/, '');
-  const target = !id || id === '' ? homeHref() : HOOK_ID.test(id) ? hookPageHref(id) : homeHref();
+  const target = HOOK_ID.test(id) ? hookPageHref(id) : homeHref();
   const url = new URL(target, window.location.origin);
   window.history.replaceState(null, '', `${url.pathname}${url.search}`);
 }

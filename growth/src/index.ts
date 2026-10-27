@@ -23,8 +23,10 @@ const isDirectRun =
     process.argv[1].endsWith('usethishook-growth'));
 
 if (isDirectRun) {
-  main().catch((error) => {
+  try {
+    await main();
+  } catch (error) {
     safeWarn(error instanceof Error ? (error.stack ?? error.message) : String(error));
     process.exitCode = 1;
-  });
+  }
 }

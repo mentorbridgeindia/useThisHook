@@ -30,91 +30,103 @@ export function renderGrowthReport(input: {
     '',
     '## Trends',
     '',
+    ...renderTrends(input.comparisons),
+    '## Limitations',
+    '',
+    ...input.limitations.map((limitation) => `- ${limitation}`),
+    ...renderMissing(input.snapshot.missing),
+    '',
+    '## Prioritized actions',
+    '',
+    ...renderActions(input.actions),
+    ...renderContent(input.content),
+    '## Documentation audit',
+    '',
+    ...renderAudit(input.audit),
   ];
 
-  if (input.comparisons.length === 0) {
-    lines.push('_No comparisons available._', '');
-  } else {
-    lines.push(
-      '| Metric | Current | Previous | Change | Sufficient history |',
-      '| --- | --- | --- | --- | --- |',
-    );
-    for (const comparison of input.comparisons) {
-      lines.push(
+  return `${lines.join('\n').trim()}\n`;
+}
+
+function renderTrends(comparisons: PeriodComparison[]): string[] {
+  if (comparisons.length === 0) return ['_No comparisons available._', ''];
+  return [
+    '| Metric | Current | Previous | Change | Sufficient history |',
+    '| --- | --- | --- | --- | --- |',
+    ...comparisons.map(
+      (comparison) =>
         `| ${comparison.key} | ${formatValue(comparison.current)} | ${formatValue(comparison.previous)} | ${formatChange(comparison)} | ${comparison.sufficientHistory ? 'yes' : 'no'} |`,
-      );
-    }
-    lines.push('');
-  }
+    ),
+    '',
+  ];
+}
 
-  lines.push('## Limitations', '');
-  for (const limitation of input.limitations) lines.push(`- ${limitation}`);
-  if (input.snapshot.missing.length > 0) {
-    lines.push('', '### Missing or unreliable data', '');
-    for (const missing of input.snapshot.missing) lines.push(`- ${missing}`);
-  }
+function renderMissing(missing: string[]): string[] {
+  if (missing.length === 0) return [];
+  return ['', '### Missing or unreliable data', '', ...missing.map((item) => `- ${item}`)];
+}
 
-  lines.push('', '## Prioritized actions', '');
-  for (const [index, action] of input.actions.entries()) {
-    lines.push(
+function renderActions(actions: PrioritizedAction[]): string[] {
+  return actions.flatMap((action, index) => {
+    const lines = [
       `### ${index + 1}. ${action.title}`,
       '',
       `- Impact: ${action.expectedImpact}`,
       `- Effort: ${action.effort}`,
       `- Confidence: ${action.confidence}`,
       `- Rationale: ${action.rationale}`,
-    );
+    ];
     if (action.hypothesis) lines.push(`- Hypothesis: ${action.hypothesis}`);
     if (action.evidence.length) lines.push(`- Evidence: ${action.evidence.join('; ')}`);
     if (action.missingEvidence?.length)
       lines.push(`- Missing evidence: ${action.missingEvidence.join('; ')}`);
     lines.push('');
-  }
+    return lines;
+  });
+}
 
-  lines.push(
+function renderContent(content: ContentDraft): string[] {
+  return [
     '## Content draft',
     '',
-    `- Source: ${input.content.source}`,
-    `- Hook: ${input.content.hookName}`,
-    `- Title: ${input.content.title}`,
-    `- Playground: ${input.content.playgroundUrl}`,
-    `- Install: \`${input.content.installCommand}\``,
+    `- Source: ${content.source}`,
+    `- Hook: ${content.hookName}`,
+    `- Title: ${content.title}`,
+    `- Playground: ${content.playgroundUrl}`,
+    `- Install: \`${content.installCommand}\``,
     '',
     '### Outline',
     '',
-    ...input.content.outline.map((item) => `- ${item}`),
+    ...content.outline.map((item) => `- ${item}`),
     '',
     '### Example',
     '',
     '```tsx',
-    input.content.example,
+    content.example,
     '```',
     '',
     '### LinkedIn draft (review before posting)',
     '',
-    input.content.linkedInDraft,
+    content.linkedInDraft,
     '',
     '### Community draft (review before posting)',
     '',
-    input.content.communityDraft,
+    content.communityDraft,
     '',
-    '## Documentation audit',
-    '',
-  );
+  ];
+}
 
-  if (input.audit.length === 0) {
-    lines.push('_No documentation findings in this run._', '');
-  } else {
-    for (const item of input.audit.slice(0, 25)) {
-      lines.push(
+function renderAudit(audit: AuditFinding[]): string[] {
+  if (audit.length === 0) return ['_No documentation findings in this run._', ''];
+  return [
+    ...audit
+      .slice(0, 25)
+      .flatMap((item) => [
         `- **${item.severity}** \`${item.path}\`: ${item.message}`,
         `  - Suggestion: ${item.suggestion}`,
-      );
-    }
-    lines.push('');
-  }
-
-  return `${lines.join('\n').trim()}\n`;
+      ]),
+    '',
+  ];
 }
 
 function formatValue(value: number | string | null | undefined): string {

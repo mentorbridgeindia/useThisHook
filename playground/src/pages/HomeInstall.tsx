@@ -61,7 +61,7 @@ export const HomeInstall = () => (
       >
         live demo
       </a>
-      :
+      {':'}
     </p>
     <CodeBlock label="React" code={usageExample} />
   </section>

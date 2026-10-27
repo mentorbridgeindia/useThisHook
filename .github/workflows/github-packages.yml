@@ -20,7 +20,7 @@ jobs:
           cache: npm
           registry-url: https://npm.pkg.github.com
           scope: '@senthilkumar979'
-      - run: npm install -g npm@11.21.1
+      - run: npm install -g --ignore-scripts npm@11.21.1
       - run: npm ci --ignore-scripts
       - name: Publish @senthilkumar979/usethishook
         run: |

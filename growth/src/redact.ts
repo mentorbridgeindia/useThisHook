@@ -1,5 +1,5 @@
 const SECRET_PATTERNS: RegExp[] = [
-  /Bearer\s+[A-Za-z0-9._\-/=+]+/gi,
+  /Bearer\s+[a-z0-9._/=+-]+/gi,
   /("?(?:api[_-]?key|token|authorization|password|secret|private[_-]?key)"?\s*[:=]\s*")[^"]+(")/gi,
   /(-----BEGIN [A-Z ]+PRIVATE KEY-----)[\s\S]+?(-----END [A-Z ]+PRIVATE KEY-----)/g,
 ];

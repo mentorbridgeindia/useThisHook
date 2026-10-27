@@ -33,13 +33,15 @@ export interface GrowthSnapshot {
   tutorialHookId?: string;
 }
 
+export type PriorityLevel = 'high' | 'medium' | 'low';
+
 export interface PrioritizedAction {
   id: string;
   title: string;
   rationale: string;
-  expectedImpact: 'high' | 'medium' | 'low';
-  effort: 'high' | 'medium' | 'low';
-  confidence: 'high' | 'medium' | 'low';
+  expectedImpact: PriorityLevel;
+  effort: PriorityLevel;
+  confidence: PriorityLevel;
   evidence: string[];
   hypothesis?: string;
   missingEvidence?: string[];

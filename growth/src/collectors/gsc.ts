@@ -121,7 +121,7 @@ async function fetchAccessToken(http: HttpClient, account: ServiceAccountJson): 
 
 function base64Url(input: string | Buffer): string {
   const buf = typeof input === 'string' ? Buffer.from(input) : input;
-  return buf.toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+  return buf.toString('base64').replaceAll('=', '').replaceAll('+', '-').replaceAll('/', '_');
 }
 
 function unavailable(error: string): SourceResult<GscMetrics> {
